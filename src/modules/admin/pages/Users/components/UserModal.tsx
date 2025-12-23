@@ -88,7 +88,7 @@ export const UserModal: React.FC<UserModalProps> = ({
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} className="max-w-lg p-6">
+    <Modal isOpen={isOpen} onClose={onClose} className="max-w-2xl p-6">
       <h3 className="text-xl font-semibold mb-4 text-gray-800 dark:text-white">
         {user ? 'Edit User' : 'Create User'}
       </h3>
@@ -175,7 +175,7 @@ export const UserModal: React.FC<UserModalProps> = ({
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-4 items-center">
+        <div className="grid grid-cols-2 gap-4">
           <div>
             <DynamicFormField
               type="select"
@@ -188,33 +188,32 @@ export const UserModal: React.FC<UserModalProps> = ({
               {...register("roleId")}
             />
           </div>
-          <div>
-            <DynamicFormField
-              type="checkbox"
-              // name="roleId"
-              label="Is Active"
-              placeholder=""
-              options={roleOptions}
-              control={control}
-              error={errors.isActive}
-              {...register("isActive")}
-            />
-          </div>
+          {!user && (
+            <div>
+              <DynamicFormField
+                type="password"
+                // name="password"
+                label="Password"
+                placeholder="Password"
+                control={control}
+                error={errors.password}
+                {...register("password")}
+              />
+            </div>
+          )}
         </div>
-
-        {!user && (
-          <div>
-            <DynamicFormField
-              type="password"
-              // name="password"
-              label="Password"
-              placeholder="Password"
-              control={control}
-              error={errors.password}
-              {...register("password")}
-            />
-          </div>
-        )}
+        <div>
+          <DynamicFormField
+            type="checkbox"
+            // name="roleId"
+            label="Is Active"
+            placeholder=""
+            options={roleOptions}
+            control={control}
+            error={errors.isActive}
+            {...register("isActive")}
+          />
+        </div>
 
         <div className="flex justify-end gap-3 mt-6">
           <Button variant="outline" onClick={onClose} type="button">

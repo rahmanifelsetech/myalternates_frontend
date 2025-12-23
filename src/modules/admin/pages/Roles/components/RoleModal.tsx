@@ -4,8 +4,8 @@ import { Modal } from '@shared/components/ui/modal';
 import Input from '@shared/components/form/input/InputField';
 import Button from '@shared/components/ui/button/Button';
 import { CreateRolePayload, Role } from '../types/role';
-import { PermissionsSelector } from './PermissionsSelector';
-import { usePermissionsList } from '../../Permissions/hooks/usePermissionsList';
+// import { PermissionsSelector } from './PermissionsSelector';
+// import { usePermissionsList } from '../../Permissions/hooks/usePermissionsList';
 
 interface RoleModalProps {
   isOpen: boolean;
