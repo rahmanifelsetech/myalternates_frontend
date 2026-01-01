@@ -12,6 +12,7 @@ import { CanAccess } from '@shared/components/common/CanAccess';
 import { PERMISSIONS } from '@shared/constants/permissions';
 import { IconButton } from '@shared/components/ui/button/IconButton';
 import { PencilIcon, TrashBinIcon } from '@shared/icons';
+import appConfig from '@/shared/config/app.config';
 
 interface AmcsTableProps {
   amcs: Amc[];
@@ -61,9 +62,20 @@ export const AmcsTable: React.FC<AmcsTableProps> = ({ amcs, isLoading, onEdit, o
                   {amc.amcCode}
                 </TableCell>
                 <TableCell className="px-5 py-4 sm:px-6 text-start text-theme-sm dark:text-gray-400">
-                  <h5 className="font-medium text-gray-800 dark:text-white/90">
-                    {amc.name}
-                  </h5>
+                  <div className="flex items-center gap-3">
+                    {amc.logoUrl && (
+                      <div className="h-10 w-10 flex-shrink-0 overflow-hidden rounded-md border border-gray-100 dark:border-white/[0.05]">
+                        <img
+                          src={amc.logoUrl.startsWith('http') ? amc.logoUrl : `${appConfig.baseUrl}${amc.logoUrl}`}
+                          alt={amc.name || 'AMC Logo'}
+                          className="h-full w-full object-contain"
+                        />
+                      </div>
+                    )}
+                    <h5 className="font-medium text-gray-800 dark:text-white/90">
+                      {amc.name}
+                    </h5>
+                  </div>
                 </TableCell>
                 <TableCell className="px-5 py-4 sm:px-6 text-start text-theme-sm dark:text-gray-400">
                   {amc.shortName}
