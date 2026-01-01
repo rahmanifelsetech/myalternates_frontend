@@ -26,7 +26,21 @@ export const UserModal: React.FC<UserModalProps> = ({
   user,
   isLoading,
 }) => {
-  const { register, handleSubmit, reset, control, setError, setValue, getValues, formState: { errors } } = useForm(UserSchema);
+  // const { register, handleSubmit, reset, control, setError, setValue, getValues, formState: { errors } } = useForm(UserSchema);
+  const { register, handleSubmit, reset, control, setError, setValue, getValues, formState: { errors } } = useForm(UserSchema, {
+    defaultValues: {
+      firstName: '',
+      lastName: '',
+      email: '',
+      phone: '',
+      countryCode: '91',
+      userCode: '',
+      username: '',
+      roleId: '',
+      isActive: true,
+      // password: '',
+    }
+  });
   const { roles } = useRolesList();
 
   // Convert roles to select options
@@ -45,7 +59,7 @@ export const UserModal: React.FC<UserModalProps> = ({
         lastName: user.lastName,
         email: user.email,
         phone: user.phone,
-        countryCode: user.countryCode || '',
+        countryCode: user.countryCode || '91',
         userCode: user.userCode,
         username: user.username,
         roleId: user.roleId || '',
@@ -57,12 +71,12 @@ export const UserModal: React.FC<UserModalProps> = ({
         lastName: '',
         email: '',
         phone: '',
-        countryCode: '',
+        countryCode: '91',
         userCode: '',
         username: '',
         roleId: '',
         isActive: true,
-        password: '',
+        // password: '',
       });
     }
   }, [user, reset, isOpen]);
@@ -72,18 +86,11 @@ export const UserModal: React.FC<UserModalProps> = ({
       await onSubmit(data);
       onClose();
     } catch (error: any) {
-      const result = error as ApiError;
-      if (result && result.details) {
-        // console.log('User Creation Failed Error Details:', result);
-        if (result.details) {
-          setFormErrors<UserSchemaType>(
-            result,
-            setError,
-            ['firstName', 'lastName', 'email', 'phone', 'countryCode', 'userCode', 'username', 'roleId', 'isActive', 'password'],
-          );
-        }
-        return;
-      }
+      setFormErrors<UserSchemaType>(
+        error as ApiError,
+        setError,
+        ['firstName', 'lastName', 'email', 'phone', 'countryCode', 'userCode', 'username', 'roleId', 'isActive'],
+      );
     }
   };
 
@@ -188,19 +195,6 @@ export const UserModal: React.FC<UserModalProps> = ({
               {...register("roleId")}
             />
           </div>
-          {!user && (
-            <div>
-              <DynamicFormField
-                type="password"
-                // name="password"
-                label="Password"
-                placeholder="Password"
-                control={control}
-                error={errors.password}
-                {...register("password")}
-              />
-            </div>
-          )}
         </div>
         <div>
           <DynamicFormField
@@ -227,3 +221,4 @@ export const UserModal: React.FC<UserModalProps> = ({
     </Modal>
   );
 };
+

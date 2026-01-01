@@ -7,8 +7,11 @@ import {
   TableRow,
 } from '@shared/components/ui/table';
 import { User } from '../types/user';
+import { IconButton } from '@shared/components/ui/button/IconButton';
 import { PencilIcon, TrashBinIcon } from '@shared/icons';
 import Loading from '@shared/components/common/Loading';
+import { CanAccess } from '@/shared/components/common/CanAccess';
+import { PERMISSIONS } from '@/shared/constants/permissions';
 
 interface UsersTableProps {
   users: User[];
@@ -82,18 +85,20 @@ export const UsersTable: React.FC<UsersTableProps> = ({ users, isLoading, onEdit
                 </TableCell>
                 <TableCell className="px-5 py-4 text-end">
                   <div className="flex justify-end gap-2">
-                    <button
-                      onClick={() => onEdit(user)}
-                      className="text-gray-500 hover:text-brand-500 dark:text-gray-400 dark:hover:text-brand-400"
-                    >
-                      <PencilIcon className="w-5 h-5" />
-                    </button>
-                    <button
-                      onClick={() => onDelete(user.id)}
-                      className="text-gray-500 hover:text-error-500 dark:text-gray-400 dark:hover:text-error-400"
-                    >
-                      <TrashBinIcon className="w-5 h-5" />
-                    </button>
+                    <CanAccess any={[PERMISSIONS.USERS.UPDATE]}>
+                      <IconButton
+                        onClick={() => onEdit(user)}
+                        className="hover:text-brand-500"
+                        icon={<PencilIcon className="w-5 h-5" />}
+                      />
+                    </CanAccess>
+                    <CanAccess any={[PERMISSIONS.USERS.DELETE]}>
+                      <IconButton
+                        onClick={() => onDelete(user.id)}
+                        className="hover:text-error-500"
+                        icon={<TrashBinIcon className="w-5 h-5" />}
+                      />
+                    </CanAccess>
                   </div>
                 </TableCell>
               </TableRow>

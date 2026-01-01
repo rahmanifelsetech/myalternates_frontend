@@ -1,0 +1,72 @@
+import React, { useState } from 'react';
+import { useGetSchemesQuery } from './api/schemeApi';
+import { Scheme } from './types/scheme';
+import ComponentCard from '@/shared/components/common/ComponentCard';
+import Button from '@shared/components/ui/button/Button';
+import { PlusIcon } from '@shared/icons';
+import { useNavigate } from 'react-router';
+import { CanAccess } from '@/shared/components/common/CanAccess';
+import { PERMISSIONS } from '@/shared/constants/permissions';
+import { Pagination } from '@shared/components/common/Pagination';
+import { SchemesTable } from './components/SchemesTable';
+import { SchemesFilter } from './components/SchemesFilter';
+import { useSchemes } from './hooks/useSchemes';
+
+const SchemeList: React.FC = () => {
+  const [search, setSearch] = useState('');
+  const [page, setPage] = useState(1);
+  const navigate = useNavigate();
+  
+  const { data, isLoading } = useGetSchemesQuery({ search, page, limit: 10 });
+  const { handleDelete: deleteScheme } = useSchemes();
+
+  const handleEdit = (scheme: Scheme) => {
+    // Navigate to edit page, which I haven't created yet.
+    // For now, I'll log it.
+    console.log('Edit scheme:', scheme);
+    // navigate(`edit/${scheme.id}`);
+  };
+
+  const handleDelete = async (id: string) => {
+    if (window.confirm('Are you sure you want to delete this scheme?')) {
+      await deleteScheme(id);
+    }
+  };
+
+  const header = (
+    <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between mb-5">
+      <div>
+        <h2 className="text-title-md2 font-semibold text-black dark:text-white">
+          Schemes
+        </h2>
+        <p className="text-sm text-gray-500 dark:text-gray-400">
+          Manage investment schemes
+        </p>
+      </div>
+      <CanAccess any={[PERMISSIONS.SCHEMES.CREATE]}>
+        <Button onClick={() => navigate('create')} startIcon={<PlusIcon fontSize={20} className="text-white" />}>
+          Add Scheme
+        </Button>
+      </CanAccess>
+    </div>
+  );
+
+  return (
+    <ComponentCard header={header} headerPosition="outside">
+      <SchemesFilter search={search} onSearchChange={setSearch} />
+      <div className="p-4">
+        <SchemesTable
+          schemes={data?.data || []}
+          isLoading={isLoading}
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+        />
+        {data?.metaData && (
+          <Pagination meta={data.metaData} onPageChange={setPage} />
+        )}
+      </div>
+    </ComponentCard>
+  );
+};
+
+export default SchemeList;

@@ -25,7 +25,11 @@ export default function SignInForm() {
     if (result.success) {
       toastSuccess("Signed in successfully!");
       setTimeout(() => {
-        navigate("/");
+        if (result.data?.requiresPasswordChange) {
+          navigate("/auth/change-password");
+        } else {
+          navigate("/");
+        }
       }, 500);
     }
   };

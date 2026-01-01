@@ -10,7 +10,7 @@ const createApiClient = (): AxiosInstance => {
     baseURL: appConfig.apiPrefix,
     timeout: 10000,
     headers: {
-      'Content-Type': 'application/json',
+      // 'Content-Type': 'application/json',
     },
   });
 
@@ -20,6 +20,10 @@ const createApiClient = (): AxiosInstance => {
       const token = localStorage.getItem('authToken');
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
+      }
+      if (config.data instanceof FormData) {
+        // Let the browser set the correct multipart boundary automatically
+        config.headers['Content-Type'] = undefined;
       }
       return config;
     },

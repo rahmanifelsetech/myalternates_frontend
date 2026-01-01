@@ -6,6 +6,8 @@ import Button from '@shared/components/ui/button/Button';
 import { CreateRolePayload, Role } from '../types/role';
 // import { PermissionsSelector } from './PermissionsSelector';
 // import { usePermissionsList } from '../../Permissions/hooks/usePermissionsList';
+import { setFormErrors } from '@/shared/utils/formUtils';
+import { ApiError } from '@/shared/types/api';
 
 interface RoleModalProps {
   isOpen: boolean;
@@ -22,7 +24,7 @@ export const RoleModal: React.FC<RoleModalProps> = ({
   role,
   isLoading,
 }) => {
-  const { register, handleSubmit, reset, formState: { errors } } = useForm<CreateRolePayload>();
+  const { register, handleSubmit, reset, setError, formState: { errors } } = useForm<CreateRolePayload>();
   // const { permissions, isLoading: isLoadingPermissions } = usePermissionsList();
   const [selectedPermissionIds, setSelectedPermissionIds] = useState<string[]>([]);
   
@@ -55,11 +57,19 @@ export const RoleModal: React.FC<RoleModalProps> = ({
   // };
 
   const handleFormSubmit = async (data: CreateRolePayload) => {
-    await onSubmit({
-      ...data,
-      permissions: isCreating ? selectedPermissionIds : undefined,
-    });
-    onClose();
+    try {
+      await onSubmit({
+        ...data,
+        permissions: isCreating ? selectedPermissionIds : undefined,
+      });
+      onClose();
+    } catch (error: any) {
+      setFormErrors<CreateRolePayload>(
+        error as ApiError,
+        setError,
+        ['name', 'description']
+      );
+    }
   };
 
   return (

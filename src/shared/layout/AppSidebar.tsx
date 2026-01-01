@@ -238,7 +238,7 @@ const AppSidebar: React.FC<AppSidebarProps> = ({ menuItems }) => {
 
   return (
     <aside
-      className={`fixed mt-16 flex flex-col lg:mt-0 top-0 px-5 left-0 bg-white dark:bg-gray-900 dark:border-gray-800 text-gray-900 h-screen transition-all duration-300 ease-in-out z-50 border-r border-gray-200 
+      className={`fixed flex flex-col lg:mt-0 top-0 px-5 left-0 bg-white dark:bg-gray-900 dark:border-gray-800 text-gray-900 h-screen transition-all duration-300 ease-in-out z-50 border-r border-gray-200 
         ${
           isExpanded || isMobileOpen
             ? "w-[290px]"
@@ -253,8 +253,8 @@ const AppSidebar: React.FC<AppSidebarProps> = ({ menuItems }) => {
     >
       <div
         className={`flex ${
-          !isExpanded && !isHovered ? "lg:justify-center" : "justify-start"
-        }`}
+          !isExpanded && !isHovered && !isMobileOpen ? "lg:justify-center py-5.5" : "justify-start"
+        } py-4 px-2 mb-4 border-b border-gray-200 dark:border-gray-800`}
       >
         <Link to="/">
           {isExpanded || isHovered || isMobileOpen ? (
@@ -313,7 +313,9 @@ const AppSidebar: React.FC<AppSidebarProps> = ({ menuItems }) => {
             variant="outline"
             startIcon={<Icons.LogOutIcon fontSize={20} className="group-hover:text-gray-50 dark:text-gray-100 dark:group-hover:text-brand-700" />}
           >
-            Sign out
+            {(isExpanded || isHovered || isMobileOpen) && (
+              <span className="menu-item-text">Sign out</span>
+            )}
           </Button>
         </div>
         {/* {isExpanded || isHovered || isMobileOpen ? <SidebarWidget /> : null} */}

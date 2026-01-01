@@ -10,16 +10,16 @@ export const investorRoutes: AppRouteConfig[] = [
     component: Dashboard,
     authority: ['INVESTOR'],
   },
-  {
-    key: 'portfolio',
-    path: 'portfolio',
-    component: Dashboard,
-    authority: ['INVESTOR'],
-  },
-  {
-    key: 'transactions',
-    path: 'transactions',
-    component: Dashboard,
-    authority: ['INVESTOR'],
-  },
+  // {
+  //   key: 'portfolio',
+  //   path: 'portfolio',
+  //   component: Dashboard,
+  //   authority: ['INVESTOR'],
+  // },
+  // {
+  //   key: 'transactions',
+  //   path: 'transactions',
+  //   component: Dashboard,
+  //   authority: ['INVESTOR'],
+  // },
 ];

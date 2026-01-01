@@ -14,7 +14,7 @@ import { Permission } from '../types/permission';
 export const usePermissionsList = () => {
   // Fetch all permissions without pagination
   const { data, isLoading, error, isFetching } = useGetPermissionsQuery({ 
-    search: '',
+    search:'', limit: 1000, page: 1
   });
 
   const permissions: Permission[] = data?.data || [];

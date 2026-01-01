@@ -21,11 +21,12 @@ export interface User {
   name: string;
   role: UserRole;
   appType: 'ADMIN' | 'INVESTOR' | 'DISTRIBUTOR';
-  permissions?: Permission[];
+  permissions?: string[];
   avatar?: string;
   phone?: string;
   isActive: boolean;
   lastLoginAt?: string;
+  requiresPasswordChange?: boolean;
 }
 
 export interface AuthState {

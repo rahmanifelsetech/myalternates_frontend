@@ -6,14 +6,14 @@ export const distributorNavigation: NavigationItem[] = [
     path: '/distributor/dashboard',
     icon: 'grid',
   },
-  {
-    title: 'Investors',
-    path: '/distributor/investors',
-    icon: 'users',
-  },
-  {
-    title: 'Commissions',
-    path: '/distributor/commissions',
-    icon: 'dollar-line',
-  },
+  // {
+  //   title: 'Investors',
+  //   path: '/distributor/investors',
+  //   icon: 'users',
+  // },
+  // {
+  //   title: 'Commissions',
+  //   path: '/distributor/commissions',
+  //   icon: 'dollar-line',
+  // },
 ];

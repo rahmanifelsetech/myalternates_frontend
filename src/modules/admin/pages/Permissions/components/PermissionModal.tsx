@@ -4,6 +4,8 @@ import { Modal } from '@shared/components/ui/modal';
 import Input from '@shared/components/form/input/InputField';
 import Button from '@shared/components/ui/button/Button';
 import { CreatePermissionPayload, Permission } from '../types/permission';
+import { setFormErrors } from '@/shared/utils/formUtils';
+import { ApiError } from '@/shared/types/api';
 
 interface PermissionModalProps {
   isOpen: boolean;
@@ -20,7 +22,7 @@ export const PermissionModal: React.FC<PermissionModalProps> = ({
   permission,
   isLoading,
 }) => {
-  const { register, handleSubmit, reset, formState: { errors } } = useForm<CreatePermissionPayload>();
+  const { register, handleSubmit, reset, setError, formState: { errors } } = useForm<CreatePermissionPayload>();
 
   useEffect(() => {
     if (permission) {
@@ -43,8 +45,16 @@ export const PermissionModal: React.FC<PermissionModalProps> = ({
   }, [permission, reset, isOpen]);
 
   const handleFormSubmit = async (data: CreatePermissionPayload) => {
-    await onSubmit(data);
-    onClose();
+    try {
+      await onSubmit(data);
+      onClose();
+    } catch (error: any) {
+      setFormErrors<CreatePermissionPayload>(
+        error as ApiError,
+        setError,
+        ['name', 'slug', 'resource', 'action', 'description']
+      );
+    }
   };
 
   return (

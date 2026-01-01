@@ -6,14 +6,14 @@ export const investorNavigation: NavigationItem[] = [
     path: '/investor/dashboard',
     icon: 'grid',
   },
-  {
-    title: 'Portfolio',
-    path: '/investor/portfolio',
-    icon: 'pie-chart',
-  },
-  {
-    title: 'Transactions',
-    path: '/investor/transactions',
-    icon: 'activity',
-  },
+  // {
+  //   title: 'Portfolio',
+  //   path: '/investor/portfolio',
+  //   icon: 'pie-chart',
+  // },
+  // {
+  //   title: 'Transactions',
+  //   path: '/investor/transactions',
+  //   icon: 'activity',
+  // },
 ];

@@ -4,11 +4,15 @@ export interface Product {
   id: string;
   name: string;
   desc?: string;
+  isActive: boolean;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface CreateProductPayload {
   name: string;
-  description?: string;
+  desc?: string;
+  isActive?: boolean;
 }
 
 export interface UpdateProductPayload extends Partial<CreateProductPayload> {
@@ -17,8 +21,7 @@ export interface UpdateProductPayload extends Partial<CreateProductPayload> {
 
 export interface ProductFilters extends PaginationParams {
   search?: string;
-  category?: string;
-  status?: string;
+  isActive?: boolean;
 }
 
 export type ProductsResponse = PaginatedResponse<Product>;

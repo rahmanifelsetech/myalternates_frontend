@@ -26,6 +26,11 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, allowedRoles,
     return <Navigate to={appConfig.unAuthenticatedEntryPath} replace />;
   }
 
+  // Check if password change is required
+  if (user?.requiresPasswordChange) {
+    return <Navigate to="/auth/change-password" replace />;
+  }
+
   // Check App access
   if (allowedApps && user && !allowedApps.includes(user.appType)) {
      return <Navigate to="/unauthorized" replace />;

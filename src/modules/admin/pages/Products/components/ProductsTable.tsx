@@ -7,8 +7,11 @@ import {
   TableRow,
 } from '@shared/components/ui/table';
 import { Product } from '../types/product';
-// import { PencilIcon, TrashBinIcon } from '@shared/icons';
+import { IconButton } from '@shared/components/ui/button/IconButton';
+import { PencilIcon, TrashBinIcon } from '@shared/icons';
 import Loading from '@shared/components/common/Loading';
+import { CanAccess } from '@/shared/components/common/CanAccess';
+import { PERMISSIONS } from '@/shared/constants/permissions';
 
 interface ProductsTableProps {
   products: Product[];
@@ -31,18 +34,12 @@ export const ProductsTable: React.FC<ProductsTableProps> = ({ products, isLoadin
               <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">
                 Description
               </TableCell>
-              {/* <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">
-                Price
-              </TableCell>
-              <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">
-                Stock
-              </TableCell>
               <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">
                 Status
               </TableCell>
               <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-end text-theme-xs dark:text-gray-400">
                 Actions
-              </TableCell> */}
+              </TableCell>
             </TableRow>
           </TableHeader>
           <TableBody className="divide-y divide-gray-100 dark:divide-white/[0.05]">
@@ -63,37 +60,33 @@ export const ProductsTable: React.FC<ProductsTableProps> = ({ products, isLoadin
                 <TableCell className="px-5 py-4 text-gray-500 text-theme-sm dark:text-gray-400">
                   {product.desc || '-'}
                 </TableCell>
-                {/* <TableCell className="px-5 py-4 text-gray-500 text-theme-sm dark:text-gray-400">
-                  ${product.price?.toFixed(2) || '-'}
-                </TableCell>
-                <TableCell className="px-5 py-4 text-gray-500 text-theme-sm dark:text-gray-400">
-                  {product.stock || 0}
-                </TableCell>
                 <TableCell className="px-5 py-4 text-gray-500 text-theme-sm dark:text-gray-400">
                   <span className={`inline-block px-2 py-1 rounded text-xs font-medium ${
-                    product.status === 'active' 
-                      ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100' 
+                    product.isActive
+                      ? 'bg-success/10 text-success'
                       : 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-100'
                   }`}>
-                    {product.status || 'inactive'}
+                    {product.isActive ? 'Active' : 'Inactive'}
                   </span>
                 </TableCell>
                 <TableCell className="px-5 py-4 text-end">
                   <div className="flex justify-end gap-2">
-                    <button
-                      onClick={() => onEdit(product)}
-                      className="text-gray-500 hover:text-brand-500 dark:text-gray-400 dark:hover:text-brand-400"
-                    >
-                      <PencilIcon className="w-5 h-5" />
-                    </button>
-                    <button
-                      onClick={() => onDelete(product.id)}
-                      className="text-gray-500 hover:text-error-500 dark:text-gray-400 dark:hover:text-error-400"
-                    >
-                      <TrashBinIcon className="w-5 h-5" />
-                    </button>
+                    <CanAccess any={[PERMISSIONS.PRODUCTS.UPDATE]}>
+                      <IconButton
+                        onClick={() => onEdit(product)}
+                        className="hover:text-brand-500"
+                        icon={<PencilIcon className="w-5 h-5" />}
+                      />
+                    </CanAccess>
+                    {/* <CanAccess any={[PERMISSIONS.PRODUCTS.DELETE]}>
+                      <IconButton
+                        onClick={() => onDelete(product.id)}
+                        className="hover:text-error-500"
+                        icon={<TrashBinIcon className="w-5 h-5" />}
+                      />
+                    </CanAccess> */}
                   </div>
-                </TableCell> */}
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>

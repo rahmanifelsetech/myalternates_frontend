@@ -36,6 +36,12 @@ export interface SetNewPasswordFormData {
   confirmPassword: string;
 }
 
+export interface ChangePasswordFormData {
+  oldPassword: string;
+  newPassword: string;
+  confirmNewPassword: string;
+}
+
 /**
  * Sign In Form Schema
  * Validates username, email, password, and rememberMe option
@@ -157,3 +163,58 @@ export const SetNewPasswordSchema = z
     message: "Passwords don't match",
     path: ["confirmPassword"],
   }) as z.ZodType<SetNewPasswordFormData>;
+
+/**
+ * Change Password Schema
+ * Validates old password, new password and confirmation
+ */
+export const ChangePasswordSchema = z
+  .object({
+    oldPassword: z.string().min(1, "Old password is required"),
+    newPassword: z
+      .string()
+      .min(1, "New password is required")
+      .min(8, "Password must be at least 8 characters")
+      .regex(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
+        "Password must contain uppercase, lowercase, and number"
+      ),
+    confirmNewPassword: z.string().min(1, "Please confirm your new password"),
+  })
+  .refine((data) => data.newPassword === data.confirmNewPassword, {
+    message: "Passwords don't match",
+    path: ["confirmNewPassword"],
+  }) as z.ZodType<ChangePasswordFormData>;
+
+export const IdentifierSchema = z.object({
+  identifier: z.string().refine(
+    (value) => {
+      const isEmail = z.string().email().safeParse(value).success;
+      const isPhone = /^\d{10}$/.test(value);
+      const isPan = /^[A-Z]{5}\d{4}[A-Z]{1}$/.test(value);
+      return isEmail || isPhone || isPan;
+    },
+    {
+      message: 'Invalid PAN, Email or Phone',
+    }
+  ),
+});
+
+export const OtpSchema = z.object({
+  otp: z.string().length(6, 'OTP must be 6 digits'),
+});
+
+export const SignInWithPasswordSchema = z.object({
+  identifier: z.string().refine(
+    (value) => {
+      const isEmail = z.string().email().safeParse(value).success;
+      const isPhone = /^\d{10}$/.test(value);
+      const isPan = /^[A-Z]{5}\d{4}[A-Z]{1}$/.test(value);
+      return isEmail || isPhone || isPan;
+    },
+    {
+      message: 'Invalid PAN, Email or Phone',
+    }
+  ),
+  password: z.string().min(6, 'Password must be at least 6 characters'),
+});

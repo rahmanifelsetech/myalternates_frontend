@@ -3,6 +3,7 @@ import { Controller, FieldError } from "react-hook-form";
 import Label from "../Label";
 import Input from "../input/InputField";
 import Checkbox from "../input/Checkbox";
+import FileInput from "../input/FileInput";
 import TextArea from "../input/TextArea";
 import DatePicker from "../date-picker";
 import PhoneInput from "../group-input/PhoneInput";
@@ -11,6 +12,7 @@ import {
   ReactSelectComponent,
   ReactMultiSelectComponent,
 } from "../select/ReactSelect";
+import { OtpInput } from "../input/OtpInput";
 
 /**
  * Supported field types for dynamic rendering
@@ -20,6 +22,7 @@ export type FieldType =
   | "email"
   | "password"
   | "number"
+  | "otp"
   | "date"
   | "time"
   | "select"
@@ -31,6 +34,7 @@ export type FieldType =
   | "phone"
   | "phone-input"
   | "currency"
+  | "file"
   | "custom";
 
 interface SelectOption {
@@ -477,18 +481,43 @@ const DynamicFormField = forwardRef<HTMLSelectElement, DynamicFormFieldProps>(
         );
 
       case "textarea":
-        return (
-          <TextArea
-            placeholder={placeholder}
-            {...(isControlled && { value: stringValue })}
-            onChange={(val) => onChange?.(val)}
-            disabled={disabled}
-            rows={rows}
-            error={error || error_state}
-            hint={hint}
-            className={className}
+        if (!props.control || !name) {
+          console.error("textarea requires control + name");
+          return null;
+          }
+
+          return (
+          <Controller
+            name={name}
+            control={props.control}
+            render={({ field }) => (
+              <TextArea
+                {...field}
+                placeholder={placeholder}
+                onChange={field.onChange}
+                disabled={disabled}
+                rows={rows}
+                error={error || error_state}
+                hint={hint}
+                className={className}
+              />
+            )}
           />
-        );
+       );
+
+      // case "textarea":
+      //   return (
+      //     <TextArea
+      //       placeholder={placeholder}
+      //       {...(isControlled && { value: stringValue })}
+      //       onChange={(val) => onChange?.(val)}
+      //       disabled={disabled}
+      //       rows={rows}
+      //       error={error || error_state}
+      //       hint={hint}
+      //       className={className}
+      //     />
+      //   );
 
       case "checkbox":
         if (!props.control || !name) {
@@ -615,6 +644,48 @@ const DynamicFormField = forwardRef<HTMLSelectElement, DynamicFormFieldProps>(
           ...props,
         });
 
+      case "file":
+        if (!props.control || !name) {
+          console.error("file input requires control + name");
+          return null;
+        }
+        return (
+          <Controller
+            name={name}
+            control={props.control}
+            render={({ field }) => (
+              <FileInput
+                ref={ref as any}
+                onChange={(e) => {
+                  field.onChange(e.target.files?.[0]);
+                  onChange?.(e);
+                }}
+                onBlur={field.onBlur}
+                disabled={disabled}
+                className={className}
+                name={name}
+              />
+            )}
+          />
+        );
+      case "otp":
+        if (!props.control || !name) {
+          console.error("otp input requires control + name");
+          return null;
+        }
+        return (
+          <Controller
+            name={name}
+            control={props.control}
+            render={({ field }) => (
+              <OtpInput
+                length={props.otpLength || 6}
+                onChange={field.onChange}
+                onComplete={props.onComplete}
+              />
+            )}
+          />
+        );
       case "text":
       default:
         return (

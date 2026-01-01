@@ -10,16 +10,16 @@ export const distributorRoutes: AppRouteConfig[] = [
     component: Dashboard,
     authority: ['DISTRIBUTOR'],
   },
-  {
-    key: 'investors',
-    path: 'investors',
-    component: Dashboard,
-    authority: ['DISTRIBUTOR'],
-  },
-  {
-    key: 'commissions',
-    path: 'commissions',
-    component: Dashboard,
-    authority: ['DISTRIBUTOR'],
-  },
+  // {
+  //   key: 'investors',
+  //   path: 'investors',
+  //   component: Dashboard,
+  //   authority: ['DISTRIBUTOR'],
+  // },
+  // {
+  //   key: 'commissions',
+  //   path: 'commissions',
+  //   component: Dashboard,
+  //   authority: ['DISTRIBUTOR'],
+  // },
 ];

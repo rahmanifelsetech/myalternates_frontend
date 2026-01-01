@@ -5,20 +5,6 @@
  * 
  * This file groups and labels permissions for UI display purposes.
  * It helps organize the permission selection interface when creating/editing roles.
- * 
- * ✅ WHAT THIS IS FOR:
- * - Grouping related permissions (Users, Roles, Products, etc.)
- * - Providing user-friendly labels and descriptions
- * - Controlling display order in permission selection screens
- * - Building the admin permission assignment interface
- * 
- * ❌ WHAT THIS IS NOT:
- * - Source of truth for available permissions
- * - Used for security/authorization decisions
- * - An exhaustive list of all permissions (backend is authoritative)
- * 
- * The actual permission data (id, name, slug) is fetched from the backend API.
- * Always validate permissions on the server side.
  */
 
 export interface PermissionUI {
@@ -33,17 +19,87 @@ export interface PermissionGroupUI {
   permissions: PermissionUI[];
 }
 
+export const PERMISSIONS = {
+  USERS: {
+    CREATE: 'users.create',
+    READ: 'users.read',
+    UPDATE: 'users.update',
+    DELETE: 'users.delete',
+    ASSIGN: 'users.manage_roles',
+  },
+  ROLES: {
+    CREATE: 'roles.create',
+    READ: 'roles.read',
+    UPDATE: 'roles.update',
+    DELETE: 'roles.delete',
+    ASSIGN: 'roles.manage_permissions',
+  },
+  PERMISSIONS: {
+    CREATE: 'permissions.create',
+    READ: 'permissions.read',
+    UPDATE: 'permissions.update',
+    DELETE: 'permissions.delete',
+  },
+  PRODUCTS: {
+    CREATE: 'products.create',
+    READ: 'products.read',
+    UPDATE: 'products.update',
+    DELETE: 'products.delete',
+  },
+  DATA_UPLOAD: {
+    DAILY_VALUATION_CREATE: 'data_upload.daily_valuation.create',
+    HOLDING_CREATE: 'data_upload.holding.create',
+    MARKET_LIST_CREATE: 'data_upload.market_list.create',
+    TRANSACTION_CREATE: 'data_upload.transaction.create',
+    INDEX_HISTORY_CREATE: 'data_upload.index_history.create',
+    DAILY_VALUATION_READ: 'data_upload.daily_valuation.read',
+    HOLDING_READ: 'data_upload.holding.read',
+    MARKET_LIST_READ: 'data_upload.market_list.read',
+    TRANSACTION_READ: 'data_upload.transaction.read',
+    INDEX_HISTORY_READ: 'data_upload.index_history.read',
+  },
+  MASTERS: {
+    ASSET_CLASS_CREATE: 'masters.asset_class.create',
+    ASSET_CLASS_READ: 'masters.asset_class.read',
+    ASSET_CLASS_UPDATE: 'masters.asset_class.update',
+    ASSET_CLASS_DELETE: 'masters.asset_class.delete',
+    BENCHMARK_CREATE: 'masters.benchmark.create',
+    BENCHMARK_READ: 'masters.benchmark.read',
+    BENCHMARK_UPDATE: 'masters.benchmark.update',
+    BENCHMARK_DELETE: 'masters.benchmark.delete',
+    FUND_MANAGER_CREATE: 'masters.fund_manager.create',
+    FUND_MANAGER_READ: 'masters.fund_manager.read',
+    FUND_MANAGER_UPDATE: 'masters.fund_manager.update',
+    FUND_MANAGER_DELETE: 'masters.fund_manager.delete',
+    CATEGORY_CREATE: 'masters.category.create',
+    CATEGORY_READ: 'masters.category.read',
+    CATEGORY_UPDATE: 'masters.category.update',
+    CATEGORY_DELETE: 'masters.category.delete',
+  },
+  SCHEMES: {
+    CREATE: 'schemes.create',
+    READ: 'schemes.read',
+    UPDATE: 'schemes.update',
+    DELETE: 'schemes.delete',
+  },
+  AMCS: {
+    CREATE: 'amcs.create',
+    READ: 'amcs.read',
+    UPDATE: 'amcs.update',
+    DELETE: 'amcs.delete',
+  },
+};
+
 export const PERMISSION_GROUPS: Record<string, PermissionGroupUI> = {
   users: {
     label: 'User Management',
     description: 'Manage user accounts and access',
     permissions: [
-      { slug: 'users.create', label: 'Create Users', description: 'Create new user accounts' },
-      { slug: 'users.read', label: 'View Users', description: 'View user information' },
-      { slug: 'users.update', label: 'Edit Users', description: 'Modify user details and settings' },
-      { slug: 'users.delete', label: 'Delete Users', description: 'Remove user accounts' },
-      { slug: 'users.export', label: 'Export Users', description: 'Export user data' },
-      { slug: 'users.import', label: 'Import Users', description: 'Bulk import user accounts' },
+      { slug: PERMISSIONS.USERS.CREATE, label: 'Create User', description: 'Allows creating new users.' },
+      { slug: PERMISSIONS.USERS.READ, label: 'View Users', description: 'Allows viewing user information.' },
+      { slug: PERMISSIONS.USERS.UPDATE, label: 'Update User', description: 'Allows updating user information.' },
+      { slug: PERMISSIONS.USERS.DELETE, label: 'Delete User', description: 'Allows deleting users.' },
+      { slug: PERMISSIONS.USERS.ASSIGN, label: 'Manage Roles', description: 'Allows assigning and revoking roles for users.' },
     ],
   },
 
@@ -51,11 +107,11 @@ export const PERMISSION_GROUPS: Record<string, PermissionGroupUI> = {
     label: 'Role Management',
     description: 'Manage roles and their permissions',
     permissions: [
-      { slug: 'roles.create', label: 'Create Roles', description: 'Create new roles' },
-      { slug: 'roles.read', label: 'View Roles', description: 'View role information' },
-      { slug: 'roles.update', label: 'Edit Roles', description: 'Modify role details' },
-      { slug: 'roles.delete', label: 'Delete Roles', description: 'Remove roles' },
-      { slug: 'roles.manage_permissions', label: 'Manage Role Permissions', description: 'Assign permissions to roles' },
+      { slug: PERMISSIONS.ROLES.CREATE, label: 'Create Role', description: 'Allows creating new roles.' },
+      { slug: PERMISSIONS.ROLES.READ, label: 'View Roles', description: 'Allows viewing role information.' },
+      { slug: PERMISSIONS.ROLES.UPDATE, label: 'Update Role', description: 'Allows updating role information.' },
+      { slug: PERMISSIONS.ROLES.DELETE, label: 'Delete Role', description: 'Allows deleting roles.' },
+      { slug: PERMISSIONS.ROLES.ASSIGN, label: 'Manage Permissions', description: 'Allows assigning and revoking permissions for roles.' },
     ],
   },
 
@@ -63,7 +119,10 @@ export const PERMISSION_GROUPS: Record<string, PermissionGroupUI> = {
     label: 'Permission Management',
     description: 'View available system permissions',
     permissions: [
-      { slug: 'permissions.read', label: 'View Permissions', description: 'View system permissions' },
+      { slug: PERMISSIONS.PERMISSIONS.CREATE, label: 'Create Permission', description: 'Allows creating new permissions.' },
+      { slug: PERMISSIONS.PERMISSIONS.READ, label: 'View Permissions', description: 'Allows viewing available permissions.' },
+      { slug: PERMISSIONS.PERMISSIONS.UPDATE, label: 'Update Permission', description: 'Allows updating permission information.' },
+      { slug: PERMISSIONS.PERMISSIONS.DELETE, label: 'Delete Permission', description: 'Allows deleting permissions.' },
     ],
   },
 
@@ -71,32 +130,76 @@ export const PERMISSION_GROUPS: Record<string, PermissionGroupUI> = {
     label: 'Product Management',
     description: 'Manage product catalog',
     permissions: [
-      { slug: 'products.create', label: 'Create Products', description: 'Create new products' },
-      { slug: 'products.read', label: 'View Products', description: 'View product information' },
-      { slug: 'products.update', label: 'Edit Products', description: 'Modify product details' },
-      { slug: 'products.delete', label: 'Delete Products', description: 'Remove products' },
-      { slug: 'products.publish', label: 'Publish Products', description: 'Publish products to store' },
-      { slug: 'products.archive', label: 'Archive Products', description: 'Archive products' },
+      { slug: PERMISSIONS.PRODUCTS.CREATE, label: 'Create Product', description: 'Allows creating new products.' },
+      { slug: PERMISSIONS.PRODUCTS.READ, label: 'View Products', description: 'Allows viewing product information.' },
+      { slug: PERMISSIONS.PRODUCTS.UPDATE, label: 'Update Product', description: 'Allows updating product information.' },
+      { slug: PERMISSIONS.PRODUCTS.DELETE, label: 'Delete Product', description: 'Allows deleting products.' },
     ],
   },
 
-  dashboard: {
-    label: 'Dashboard & Analytics',
-    description: 'Access dashboards and reports',
+  schemes: {
+    label: 'Scheme Management',
+    description: 'Manage investment schemes',
     permissions: [
-      { slug: 'dashboard.view', label: 'View Dashboard', description: 'Access main dashboard' },
-      { slug: 'dashboard.analytics', label: 'View Analytics', description: 'Access analytics data' },
-      { slug: 'dashboard.reports', label: 'View Reports', description: 'Access system reports' },
+      { slug: PERMISSIONS.SCHEMES.CREATE, label: 'Create Scheme', description: 'Allows creating schemes.' },
+      { slug: PERMISSIONS.SCHEMES.READ, label: 'View Schemes', description: 'Allows viewing schemes.' },
+      { slug: PERMISSIONS.SCHEMES.UPDATE, label: 'Update Scheme', description: 'Allows updating schemes.' },
+      { slug: PERMISSIONS.SCHEMES.DELETE, label: 'Delete Scheme', description: 'Allows deleting schemes.' },
     ],
   },
 
-  settings: {
-    label: 'System Settings',
-    description: 'Configure system settings',
+  amcs: {
+    label: 'AMC Management',
+    description: 'Manage AMCs',
     permissions: [
-      { slug: 'settings.manage', label: 'Manage Settings', description: 'Configure system settings' },
-      { slug: 'settings.audit_log', label: 'View Audit Log', description: 'Access audit trail' },
-      { slug: 'settings.system_config', label: 'System Configuration', description: 'Configure system parameters' },
+      { slug: PERMISSIONS.AMCS.CREATE, label: 'Create AMC', description: 'Allows creating new AMCs.' },
+      { slug: PERMISSIONS.AMCS.READ, label: 'View AMCs', description: 'Allows viewing AMC information.' },
+      { slug: PERMISSIONS.AMCS.UPDATE, label: 'Update AMC', description: 'Allows updating AMC information.' },
+      { slug: PERMISSIONS.AMCS.DELETE, label: 'Delete AMC', description: 'Allows deleting AMCs.' },
+    ],
+  },
+
+  masters: {
+    label: 'Master Data Management',
+    description: 'Manage asset classes, benchmarks, fund managers, etc.',
+    permissions: [
+      // Asset Classes
+      { slug: PERMISSIONS.MASTERS.ASSET_CLASS_CREATE, label: 'Create Asset Class', description: 'Allows creating asset classes.' },
+      { slug: PERMISSIONS.MASTERS.ASSET_CLASS_READ, label: 'View Asset Classes', description: 'Allows viewing asset classes.' },
+      { slug: PERMISSIONS.MASTERS.ASSET_CLASS_UPDATE, label: 'Update Asset Class', description: 'Allows updating asset classes.' },
+      { slug: PERMISSIONS.MASTERS.ASSET_CLASS_DELETE, label: 'Delete Asset Class', description: 'Allows deleting asset classes.' },
+      // Benchmarks
+      { slug: PERMISSIONS.MASTERS.BENCHMARK_CREATE, label: 'Create Benchmark', description: 'Allows creating benchmarks.' },
+      { slug: PERMISSIONS.MASTERS.BENCHMARK_READ, label: 'View Benchmarks', description: 'Allows viewing benchmarks.' },
+      { slug: PERMISSIONS.MASTERS.BENCHMARK_UPDATE, label: 'Update Benchmark', description: 'Allows updating benchmarks.' },
+      { slug: PERMISSIONS.MASTERS.BENCHMARK_DELETE, label: 'Delete Benchmark', description: 'Allows deleting benchmarks.' },
+      // Fund Managers
+      { slug: PERMISSIONS.MASTERS.FUND_MANAGER_CREATE, label: 'Create Fund Manager', description: 'Allows creating fund managers.' },
+      { slug: PERMISSIONS.MASTERS.FUND_MANAGER_READ, label: 'View Fund Managers', description: 'Allows viewing fund managers.' },
+      { slug: PERMISSIONS.MASTERS.FUND_MANAGER_UPDATE, label: 'Update Fund Manager', description: 'Allows updating fund managers.' },
+      { slug: PERMISSIONS.MASTERS.FUND_MANAGER_DELETE, label: 'Delete Fund Manager', description: 'Allows deleting fund managers.' },
+      // Categories
+      { slug: PERMISSIONS.MASTERS.CATEGORY_CREATE, label: 'Create Category', description: 'Allows creating categories.' },
+      { slug: PERMISSIONS.MASTERS.CATEGORY_READ, label: 'View Categories', description: 'Allows viewing categories.' },
+      { slug: PERMISSIONS.MASTERS.CATEGORY_UPDATE, label: 'Update Category', description: 'Allows updating categories.' },
+      { slug: PERMISSIONS.MASTERS.CATEGORY_DELETE, label: 'Delete Category', description: 'Allows deleting categories.' },
+    ],
+  },
+
+  data_upload: {
+    label: 'Data Upload',
+    description: 'Upload and manage bulk data',
+    permissions: [
+      { slug: PERMISSIONS.DATA_UPLOAD.DAILY_VALUATION_CREATE, label: 'Upload Daily Valuations', description: 'Allows uploading daily valuations.' },
+      { slug: PERMISSIONS.DATA_UPLOAD.DAILY_VALUATION_READ, label: 'View Daily Valuations', description: 'Allows viewing daily valuations.' },
+      { slug: PERMISSIONS.DATA_UPLOAD.HOLDING_CREATE, label: 'Upload Holdings', description: 'Allows uploading holdings.' },
+      { slug: PERMISSIONS.DATA_UPLOAD.HOLDING_READ, label: 'View Holdings', description: 'Allows viewing holdings.' },
+      { slug: PERMISSIONS.DATA_UPLOAD.MARKET_LIST_CREATE, label: 'Upload Market List', description: 'Allows uploading market list.' },
+      { slug: PERMISSIONS.DATA_UPLOAD.MARKET_LIST_READ, label: 'View Market List', description: 'Allows viewing market list.' },
+      { slug: PERMISSIONS.DATA_UPLOAD.TRANSACTION_CREATE, label: 'Upload Transactions', description: 'Allows uploading transactions.' },
+      { slug: PERMISSIONS.DATA_UPLOAD.TRANSACTION_READ, label: 'View Transactions', description: 'Allows viewing transactions.' },
+      { slug: PERMISSIONS.DATA_UPLOAD.INDEX_HISTORY_CREATE, label: 'Upload Index History', description: 'Allows uploading index history.' },
+      { slug: PERMISSIONS.DATA_UPLOAD.INDEX_HISTORY_READ, label: 'View Index History', description: 'Allows viewing index history.' },
     ],
   },
 };

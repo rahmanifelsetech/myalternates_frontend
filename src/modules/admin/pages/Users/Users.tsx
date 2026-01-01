@@ -8,15 +8,20 @@ import { PlusIcon } from '@shared/icons';
 import { User, CreateUserPayload } from './types/user';
 import ComponentCard from '@/shared/components/common/ComponentCard';
 import { useUsers } from './hooks/useUsers';
+import { CanAccess } from '@/shared/components/common/CanAccess';
+import { PERMISSIONS } from '@/shared/constants/permissions';
 import { UserSchemaType } from './schema/userSchema';
 
 
+import { Pagination } from '@shared/components/common/Pagination';
+
 const Users: React.FC = () => {
   const [search, setSearch] = useState('');
+  const [page, setPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
 
-  const { data, isLoading } = useGetUsersQuery({ search });
+  const { data, isLoading } = useGetUsersQuery({ search, page, limit: 10 });
   const { handleCreate: createUser, handleUpdate: updateUser, handleDelete: deleteUser, isCreating, isUpdating } = useUsers();
 
   const handleCreate = () => {
@@ -32,26 +37,19 @@ const Users: React.FC = () => {
   const handleSubmit = async (formData: UserSchemaType) => {
     if (selectedUser) {
       const result = await updateUser({ id: selectedUser.id, ...formData });
-      if (result.success) {
-        setIsModalOpen(false);
-      }
-      return result
+      setIsModalOpen(false);
+      return result;
     } else {
       const result = await createUser(formData);
-      console.log('Create User Result:', result);
-      if (result.success) {
-        setIsModalOpen(false);
-      }
-      return result
+      setIsModalOpen(false);
+      return result;
     }
   };
 
   const handleDelete = async (id: string) => {
     if (window.confirm('Are you sure you want to delete this user?')) {
-      const result = await deleteUser(id);
-      if (result.success) {
-        // Table will auto-refresh due to invalidatesTags
-      }
+      await deleteUser(id);
+      // Table will auto-refresh due to invalidatesTags
     }
   };
 
@@ -65,9 +63,11 @@ const Users: React.FC = () => {
           Manage system users and accounts
         </p>
       </div>
-      <Button onClick={handleCreate} startIcon={<PlusIcon fontSize={20} className="text-white" />}>
-        Add User
-      </Button>
+      <CanAccess any={[PERMISSIONS.USERS.CREATE]}>
+        <Button onClick={handleCreate} startIcon={<PlusIcon fontSize={20} className="text-white" />}>
+          Add User
+        </Button>
+      </CanAccess>
     </div>
   );
 
@@ -81,6 +81,10 @@ const Users: React.FC = () => {
           onEdit={handleEdit}
           onDelete={handleDelete}
         />
+
+        {data?.metaData && (
+          <Pagination meta={data.metaData} onPageChange={setPage} />
+        )}
 
         <UserModal
           isOpen={isModalOpen}

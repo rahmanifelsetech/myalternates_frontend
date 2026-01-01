@@ -7,8 +7,11 @@ import {
   TableRow,
 } from '@shared/components/ui/table';
 import { Role } from '../types/role';
+import { IconButton } from '@shared/components/ui/button/IconButton';
 import { PencilIcon, TrashBinIcon } from '@shared/icons';
 import Loading from '@shared/components/common/Loading';
+import { CanAccess } from '@/shared/components/common/CanAccess';
+import { PERMISSIONS } from '@/shared/constants/permissions';
 
 interface RolesTableProps {
   roles: Role[];
@@ -35,9 +38,11 @@ export const RolesTable: React.FC<RolesTableProps> = ({ roles, isLoading, onEdit
               <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">
                 Created At
               </TableCell>
-              <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-end text-theme-xs dark:text-gray-400">
-                Actions
-              </TableCell>
+              <CanAccess any={[PERMISSIONS.ROLES.UPDATE,PERMISSIONS.ROLES.DELETE]}>
+                <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-end text-theme-xs dark:text-gray-400">
+                  Actions
+                </TableCell>
+              </CanAccess>
             </TableRow>
           </TableHeader>
           <TableBody className="divide-y divide-gray-100 dark:divide-white/[0.05]">
@@ -63,29 +68,34 @@ export const RolesTable: React.FC<RolesTableProps> = ({ roles, isLoading, onEdit
                 </TableCell>
                 <TableCell className="px-5 py-4 text-end">
                   <div className="flex justify-end gap-2">
-                    {onAssignPermissions && (
-                      <button
-                        onClick={() => onAssignPermissions(role)}
-                        className="text-gray-500 hover:text-brand-500 dark:text-gray-400 dark:hover:text-brand-400 transition"
-                        title="Assign Permissions"
-                      >
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                      </button>
-                    )}
-                    <button
-                      onClick={() => onEdit(role)}
-                      className="text-gray-500 hover:text-brand-500 dark:text-gray-400 dark:hover:text-brand-400"
-                    >
-                      <PencilIcon className="w-5 h-5" />
-                    </button>
-                    <button
-                      onClick={() => onDelete(role.id)}
-                      className="text-gray-500 hover:text-error-500 dark:text-gray-400 dark:hover:text-error-400"
-                    >
-                      <TrashBinIcon className="w-5 h-5" />
-                    </button>
+                    <CanAccess any={[PERMISSIONS.ROLES.ASSIGN]}>
+                      {onAssignPermissions && (
+                        <IconButton
+                          onClick={() => onAssignPermissions(role)}
+                          className="hover:text-brand-500"
+                          title="Assign Permissions"
+                          icon={
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                          }
+                        />
+                      )}
+                    </CanAccess>
+                    <CanAccess any={[PERMISSIONS.ROLES.UPDATE]}>
+                      <IconButton
+                        onClick={() => onEdit(role)}
+                        className="hover:text-brand-500"
+                        icon={<PencilIcon className="w-5 h-5" />}
+                      />
+                    </CanAccess>
+                    <CanAccess any={[PERMISSIONS.ROLES.DELETE]}>
+                      <IconButton
+                        onClick={() => onDelete(role.id)}
+                        className="hover:text-error-500"
+                        icon={<TrashBinIcon className="w-5 h-5" />}
+                      />
+                    </CanAccess>
                   </div>
                 </TableCell>
               </TableRow>

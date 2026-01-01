@@ -3,7 +3,7 @@
  * Handle dynamic permission and role checking throughout the app
  */
 
-import { User, UserRole, Permission } from "@shared/types/user";
+import { User, UserRole } from "@shared/types/user";
 
 /**
  * Check if user has a specific role
@@ -33,7 +33,7 @@ export const hasAllRoles = (user: User | null, roles: UserRole[]): boolean => {
 /**
  * Get user's permissions (handles missing/null)
  */
-export const getUserPermissions = (user: User | null): Permission[] => {
+export const getUserPermissions = (user: User | null): string[] => {
   return user?.permissions || [];
 };
 
@@ -51,7 +51,7 @@ export const hasPermission = (user: User | null, permissionName: string): boolea
   if (!user) return false;
   if (isAdmin(user)) return true;
   if (!user.permissions) return false;
-  return user.permissions.some((p: Permission) => (p.name === permissionName));
+  return user.permissions.includes(permissionName);
 };
 
 /**
@@ -61,8 +61,7 @@ export const hasAnyPermission = (user: User | null, permissions: string[]): bool
   if (!user) return false;
   if (isAdmin(user)) return true;
   if (!user.permissions) return false;
-  const userPerms = user.permissions.map((p: Permission) => p.name);
-  return permissions.some(perm => userPerms.includes(perm));
+  return permissions.some(perm => user.permissions!.includes(perm));
 };
 
 /**
@@ -72,26 +71,20 @@ export const hasAllPermissions = (user: User | null, permissions: string[]): boo
   if (!user) return false;
   if (isAdmin(user)) return true;
   if (!user.permissions) return false;
-  const userPerms = user.permissions.map((p: Permission) => p.name);
-  return permissions.every(perm => userPerms.includes(perm));
+  return permissions.every(perm => user.permissions!.includes(perm));
 };
 
 /**
  * Get permissions for a specific module/action
  */
-export const getModulePermissions = (user: User | null, module: string): Permission[] => {
+export const getModulePermissions = (user: User | null, module: string): string[] => {
   if (!user || !user.permissions) return [];
   
-  return user.permissions.filter((p: Permission) => {
-    // Check if module property exists and matches
-    if (p.module === module) return true;
-    
-    // Check if name is formatted as 'module.action'
-    if (p.name && p.name.includes('.')) {
-      const [pModule] = p.name.split('.');
+  return user.permissions.filter((p: string) => {
+    if (p && p.includes('.')) {
+      const [pModule] = p.split('.');
       return pModule === module;
     }
-    
     return false;
   });
 };
@@ -103,16 +96,9 @@ export const canPerformAction = (user: User | null, module: string, action: stri
   if (!user) return false;
   if (isAdmin(user)) return true;
   if (!user.permissions) return false;
-  
-  return user.permissions.some((p: Permission) => {
-    // Check exact match on module/action properties
-    if (p.module === module && p.action === action) return true;
-    
-    // Check name string 'module.action'
-    if (p.name === `${module}.${action}`) return true;
-    
-    return false;
-  });
+
+  const permissionString = `${module}.${action}`;
+  return user.permissions.includes(permissionString);
 };
 
 /**

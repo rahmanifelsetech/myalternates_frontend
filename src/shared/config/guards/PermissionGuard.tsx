@@ -45,22 +45,20 @@ const PermissionGuard: React.FC<PermissionGuardProps> = ({
   }
 
   // Check permissions if specified
-  if (requiredPermissions.length > 0) {
+  if (requiredPermissions.length > 0 && !isAdmin(user)) {
     // Admin has full access, bypass permission checks
-    if (!isAdmin(user)) {
-      if (!user.permissions || user.permissions.length === 0) {
-        return redirectTo ? <Navigate to={redirectTo} replace /> : fallback;
-      }
+    if (!user.permissions || user.permissions.length === 0) {
+      return redirectTo ? <Navigate to={redirectTo} replace /> : fallback;
+    }
 
-      const userPermissions = user.permissions.map((p: any) => p.name || p);
+    const userPermissions = user.permissions;
 
-      const hasPermission = requireAll
-        ? requiredPermissions.every((permission) => userPermissions.includes(permission))
-        : requiredPermissions.some((permission) => userPermissions.includes(permission));
+    const hasPermission = requireAll
+      ? requiredPermissions.every((permission) => userPermissions.includes(permission))
+      : requiredPermissions.some((permission) => userPermissions.includes(permission));
 
-      if (!hasPermission) {
-        return redirectTo ? <Navigate to={redirectTo} replace /> : fallback;
-      }
+    if (!hasPermission) {
+      return redirectTo ? <Navigate to={redirectTo} replace /> : fallback;
     }
   }
 

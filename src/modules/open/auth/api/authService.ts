@@ -6,9 +6,16 @@ import type {
   CurrentUserResponse,
   LogoutResponse,
   RefreshTokenResponse,
+  ChangePasswordResponse,
   SignInPayload,
   SignUpStep1Payload,
   SignUpStep2Payload,
+  ChangePasswordPayload,
+  IdentifierPayload,
+  OtpPayload,
+  SetNewPasswordFormData,
+  SignInWithPasswordData,
+  VerifyOtpResponse,
 } from '@/modules/open/auth/types/auth';
 
 export const authService = {
@@ -18,6 +25,26 @@ export const authService = {
 
   signIn: async (credentials: SignInPayload): Promise<AuthResponse> => {
     return ApiService.post<AuthResponse>('/auth/signin', credentials);
+  },
+
+  signInWithPassword: async (credentials: SignInWithPasswordData): Promise<AuthResponse> => {
+    return ApiService.post<AuthResponse>('/auth/signin/password', credentials);
+  },
+
+  signInWithOtp: async (credentials: IdentifierPayload): Promise<AuthResponse> => {
+    return ApiService.post<AuthResponse>('/auth/signin/otp', credentials);
+  },
+
+  sendOtp: async (data: IdentifierPayload): Promise<any> => {
+    return ApiService.post<any>('/auth/otp/send', data);
+  },
+
+  verifyOtp: async (data: OtpPayload): Promise<VerifyOtpResponse> => {
+    return ApiService.post<any>('/auth/otp/verify', data);
+  },
+
+  resetPassword: async (data: SetNewPasswordFormData): Promise<any> => {
+    return ApiService.post<any>('/auth/reset-password', data);
   },
 
   registerStep1: async (data: SignUpStep1Payload): Promise<SignUpStep1Response> => {
@@ -34,6 +61,10 @@ export const authService = {
 
   refreshToken: async (): Promise<RefreshTokenResponse> => {
     return ApiService.post<RefreshTokenResponse>('/auth/refresh');
+  },
+
+  changePassword: async (data: ChangePasswordPayload): Promise<ChangePasswordResponse> => {
+    return ApiService.post<ChangePasswordResponse>('/auth/change-password', data);
   },
 };
 

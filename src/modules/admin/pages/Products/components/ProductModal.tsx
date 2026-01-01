@@ -4,6 +4,8 @@ import { Modal } from '@shared/components/ui/modal';
 import Input from '@shared/components/form/input/InputField';
 import Button from '@shared/components/ui/button/Button';
 import { CreateProductPayload, Product } from '../types/product';
+import { setFormErrors } from '@/shared/utils/formUtils';
+import { ApiError } from '@/shared/types/api';
 
 interface ProductModalProps {
   isOpen: boolean;
@@ -20,35 +22,35 @@ export const ProductModal: React.FC<ProductModalProps> = ({
   product,
   isLoading,
 }) => {
-  const { register, handleSubmit, reset, formState: { errors } } = useForm<CreateProductPayload>();
+  const { register, handleSubmit, reset, setError, formState: { errors } } = useForm<CreateProductPayload>();
 
   useEffect(() => {
     if (product) {
       reset({
         name: product.name,
-        description: product.description,
-        sku: product.sku,
-        price: product.price,
-        stock: product.stock,
-        category: product.category,
-        status: product.status,
+        desc: product.desc,
+        isActive: product.isActive,
       });
     } else {
       reset({
         name: '',
-        description: '',
-        sku: '',
-        price: undefined,
-        stock: undefined,
-        category: '',
-        status: 'active',
+        desc: '',
+        isActive: true,
       });
     }
   }, [product, reset, isOpen]);
 
   const handleFormSubmit = async (data: CreateProductPayload) => {
-    await onSubmit(data);
-    onClose();
+    try {
+      await onSubmit(data);
+      onClose();
+    } catch (error: any) {
+      setFormErrors<CreateProductPayload>(
+        error as ApiError,
+        setError,
+        ['name', 'desc', 'isActive']
+      );
+    }
   };
 
   return (
@@ -64,55 +66,9 @@ export const ProductModal: React.FC<ProductModalProps> = ({
           <Input
             {...register('name', { required: 'Name is required' })}
             error={!!errors.name}
-            placeholder="Product Name"
+            placeholder="Product Name (e.g. PMS, AIF)"
           />
           {errors.name && <span className="text-error-500 text-xs">{errors.name.message}</span>}
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-            SKU
-          </label>
-          <Input
-            {...register('sku')}
-            placeholder="Product SKU"
-          />
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-            Price
-          </label>
-          <Input
-            {...register('price', { 
-              pattern: { value: /^\d+(\.\d{2})?$/, message: 'Invalid price format' }
-            })}
-            type="number"
-            placeholder="0.00"
-          />
-          {errors.price && <span className="text-error-500 text-xs">{errors.price.message}</span>}
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-            Stock
-          </label>
-          <Input
-            {...register('stock', { pattern: { value: /^\d+$/, message: 'Stock must be a number' } })}
-            type="number"
-            placeholder="0"
-          />
-          {errors.stock && <span className="text-error-500 text-xs">{errors.stock.message}</span>}
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-            Category
-          </label>
-          <Input
-            {...register('category')}
-            placeholder="Product Category"
-          />
         </div>
 
         <div>
@@ -120,9 +76,20 @@ export const ProductModal: React.FC<ProductModalProps> = ({
             Description
           </label>
           <Input
-            {...register('description')}
+            {...register('desc')}
             placeholder="Product Description"
           />
+        </div>
+
+        <div>
+          <label className="flex items-center space-x-2">
+            <input
+              type="checkbox"
+              {...register('isActive')}
+              className="form-checkbox h-4 w-4 text-brand-500 transition duration-150 ease-in-out"
+            />
+            <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Active</span>
+          </label>
         </div>
 
         <div className="flex justify-end gap-3 mt-6">

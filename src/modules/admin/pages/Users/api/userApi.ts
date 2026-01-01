@@ -15,7 +15,7 @@ export const userApi = RtkQueryService.enhanceEndpoints({
     }),
     createUser: builder.mutation<CreateUserResponse, CreateUserPayload>({
       query: (data) => ({
-        url: '/users',
+        url: '/users/internal',
         method: 'POST',
         data,
       }),

@@ -1,25 +1,15 @@
-import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@shared/hooks/useRedux';
 import { setLoading, setUser, setToken, setError, logout as logoutAction, clearError } from '@/modules/open/auth/store/authSlice';
 import authService from '@/modules/open/auth/api/authService';
-import type { SignInFormData, SignUpStep1Data, SignUpStep2Data } from '@/modules/open/auth/schema/auth.schemas';
+import type { SignInFormData, SignUpStep1Data, SignUpStep2Data, ChangePasswordFormData } from '@/modules/open/auth/schema/auth.schemas';
+import { IdentifierPayload, OtpPayload, SetNewPasswordFormData, SignInWithPasswordData } from '../types/auth';
+import { useToast } from '@shared/hooks/useToast';
 
 export const useAuth = () => {
   const dispatch = useAppDispatch();
+  const { success: toastSuccess, error: toastError } = useToast();
   const { user, token, loading, error } = useAppSelector((state) => state.auth);
   const isAuthenticated = !!token;
-
-  const loadCurrentUser = async () => {
-    dispatch(setLoading(true));
-    try {
-      const response = await authService.getCurrentUser();
-      if (response.data) {
-        dispatch(setUser(response.data));
-      }
-    } catch (err: any) {
-      dispatch(setError(err.message || 'Failed to load user'));
-    }
-  };
 
   /**
    * Sign in user with email and password
@@ -33,14 +23,15 @@ export const useAuth = () => {
         const { user: userData, access_token: authToken } = response.data;
         dispatch(setToken(authToken));
         dispatch(setUser(userData));
+        toastSuccess('Signed in successfully!');
         return { success: true, data: userData };
       }
       throw new Error('Sign in failed');
     } catch (err: any) {
       const errorMessage = err.message || 'Failed to sign in';
-      // Pass the full error object if available, specifically details
       const errorDetails = err.response?.data?.details || err.details;
       dispatch(setError(errorMessage));
+      toastError(errorMessage);
       return { success: false, error: errorMessage, details: errorDetails };
     } finally {
       dispatch(setLoading(false));
@@ -121,12 +112,133 @@ export const useAuth = () => {
     }
   };
 
-  useEffect(() => {
-    console.log('Auth State Changed:', { isAuthenticated, user, token });
-    if (isAuthenticated && !user) {
-      loadCurrentUser();
+
+  /**
+   * Change password
+   */
+  const changePassword = async (data: ChangePasswordFormData) => {
+    dispatch(setLoading(true));
+    dispatch(clearError());
+    try {
+      const response = await authService.changePassword({
+        oldPassword: data.oldPassword,
+        newPassword: data.newPassword,
+      });
+      const { user: userData, access_token: authToken } = response.data;
+      dispatch(setToken(authToken));
+      dispatch(setUser(userData));
+      toastSuccess('Password changed successfully!');
+      return { success: true, message: "Password changed successfully" };
+    } catch (err: any) {
+      const errorMessage = err.message || 'Failed to change password';
+      const errorDetails = err.response?.data?.details || err.details;
+      toastError(errorMessage);
+      dispatch(setError(errorMessage));
+      return { success: false, error: errorMessage, details: errorDetails };
+    } finally {
+      dispatch(setLoading(false));
     }
-  }, [isAuthenticated]);
+  };
+
+  const signInWithPassword = async (credentials: SignInWithPasswordData) => {
+    dispatch(setLoading(true));
+    dispatch(clearError());
+    try {
+      const response = await authService.signInWithPassword(credentials);
+      if (response.data) {
+        const { user: userData, access_token: authToken } = response.data;
+        dispatch(setToken(authToken));
+        dispatch(setUser(userData));
+        toastSuccess('Signed in successfully!');
+        return { success: true, data: userData };
+      }
+      throw new Error('Sign in failed');
+    } catch (err: any) {
+      const errorMessage = err.message || 'Failed to sign in';
+      const errorDetails = err.response?.data?.details || err.details;
+      dispatch(setError(errorMessage));
+      toastError(errorMessage);
+      return { success: false, error: errorMessage, details: errorDetails };
+    } finally {
+      dispatch(setLoading(false));
+    }
+  };
+
+  const signInWithOtp = async (credentials: IdentifierPayload) => {
+    dispatch(setLoading(true));
+    dispatch(clearError());
+    try {
+      const response = await authService.signInWithOtp(credentials);
+      if (response.data) {
+        const { user: userData, access_token: authToken } = response.data;
+        dispatch(setToken(authToken));
+        dispatch(setUser(userData));
+        toastSuccess('Signed in successfully!');
+        return { success: true, data: userData };
+      }
+      throw new Error('Sign in failed');
+    } catch (err: any) {
+      const errorMessage = err.message || 'Failed to sign in';
+      const errorDetails = err.response?.data?.details || err.details;
+      dispatch(setError(errorMessage));
+      return { success: false, error: errorMessage, details: errorDetails };
+    } finally {
+      dispatch(setLoading(false));
+    }
+  };
+
+  const sendOtp = async (data: IdentifierPayload) => {
+    dispatch(setLoading(true));
+    dispatch(clearError());
+    try {
+      const response = await authService.sendOtp(data);
+      toastSuccess('OTP sent successfully!');
+      return { success: true, data: response.data };
+    } catch (err: any) {
+      const errorMessage = err.message || 'Failed to send OTP';
+      const errorDetails = err.response?.data?.details || err.details;
+      dispatch(setError(errorMessage));
+      return { success: false, error: errorMessage, details: errorDetails };
+    } finally {
+      dispatch(setLoading(false));
+    }
+  };
+
+  const verifyOtp = async (data: OtpPayload) => {
+    dispatch(setLoading(true));
+    dispatch(clearError());
+    try {
+      const response = await authService.verifyOtp(data);
+      toastSuccess('OTP verified successfully!');
+      return { success: true, data: response.data };
+    } catch (err: any) {
+      const errorMessage = err.message || 'Failed to verify OTP';
+      const errorDetails = err.response?.data?.details || err.details;
+      toastError(errorMessage);
+      dispatch(setError(errorMessage));
+      return { success: false, error: errorMessage, details: errorDetails };
+    } finally {
+      dispatch(setLoading(false));
+    }
+  };
+
+  const resetPassword = async (data: SetNewPasswordFormData) => {
+    dispatch(setLoading(true));
+    dispatch(clearError());
+    try {
+      const response = await authService.resetPassword(data);
+      toastSuccess('Password has been reset successfully!');
+      return { success: true, data: response.data };
+    } catch (err: any) {
+      const errorMessage = err.message || 'Failed to reset password';
+      const errorDetails = err.response?.data?.details || err.details;
+      toastError(errorMessage);
+      dispatch(setError(errorMessage));
+      return { success: false, error: errorMessage, details: errorDetails };
+    } finally {
+      dispatch(setLoading(false));
+    }
+  };
 
   return {
     // State
@@ -138,10 +250,15 @@ export const useAuth = () => {
     
     // Methods
     signIn,
+    signInWithPassword,
+    signInWithOtp,
+    sendOtp,
+    verifyOtp,
+    resetPassword,
     registerStep1,
-		registerStep2,
+  registerStep2,
     signOut,
-    loadCurrentUser,
+    changePassword,
     clearError: () => dispatch(clearError()),
   };
 };

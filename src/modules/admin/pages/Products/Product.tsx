@@ -3,24 +3,29 @@ import { useGetProductsQuery } from './api/productApi';
 import { ProductsTable } from './components/ProductsTable';
 import { ProductsFilter } from './components/ProductsFilter';
 import { ProductModal } from './components/ProductModal';
-// import Button from '@shared/components/ui/button/Button';
-// import { PlusIcon } from '@shared/icons';
+import Button from '@shared/components/ui/button/Button';
+import { PlusIcon } from '@shared/icons';
 import { Product, CreateProductPayload } from './types/product';
 import ComponentCard from '@/shared/components/common/ComponentCard';
 import { useProducts } from './hooks/useProducts';
+import { CanAccess } from '@/shared/components/common/CanAccess';
+import { PERMISSIONS } from '@/shared/constants/permissions';
+
+import { Pagination } from '@shared/components/common/Pagination';
 
 const Products: React.FC = () => {
   const [search, setSearch] = useState('');
+  const [page, setPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
-  const { data, isLoading } = useGetProductsQuery({ search });
+  const { data, isLoading } = useGetProductsQuery({ search, page, limit: 10 });
   const { handleCreate: createProduct, handleUpdate: updateProduct, handleDelete: deleteProduct, isCreating, isUpdating } = useProducts();
 
-  // const handleCreate = () => {
-  //   setSelectedProduct(null);
-  //   setIsModalOpen(true);
-  // };
+  const handleCreate = () => {
+    setSelectedProduct(null);
+    setIsModalOpen(true);
+  };
 
   const handleEdit = (product: Product) => {
     setSelectedProduct(product);
@@ -29,24 +34,18 @@ const Products: React.FC = () => {
 
   const handleSubmit = async (formData: CreateProductPayload) => {
     if (selectedProduct) {
-      const result = await updateProduct({ id: selectedProduct.id, ...formData });
-      if (result.success) {
-        setIsModalOpen(false);
-      }
+      await updateProduct({ id: selectedProduct.id, ...formData });
+      setIsModalOpen(false);
     } else {
-      const result = await createProduct(formData);
-      if (result.success) {
-        setIsModalOpen(false);
-      }
+      await createProduct(formData);
+      setIsModalOpen(false);
     }
   };
 
   const handleDelete = async (id: string) => {
     if (window.confirm('Are you sure you want to delete this product?')) {
-      const result = await deleteProduct(id);
-      if (result.success) {
-        // Table will auto-refresh due to invalidatesTags
-      }
+      await deleteProduct(id);
+      // Table will auto-refresh due to invalidatesTags
     }
   };
 
@@ -60,9 +59,11 @@ const Products: React.FC = () => {
           Manage system products and inventory
         </p>
       </div>
-      {/* <Button onClick={handleCreate} startIcon={<PlusIcon fontSize={20} className="text-white" />}>
-        Add Product
-      </Button> */}
+      <CanAccess any={[PERMISSIONS.PRODUCTS.CREATE]}>
+        <Button onClick={handleCreate} startIcon={<PlusIcon fontSize={20} className="text-white" />}>
+          Add Product
+        </Button>
+      </CanAccess>
     </div>
   );
 
@@ -76,6 +77,10 @@ const Products: React.FC = () => {
           onEdit={handleEdit}
           onDelete={handleDelete}
         />
+
+        {data?.metaData && (
+          <Pagination meta={data.metaData} onPageChange={setPage} />
+        )}
 
         <ProductModal
           isOpen={isModalOpen}

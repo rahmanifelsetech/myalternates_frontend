@@ -1,5 +1,4 @@
 import { useCallback } from 'react';
-import { useToast } from '@shared/hooks/useToast';
 import {
   useCreateRoleMutation,
   useUpdateRoleMutation,
@@ -7,79 +6,53 @@ import {
   useAssignPermissionsMutation,
 } from '../api/roleApi';
 import { CreateRolePayload, UpdateRolePayload } from '../types/role';
+import { useAsyncMutation } from '@shared/hooks/useAsyncMutation';
 
 export const useRoles = () => {
-  const { success: toastSuccess, error: toastError } = useToast();
+  const { execute } = useAsyncMutation();
   const [createRole, { isLoading: isCreating }] = useCreateRoleMutation();
   const [updateRole, { isLoading: isUpdating }] = useUpdateRoleMutation();
   const [deleteRole, { isLoading: isDeleting }] = useDeleteRoleMutation();
-  const [assignPermissionsToRole, {isLoading: isAssigningPermissions}] = useAssignPermissionsMutation();
+  const [assignPermissionsToRole, { isLoading: isAssigningPermissions }] = useAssignPermissionsMutation();
 
   const handleCreate = useCallback(
-    async (data: CreateRolePayload) => {
-      try {
-        const result = await createRole(data).unwrap();
-        // Extract the actual data from SingleResponse wrapper
-        const roleData = result?.data || result;
-        toastSuccess('Role created successfully!');
-        return { success: true, data: roleData };
-      } catch (error: any) {
-        const errorMessage = error?.data?.message || error?.message || 'Failed to create role';
-        toastError(errorMessage);
-        return { success: false, error: errorMessage, details: error?.data?.details };
-      }
-    },
-    [createRole, toastSuccess, toastError]
+    (data: CreateRolePayload) =>
+      execute(createRole, data, {
+        successMessage: 'Role created successfully!',
+        errorMessage: 'Failed to create role',
+      }),
+    [createRole, execute]
   );
 
   const handleUpdate = useCallback(
-    async (data: UpdateRolePayload) => {
-      try {
-        const result = await updateRole(data).unwrap();
-        // Extract the actual data from SingleResponse wrapper
-        const roleData = result?.data || result;
-        toastSuccess('Role updated successfully!');
-        return { success: true, data: roleData };
-      } catch (error: any) {
-        const errorMessage = error?.data?.message || error?.message || 'Failed to update role';
-        toastError(errorMessage);
-        return { success: false, error: errorMessage, details: error?.data?.details };
-      }
-    },
-    [updateRole, toastSuccess, toastError]
+    (data: UpdateRolePayload) =>
+      execute(updateRole, data, {
+        successMessage: 'Role updated successfully!',
+        errorMessage: 'Failed to update role',
+      }),
+    [updateRole, execute]
   );
 
   const handleDelete = useCallback(
-    async (id: string) => {
-      try {
-        await deleteRole(id).unwrap();
-        toastSuccess('Role deleted successfully!');
-        return { success: true };
-      } catch (error: any) {
-        const errorMessage = error?.data?.message || error?.message || 'Failed to delete role';
-        toastError(errorMessage);
-        return { success: false, error: errorMessage, details: error?.data?.details };
-      }
-    },
-    [deleteRole, toastSuccess, toastError]
+    (id: string) =>
+      execute(deleteRole, id, {
+        successMessage: 'Role deleted successfully!',
+        errorMessage: 'Failed to delete role',
+      }),
+    [deleteRole, execute]
   );
 
   const handlePermissionAssignment = useCallback(
-    async (roleId: string, permissionIds: string[]) => {
-      try {
-         await assignPermissionsToRole({ 
-          id: roleId, 
-          permissionIds 
-        }).unwrap();
-        toastSuccess('Permissions assigned successfully!');
-        return { success: true };
-      } catch (error: any) {
-        const errorMessage = error?.data?.message || error?.message || 'Failed to assign permissions';
-        toastError(errorMessage);
-        return { success: false, error: errorMessage, details: error?.data?.details };
-      }
-    },
-    [toastSuccess, toastError]
+    (roleId: string, permissionIds: string[]) =>
+      execute(
+        assignPermissionsToRole,
+        { id: roleId, permissionIds },
+        {
+          successMessage: 'Permissions assigned successfully!',
+          errorMessage: 'Failed to assign permissions',
+        }
+      ),
+    [assignPermissionsToRole, execute]
   );
 
   return {

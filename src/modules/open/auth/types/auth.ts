@@ -11,6 +11,10 @@ export type AuthResponse = SingleResponse<{
   access_token: string;
 }>;
 
+export type VerifyOtpResponse = SingleResponse<{
+  reset_token: string;
+}>;
+
 export type SignUpStep1Response = SingleResponse<{
   userId: string;
 }>;
@@ -23,6 +27,11 @@ export type LogoutResponse = EmptyResponse;
 
 export type RefreshTokenResponse = SingleResponse<{
   token: string;
+}>;
+
+export type ChangePasswordResponse = SingleResponse<{
+  user: User;
+  access_token: string;
 }>;
 
 /**
@@ -45,6 +54,31 @@ export interface SignUpStep1Payload {
 
 export interface SignUpStep2Payload {
   username: string;
+  password: string;
+  confirmPassword: string;
+}
+
+export interface SignInWithPasswordData {
+  identifier: string;
+  password: string;
+}
+
+export interface ChangePasswordPayload {
+  oldPassword: string;
+  newPassword: string;
+}
+
+export interface IdentifierPayload {
+  identifier: string;
+}
+
+export interface OtpPayload {
+  otp: string;
+  identifier: string;
+}
+
+export interface SetNewPasswordFormData {
+  reset_token: string;
   password: string;
   confirmPassword: string;
 }
