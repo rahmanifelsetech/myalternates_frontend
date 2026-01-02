@@ -11,11 +11,11 @@ import { ThemeProvider } from '@shared/context/ThemeContext';
 import Loading from './shared/components/common/Loading';
 import { PersistGate } from 'redux-persist/integration/react';
 
-const LoadingFallback = () => (
-  <div className="flex items-center justify-center h-screen">
-    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-  </div>
-);
+// const LoadingFallback = () => (
+//   <div className="flex items-center justify-center h-screen">
+//     <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+//   </div>
+// );
 
 const AppRoutes = () => {
   const element = useRoutes(routes);

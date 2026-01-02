@@ -28,4 +28,5 @@ dist-ssr
 *.sln
 *.sw?
 
-/free-react-tailwind-admin-dashboard
+/react-tailwind-admin-dashboard
+/backend-models

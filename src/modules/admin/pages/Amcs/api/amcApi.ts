@@ -1,6 +1,5 @@
 import RtkQueryService from "@shared/services/rtkService";
-import { AmcListResponse, AmcResponse, CreateAmcPayload, UpdateAmcPayload, AmcFilters } from "../types/amc";
-import { objectToFormData } from "@shared/utils/objectToFormData";
+import { AmcListResponse, AmcResponse, AmcFilters } from "../types/amc";
 
 const amcApiWithTags = RtkQueryService.enhanceEndpoints({
   addTagTypes: ["Amcs", "Amc"],

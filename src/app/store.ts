@@ -11,17 +11,17 @@ import {
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import authReducer from '@/modules/open/auth/store/authSlice';
-import productReducer from '@shared/store/productSlice';
-import portfolioReducer from '@shared/store/portfolioSlice';
-import transactionReducer from '@shared/store/transactionSlice';
+// import productReducer from '@shared/store/productSlice';
+// import portfolioReducer from '@shared/store/portfolioSlice';
+// import transactionReducer from '@shared/store/transactionSlice';
 import uiReducer from '@shared/store/uiSlice';
 import RtkQueryService from '@shared/services/rtkService';
 
 const rootReducer = combineReducers({
   auth: authReducer,
-  products: productReducer,
-  portfolio: portfolioReducer,
-  transactions: transactionReducer,
+  // products: productReducer,
+  // portfolio: portfolioReducer,
+  // transactions: transactionReducer,
   ui: uiReducer,
   [RtkQueryService.reducerPath]: RtkQueryService.reducer,
 });

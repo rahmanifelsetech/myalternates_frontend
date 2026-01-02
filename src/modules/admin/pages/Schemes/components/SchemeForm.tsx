@@ -125,7 +125,6 @@ export const SchemeForm: React.FC<SchemeFormProps> = ({ scheme, onSubmit, onCanc
         handleSubmit,
         reset,
         setError,
-        watch,
     } = useForm(SchemeSchema, scheme ? {
             ...scheme,
             amcId: scheme.amcId ?? '',

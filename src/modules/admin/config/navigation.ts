@@ -89,24 +89,24 @@ export const adminNavigation: NavigationItem[] = [
     icon: 'briefcase',
     permissions: [PERMISSIONS.AMCS.READ],
   },
-  {
-    title: 'Schemes',
-    path: '/admin/schemes',
-    icon: 'briefcase',
-    permissions: [PERMISSIONS.SCHEMES.READ],
-  },
-  {
-    title: 'Data Upload',
-    path: '/admin/uploads',
-    icon: 'upload',
-    permissions: [
-      PERMISSIONS.DATA_UPLOAD.DAILY_VALUATION_READ,
-      PERMISSIONS.DATA_UPLOAD.HOLDING_READ,
-      PERMISSIONS.DATA_UPLOAD.MARKET_LIST_READ,
-      PERMISSIONS.DATA_UPLOAD.TRANSACTION_READ,
-      PERMISSIONS.DATA_UPLOAD.INDEX_HISTORY_READ,
-    ],
-  },
+  // {
+  //   title: 'Schemes',
+  //   path: '/admin/schemes',
+  //   icon: 'briefcase',
+  //   permissions: [PERMISSIONS.SCHEMES.READ],
+  // },
+  // {
+  //   title: 'Data Upload',
+  //   path: '/admin/uploads',
+  //   icon: 'upload',
+  //   permissions: [
+  //     PERMISSIONS.DATA_UPLOAD.DAILY_VALUATION_READ,
+  //     PERMISSIONS.DATA_UPLOAD.HOLDING_READ,
+  //     PERMISSIONS.DATA_UPLOAD.MARKET_LIST_READ,
+  //     PERMISSIONS.DATA_UPLOAD.TRANSACTION_READ,
+  //     PERMISSIONS.DATA_UPLOAD.INDEX_HISTORY_READ,
+  //   ],
+  // },
   // {
   //   title: 'Transactions',
   //   path: '/admin/transactions',

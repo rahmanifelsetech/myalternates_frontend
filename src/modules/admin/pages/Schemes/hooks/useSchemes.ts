@@ -1,6 +1,6 @@
 import { useCreateSchemeMutation, useUpdateSchemeMutation, useDeleteSchemeMutation } from '../api/schemeApi';
 import { useAsyncMutation } from '@shared/hooks/useAsyncMutation';
-import { CreateSchemePayload, UpdateSchemePayload, Scheme } from '../types/scheme';
+import { CreateSchemePayload, UpdateSchemePayload } from '../types/scheme';
 import { useCallback } from 'react';
 
 export const useSchemes = () => {

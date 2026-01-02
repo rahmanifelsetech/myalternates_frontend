@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useGetRolesQuery, useAssignPermissionsMutation } from './api/roleApi';
+import { useGetRolesQuery } from './api/roleApi';
 import { RolesTable } from './components/RolesTable';
 import { RolesFilter } from './components/RolesFilter';
 import { RoleModal } from './components/RoleModal';
@@ -24,7 +24,6 @@ const Roles: React.FC = () => {
 
   const { data, isLoading } = useGetRolesQuery({ search, page, limit: 10 });
   const { handlePermissionAssignment, handleCreate: createRole, handleUpdate: updateRole, handleDelete: deleteRole, isCreating, isUpdating, isAssigningPermissions } = useRoles();
-  // const [assignPermissions, { isLoading: isAssigningPermissions }] = useAssignPermissionsMutation();
 
   const handleCreate = () => {
     setSelectedRole(null);

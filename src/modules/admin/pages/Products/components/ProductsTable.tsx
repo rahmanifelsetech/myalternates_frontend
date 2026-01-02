@@ -8,7 +8,7 @@ import {
 } from '@shared/components/ui/table';
 import { Product } from '../types/product';
 import { IconButton } from '@shared/components/ui/button/IconButton';
-import { PencilIcon, TrashBinIcon } from '@shared/icons';
+import { PencilIcon } from '@shared/icons';
 import Loading from '@shared/components/common/Loading';
 import { CanAccess } from '@/shared/components/common/CanAccess';
 import { PERMISSIONS } from '@/shared/constants/permissions';
@@ -20,7 +20,7 @@ interface ProductsTableProps {
   onDelete: (id: string) => void;
 }
 
-export const ProductsTable: React.FC<ProductsTableProps> = ({ products, isLoading, onEdit, onDelete }) => {
+export const ProductsTable: React.FC<ProductsTableProps> = ({ products, isLoading, onEdit }) => {
   return (
     <div className="relative overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
       <Loading type="cover" loading={isLoading} />

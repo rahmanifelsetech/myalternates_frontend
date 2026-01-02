@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useGetProductsQuery } from './api/productApi';
 import { ProductsTable } from './components/ProductsTable';
-import { ProductsFilter } from './components/ProductsFilter';
+// import { ProductsFilter } from './components/ProductsFilter';
 import { ProductModal } from './components/ProductModal';
 import Button from '@shared/components/ui/button/Button';
 import { PlusIcon } from '@shared/icons';
@@ -14,12 +14,12 @@ import { PERMISSIONS } from '@/shared/constants/permissions';
 import { Pagination } from '@shared/components/common/Pagination';
 
 const Products: React.FC = () => {
-  const [search, setSearch] = useState('');
+  // const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
-  const { data, isLoading } = useGetProductsQuery({ search, page, limit: 10 });
+  const { data, isLoading } = useGetProductsQuery({ page, limit: 10 });
   const { handleCreate: createProduct, handleUpdate: updateProduct, handleDelete: deleteProduct, isCreating, isUpdating } = useProducts();
 
   const handleCreate = () => {
