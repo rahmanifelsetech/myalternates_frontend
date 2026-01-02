@@ -55,7 +55,7 @@ import { ReactComponent as MoreDotIcon } from "./moredot.svg?react";
 import { ReactComponent as AlertHexaIcon } from "./alert-hexa.svg?react";
 import { ReactComponent as ErrorHexaIcon } from "./info-hexa.svg?react";
 import { ReactComponent as BriefcaseIcon } from "./briefcase.svg?react";
-import { ReactComponent as Bar2Icon } from "./Bar-2.svg?react";
+import { ReactComponent as Bar2Icon } from "./bar-2.svg?react";
 import { ReactComponent as SettingsIcon } from "./settings.svg?react";
 import { ReactComponent as LogOutIcon } from "./logout.svg?react";
 
