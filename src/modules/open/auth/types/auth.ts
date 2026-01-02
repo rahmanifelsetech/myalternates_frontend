@@ -61,6 +61,7 @@ export interface SignUpStep2Payload {
 export interface SignInWithPasswordData {
   identifier: string;
   password: string;
+  rememberMe?: boolean;
 }
 
 export interface ChangePasswordPayload {
@@ -70,11 +71,13 @@ export interface ChangePasswordPayload {
 
 export interface IdentifierPayload {
   identifier: string;
+  rememberMe?: boolean;
 }
 
 export interface OtpPayload {
   otp: string;
   identifier: string;
+  rememberMe?: boolean;
 }
 
 export interface SetNewPasswordFormData {

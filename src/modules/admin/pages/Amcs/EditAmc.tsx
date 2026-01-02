@@ -15,6 +15,7 @@ const EditAmc: React.FC = () => {
 
     const handleSubmit = async (data: AmcSchemaType) => {
         if (!id) return;
+        console.log('Submitting data:', data);
         const result = await handleUpdate({ id, ...data });
         if (result) {
             navigate('/admin/amcs');

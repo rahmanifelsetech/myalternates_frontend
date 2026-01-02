@@ -25,8 +25,12 @@ export const SignInWithOtpForm: React.FC = () => {
   };
 
   const onOtpSubmit = async (data: OtpPayload) => {
-    const identifier = identifierForm.getValues('identifier');
-    const result = await signInWithOtp({ ...data, identifier });
+    const identifierValues = identifierForm.getValues();
+    const result = await signInWithOtp({
+      ...data,
+      identifier: identifierValues.identifier,
+      rememberMe: otpForm.getValues().rememberMe,
+    });
     if (result.success) {
       setTimeout(() => {
         if (result.data?.requiresPasswordChange) {
@@ -55,6 +59,15 @@ export const SignInWithOtpForm: React.FC = () => {
             required
             {...identifierForm.register('identifier')}
           />
+          <div className="flex items-center justify-between">
+            <DynamicFormField
+              type="checkbox"
+              label="Remember Me"
+              error={identifierForm.formState.errors.rememberMe}
+              control={identifierForm.control}
+              {...identifierForm.register('rememberMe')}
+            />
+          </div>
           <Button type="submit" className="w-full" loading={loading}>
             {loading ? "Sending OTP..." : "Send OTP"}
           </Button>

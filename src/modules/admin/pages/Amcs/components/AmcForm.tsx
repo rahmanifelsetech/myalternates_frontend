@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from '@shared/hooks/useForm';
 import { AmcSchema, AmcSchemaType } from '../schema/amcSchema';
 import { Amc } from '../types/amc';
@@ -41,6 +41,8 @@ const emptyValues: AmcSchemaType = {
 
 
 export const AmcForm: React.FC<AmcFormProps> = ({ amc, onSubmit, isLoading }) => {
+    const [filesToRemove, setFilesToRemove] = useState<string[]>([]);
+
     const {
         control,
         handleSubmit,
@@ -100,7 +102,7 @@ export const AmcForm: React.FC<AmcFormProps> = ({ amc, onSubmit, isLoading }) =>
 
     const handleFormSubmit = async (data: AmcSchemaType) => {
         try {
-            await onSubmit(data);
+            await onSubmit({ ...data, filesToRemove } as any);
         } catch (error: any) {
             setFormErrors(error, setError, [
                 'amcCode',
@@ -136,7 +138,15 @@ export const AmcForm: React.FC<AmcFormProps> = ({ amc, onSubmit, isLoading }) =>
                     <DynamicFormField type="text" control={control} label="AMC Code" error={errors.amcCode} {...register('amcCode')} />
                     <DynamicFormField control={control} label="AMC Name" error={errors.name} {...register('name')} />
                     <DynamicFormField control={control} label="Short Name" error={errors.shortName} {...register('shortName')} />
-                    <DynamicFormField control={control} name="logo" label="AMC Logo" type="file" error={errors.logoUrl} />
+                    <DynamicFormField
+                        control={control}
+                        name="logo"
+                        label="AMC Logo"
+                        type="file"
+                        error={errors.logoUrl}
+                        imageUrl={amc?.logoUrl}
+                        onRemove={() => setFilesToRemove((prev) => [...prev, 'logoUrl'])}
+                    />
                     <DynamicFormField control={control} label="About AMC" type="textarea" error={errors.about} {...register('about')} />
                     <DynamicFormField control={control} name="inceptionDate" label="Inception Date" type="date-picker" error={errors.inceptionDate} />
                     <DynamicFormField control={control} label="SEBI Registration No" error={errors.sebiRegistrationNo} {...register('sebiRegistrationNo')} />
@@ -150,7 +160,15 @@ export const AmcForm: React.FC<AmcFormProps> = ({ amc, onSubmit, isLoading }) =>
                     <DynamicFormField control={control} label="Facebook URL" error={errors.facebookUrl} {...register('facebookUrl')} />
                     <DynamicFormField control={control} label="LinkedIn URL" error={errors.linkedinUrl} {...register('linkedinUrl')} />
                     <DynamicFormField control={control} label="YouTube URL" error={errors.youtubeUrl} {...register('youtubeUrl')} />
-                    <DynamicFormField control={control} name="creative" label="AMC Creative" type="file" error={errors.creativeUrl} />
+                    <DynamicFormField
+                        control={control}
+                        name="creative"
+                        label="AMC Creative"
+                        type="file"
+                        error={errors.creativeUrl}
+                        imageUrl={amc?.creativeUrl}
+                        onRemove={() => setFilesToRemove((prev) => [...prev, 'creativeUrl'])}
+                    />
                     <DynamicFormField control={control} label="Google Map Link" error={errors.googleMapLink} {...register('googleMapLink')} />
                     <DynamicFormField control={control} label="Priority Order" type="number" error={errors.priorityOrder} {...register('priorityOrder')} />
                     <DynamicFormField control={control} name="restrictDisplay" label="Restrict Display" type="checkbox" error={errors.restrictDisplay} />

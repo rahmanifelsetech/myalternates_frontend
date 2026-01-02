@@ -34,7 +34,7 @@ const amcApi = amcApiWithTags.injectEndpoints({
     updateAmc: builder.mutation<AmcResponse, { id: string; data: FormData }>({
         query: ({ id, data }) => ({
             url: `/amcs/${id}`,
-            method: 'POST',
+            method: 'PUT',
             data,
         }),
         invalidatesTags: (_result, _error, { id }) => ["Amcs", { type: "Amc", id }],

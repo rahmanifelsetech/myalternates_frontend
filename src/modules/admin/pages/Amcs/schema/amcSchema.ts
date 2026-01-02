@@ -32,6 +32,7 @@ export const AmcSchema = z.object({
     restrictDisplay: z.boolean().default(false),
     isFeatured: z.boolean().default(false),
     priorityOrder: z.coerce.number().optional(),
+    filesToRemove: z.array(z.string()).optional(),
 });
 
 export type AmcSchemaType = z.infer<typeof AmcSchema>;

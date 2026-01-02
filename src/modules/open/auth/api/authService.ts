@@ -31,7 +31,7 @@ export const authService = {
     return ApiService.post<AuthResponse>('/auth/signin/password', credentials);
   },
 
-  signInWithOtp: async (credentials: IdentifierPayload): Promise<AuthResponse> => {
+  signInWithOtp: async (credentials: OtpPayload): Promise<AuthResponse> => {
     return ApiService.post<AuthResponse>('/auth/signin/otp', credentials);
   },
 

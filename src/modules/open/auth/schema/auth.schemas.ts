@@ -198,6 +198,7 @@ export const IdentifierSchema = z.object({
       message: 'Invalid PAN, Email or Phone',
     }
   ),
+  rememberMe: z.boolean().optional(),
 });
 
 export const OtpSchema = z.object({
@@ -217,4 +218,5 @@ export const SignInWithPasswordSchema = z.object({
     }
   ),
   password: z.string().min(6, 'Password must be at least 6 characters'),
+  rememberMe: z.boolean().optional(),
 });

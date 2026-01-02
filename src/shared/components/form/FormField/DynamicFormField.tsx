@@ -664,6 +664,8 @@ const DynamicFormField = forwardRef<HTMLSelectElement, DynamicFormFieldProps>(
                 disabled={disabled}
                 className={className}
                 name={name}
+                imageUrl={props.imageUrl}
+                onRemove={props.onRemove}
               />
             )}
           />

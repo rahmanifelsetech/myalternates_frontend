@@ -164,7 +164,7 @@ export const useAuth = () => {
     }
   };
 
-  const signInWithOtp = async (credentials: IdentifierPayload) => {
+  const signInWithOtp = async (credentials: OtpPayload) => {
     dispatch(setLoading(true));
     dispatch(clearError());
     try {
