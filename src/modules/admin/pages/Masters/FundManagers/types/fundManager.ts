@@ -1,42 +1,57 @@
 import { PaginatedResponse, PaginationParams, SingleResponse, EmptyResponse } from '@shared/types/api';
 
+export interface FundManagerScheme {
+  fromDate: string;
+  scheme: {
+    schemeCode: string;
+    schemeName: string;
+  };
+}
+
 export interface FundManager {
   id: string;
   name: string;
-  title?: string;
   code?: string;
   designation?: string;
+  aum?: string | number;
+  linkedinUrl?: string;
   amcId?: string;
-  profilePicture?: string;
+  amc?: {
+    name: string;
+    logoUrl?: string;
+    [key: string]: any;
+  };
+  profilePicture?: string; // This corresponds to "profilePicture" in payload but is URL in GET
   about?: string;
   experience?: string;
-  fundManagerCreative?: string;
+  fundManagerCreative?: string; // This corresponds to "fundManagerCreative" in payload but is URL in GET
   isFeatured: boolean;
   priorityOrder: number;
   isActive: boolean;
+  schemes?: FundManagerScheme[];
   createdAt?: string;
   updatedAt?: string;
 }
 
 export interface CreateFundManagerPayload {
   name: string;
-  title?: string;
-  code?: string;
+  code: string;
+  amcId: string;
   designation?: string;
-  amcId?: string;
-  profilePicture?: File | null; // For upload
+  aum?: number | string;
+  linkedinUrl?: string;
   about?: string;
+  profilePicture?: File | string | null;
+  fundManagerCreative?: File | string | null;
   experience?: string;
-  fundManagerCreative?: File | null; // For upload
   isFeatured?: boolean;
   priorityOrder?: number;
   isActive?: boolean;
 }
 
-export interface UpdateFundManagerPayload extends Partial<Omit<CreateFundManagerPayload, 'profilePicture' | 'fundManagerCreative'>> {
+export interface UpdateFundManagerPayload extends Partial<CreateFundManagerPayload> {
   id: string;
-  profilePicture?: File | string | null; // Can be URL string if not updating
-  fundManagerCreative?: File | string | null;
+  filesToRemove?: string[];
 }
 
 export interface FundManagerFilters extends PaginationParams {
@@ -46,8 +61,7 @@ export interface FundManagerFilters extends PaginationParams {
 }
 
 export type FundManagersResponse = PaginatedResponse<FundManager>;
-
 export type CreateFundManagerResponse = SingleResponse<FundManager>;
 export type UpdateFundManagerResponse = SingleResponse<FundManager>;
 export type DeleteFundManagerResponse = EmptyResponse;
-export type GetFundManagersResponse = PaginatedResponse<FundManager>;
+export type GetFundManagerResponse = SingleResponse<FundManager>;

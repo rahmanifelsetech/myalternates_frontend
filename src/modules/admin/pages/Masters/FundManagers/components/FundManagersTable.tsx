@@ -11,6 +11,7 @@ import {
 } from '@shared/components/ui/table';
 import { CanAccess } from '@/shared/components/common/CanAccess';
 import { PERMISSIONS } from '@/shared/constants/permissions';
+import appConfig from '@/shared/config/app.config';
 
 interface FundManagersTableProps {
   fundManagers: FundManager[];
@@ -49,7 +50,19 @@ export const FundManagersTable: React.FC<FundManagersTableProps> = ({
                 isHeader
                 className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
               >
-                Designation
+                Code
+              </TableCell>
+              <TableCell
+                isHeader
+                className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
+              >
+                AMC
+              </TableCell>
+              <TableCell
+                isHeader
+                className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
+              >
+                AUM (Cr.)
               </TableCell>
               <TableCell
                 isHeader
@@ -75,7 +88,7 @@ export const FundManagersTable: React.FC<FundManagersTableProps> = ({
                         <img
                           width={40}
                           height={40}
-                          src={fm.profilePicture}
+                          src={fm.profilePicture.startsWith('http') ? fm.profilePicture : `${appConfig.baseUrl}${fm.profilePicture}`}
                           alt={fm.name}
                           className="object-cover w-full h-full"
                         />
@@ -90,23 +103,27 @@ export const FundManagersTable: React.FC<FundManagersTableProps> = ({
                         {fm.name}
                       </span>
                       <span className="block text-xs text-gray-500">
-                        {fm.code}
+                        {fm.designation}
                       </span>
                     </div>
                   </div>
                 </TableCell>
                 <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
-                  {fm.designation || '-'}
+                  {fm.code || '-'}
                 </TableCell>
                 <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
-                  <span
-                    className={`inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium ${
-                      fm.isActive
-                        ? 'bg-success/10 text-success'
-                        : 'bg-error/10 text-error-500'
-                    }`}
-                  >
-                    {fm.isActive ? 'Active' : 'Inactive'}
+                  {fm.amc?.name || '-'}
+                </TableCell>
+                <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
+                  {fm.aum ? Number(fm.aum).toLocaleString() : '-'}
+                </TableCell>
+                <TableCell className="px-5 py-4 text-gray-500 text-theme-sm dark:text-gray-400">
+                  <span className={`inline-block px-2 py-1 rounded text-xs font-medium ${
+                    fm.isActive
+                      ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100' 
+                      : 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-100'
+                  }`}>
+                    {fm.isActive ? "Active" : 'inactive'}
                   </span>
                 </TableCell>
                 <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">

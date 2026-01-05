@@ -30,3 +30,4 @@ dist-ssr
 
 /react-tailwind-admin-dashboard
 /backend-models
+deploy.sh

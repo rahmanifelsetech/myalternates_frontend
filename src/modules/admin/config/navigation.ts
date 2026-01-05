@@ -73,16 +73,16 @@ export const adminNavigation: NavigationItem[] = [
     icon: 'grid',
     permissions: [PERMISSIONS.MASTERS.CATEGORY_READ],
   },
-  // {
-  //   title: 'Masters',
-  //   path: '/admin/masters/asset-classes',
-  //   icon: 'grid',
-  //   children: [
-  //     { title: 'Asset Classes', path: '/admin/masters/asset-classes', icon: 'grid', permissions: [PERMISSIONS.MASTERS.ASSET_CLASS_READ] },
-  //     { title: 'Benchmarks', path: '/admin/masters/benchmarks', icon: 'grid', permissions: [PERMISSIONS.MASTERS.BENCHMARK_READ] },
-  //     { title: 'Fund Managers', path: '/admin/masters/fund-managers', icon: 'userCircle', permissions: [PERMISSIONS.MASTERS.FUND_MANAGER_READ] },
-  //   ]
-  // },
+  {
+    title: 'Masters',
+    path: '/admin/masters/fund-managers',
+    icon: 'grid',
+    children: [
+      { title: 'Fund Managers', path: '/admin/masters/fund-managers', icon: 'userCircle', permissions: [PERMISSIONS.MASTERS.FUND_MANAGER_READ] },
+      // { title: 'Asset Classes', path: '/admin/masters/asset-classes', icon: 'grid', permissions: [PERMISSIONS.MASTERS.ASSET_CLASS_READ] },
+      // { title: 'Benchmarks', path: '/admin/masters/benchmarks', icon: 'grid', permissions: [PERMISSIONS.MASTERS.BENCHMARK_READ] },
+    ]
+  },
   {
     title: 'AMCs',
     path: '/admin/amcs',

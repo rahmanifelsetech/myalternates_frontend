@@ -1,25 +1,40 @@
-import RtkQueryService from '@shared/services/rtkService';
-import { FundManagerFilters, CreateFundManagerResponse, UpdateFundManagerResponse, DeleteFundManagerResponse, GetFundManagersResponse } from '../types/fundManager';
+import RtkQueryService from "@shared/services/rtkService";
+import { 
+  FundManagersResponse, 
+  GetFundManagerResponse, 
+  CreateFundManagerResponse, 
+  UpdateFundManagerResponse, 
+  FundManagerFilters 
+} from "../types/fundManager";
 
-export const fundManagerApi = RtkQueryService.enhanceEndpoints({
-  addTagTypes: ['FundManagers'],
-}).injectEndpoints({
+const fundManagerApiWithTags = RtkQueryService.enhanceEndpoints({
+  addTagTypes: ["FundManagers", "FundManager"],
+});
+
+const fundManagerApi = fundManagerApiWithTags.injectEndpoints({
   endpoints: (builder) => ({
-    getFundManagers: builder.query<GetFundManagersResponse, FundManagerFilters>({
+    getFundManagers: builder.query<FundManagersResponse, FundManagerFilters>({
       query: (params) => ({
         url: '/masters/fund-managers',
         method: 'GET',
         params,
       }),
-      providesTags: ['FundManagers'],
+      providesTags: ["FundManagers"],
+    }),
+    getFundManagerById: builder.query<GetFundManagerResponse, string>({
+      query: (id) => ({
+        url: `/masters/fund-managers/${id}`,
+        method: 'GET',
+      }),
+      providesTags: (_result, _error, id) => [{ type: "FundManager", id }],
     }),
     createFundManager: builder.mutation<CreateFundManagerResponse, FormData>({
-      query: (data) => ({
+      query: (body) => ({
         url: '/masters/fund-managers',
         method: 'POST',
-        data,
+        data: body,
       }),
-      invalidatesTags: ['FundManagers'],
+      invalidatesTags: ["FundManagers"],
     }),
     updateFundManager: builder.mutation<UpdateFundManagerResponse, { id: string; data: FormData }>({
       query: ({ id, data }) => ({
@@ -27,20 +42,21 @@ export const fundManagerApi = RtkQueryService.enhanceEndpoints({
         method: 'PUT',
         data,
       }),
-      invalidatesTags: ['FundManagers'],
+      invalidatesTags: (_result, _error, { id }) => ["FundManagers", { type: "FundManager", id }],
     }),
-    deleteFundManager: builder.mutation<DeleteFundManagerResponse, string>({
+    deleteFundManager: builder.mutation<void, string>({
       query: (id) => ({
         url: `/masters/fund-managers/${id}`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['FundManagers'],
+      invalidatesTags: ["FundManagers"],
     }),
   }),
 });
 
 export const {
   useGetFundManagersQuery,
+  useGetFundManagerByIdQuery,
   useCreateFundManagerMutation,
   useUpdateFundManagerMutation,
   useDeleteFundManagerMutation,

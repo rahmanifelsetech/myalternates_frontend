@@ -31,11 +31,11 @@ const FundManagers: React.FC = () => {
     setIsModalOpen(true);
   };
 
-  const handleSubmit = async (formData: FormData) => {
+  const handleSubmit = async (data: any) => {
     if (selectedFundManager) {
-      await updateFundManager(selectedFundManager.id, formData);
+      await updateFundManager(selectedFundManager.id, data);
     } else {
-      await createFundManager(formData);
+      await createFundManager(data);
     }
     setIsModalOpen(false);
   };

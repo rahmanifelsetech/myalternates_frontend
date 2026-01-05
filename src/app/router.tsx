@@ -13,7 +13,7 @@ const InvestorLayout = lazy(() => import('@modules/investor/layout/InvestorLayou
 const DistributorLayout = lazy(() => import('@modules/distributor/layout/DistributorLayout'));
 
 // Shared Pages
-const NotFound = lazy(() => import('@/shared/pages/NotFound'));
+const ErrorPage = lazy(() => import('@/shared/pages/ErrorPage'));
 
 const routes: RouteObject[] = [
   {
@@ -74,11 +74,11 @@ const routes: RouteObject[] = [
 
   {
     path: '/unauthorized',
-    element: <NotFound />,
+    element: <ErrorPage type="403" />,
   },
   {
     path: '*',
-    element: <NotFound />,
+    element: <ErrorPage type="404" />,
   },
 ];
 

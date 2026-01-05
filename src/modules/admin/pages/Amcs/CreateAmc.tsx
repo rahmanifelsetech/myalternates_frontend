@@ -18,7 +18,7 @@ const CreateAmc: React.FC = () => {
 
     return (
         <ComponentCard>
-            <h2 className="text-xl font-bold mb-4">Create AMC</h2>
+            <h2 className="text-theme-xl text-gray-900 dark:text-white">Create AMC</h2>
             <AmcForm onSubmit={handleSubmit} isLoading={isCreating} />
         </ComponentCard>
     );
