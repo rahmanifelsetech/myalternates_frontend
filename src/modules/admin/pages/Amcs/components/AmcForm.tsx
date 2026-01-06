@@ -7,6 +7,9 @@ import Button from '@shared/components/ui/button/Button';
 import Form from '@shared/components/form/Form';
 import ComponentCard from '@shared/components/common/ComponentCard';
 import { setFormErrors } from '@/shared/utils/formUtils';
+import { useGetProductListQuery } from '../../Schemes/api/schemeApi';
+import { ApiError } from '@/shared/types/api';
+import { formatDate } from '@/shared/utils/dateUtils';
 
 interface AmcFormProps {
     amc?: Amc | null;
@@ -15,6 +18,7 @@ interface AmcFormProps {
 }
 
 const emptyValues: AmcSchemaType = {
+    productId: '',
     amcCode: '',
     name: '',
     shortName: '',
@@ -49,9 +53,12 @@ export const AmcForm: React.FC<AmcFormProps> = ({ amc, onSubmit, isLoading }) =>
         reset,
         setError,
         register,
+        setValue,
+        watch,
         formState: { errors }
     } = useForm(AmcSchema,{ defaultValues: amc ? {
         ...amc,
+        productId: amc.productId ?? '',
         amcCode: amc.amcCode ?? '',
         name: amc.name ?? '',
         shortName: amc.shortName ?? '',
@@ -77,12 +84,13 @@ export const AmcForm: React.FC<AmcFormProps> = ({ amc, onSubmit, isLoading }) =>
         if (amc) {
             reset({
                 ...amc,
+                productId: amc.productId ?? '',
                 amcCode: amc.amcCode ?? '',
                 name: amc.name ?? '',
                 shortName: amc.shortName ?? '',
                 logo: amc.logoUrl ?? undefined,
                 about: amc.about ?? '',
-                inceptionDate: amc.inceptionDate ?? '',
+                inceptionDate: amc.inceptionDate ? formatDate(amc.inceptionDate) : null,
                 sebiRegistrationNo: amc.sebiRegistrationNo ?? '',
                 commonInvestmentPhilosophy: amc.commonInvestmentPhilosophy ?? '',
                 noOfStrategies: amc.noOfStrategies ?? 0,
@@ -104,37 +112,26 @@ export const AmcForm: React.FC<AmcFormProps> = ({ amc, onSubmit, isLoading }) =>
         try {
             await onSubmit({ ...data, filesToRemove } as any);
         } catch (error: any) {
-            setFormErrors(error, setError, [
-                'amcCode',
-                'name',
-                'shortName',
-                'logo',
-                'about',
-                'inceptionDate',
-                'sebiRegistrationNo',
-                'commonInvestmentPhilosophy',
-                'noOfStrategies',
-                'investmentTeam',
-                'investorLoginUrl',
-                'address',
-                'websiteUrl',
-                'twitterUrl',
-                'facebookUrl',
-                'linkedinUrl',
-                'youtubeUrl',
-                'creative',
-                'googleMapLink',
-                'restrictDisplay',
-                'isFeatured',
-                'priorityOrder',
-            ]);
+            console.error('Submission error:', error);
+            setFormErrors(error, setError);
         }
     };
+
+    const { data: productList } = useGetProductListQuery();
+    const productOptions = productList?.data?.map((product: any) => ({ label: product.name, value: product.id })) || [];
 
     return (
         <ComponentCard>
             <Form onSubmit={handleSubmit(handleFormSubmit)}>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <DynamicFormField
+                        control={control}
+                        label="Product"
+                        type="select"
+                        options={productOptions}
+                        error={errors.productId}
+                        {...register('productId')}
+                    />
                     <DynamicFormField type="text" control={control} label="AMC Code" error={errors.amcCode} {...register('amcCode')} />
                     <DynamicFormField control={control} label="AMC Name" error={errors.name} {...register('name')} />
                     <DynamicFormField control={control} label="Short Name" error={errors.shortName} {...register('shortName')} />
@@ -148,7 +145,15 @@ export const AmcForm: React.FC<AmcFormProps> = ({ amc, onSubmit, isLoading }) =>
                         onRemove={() => setFilesToRemove((prev) => [...prev, 'logoUrl'])}
                     />
                     <DynamicFormField control={control} label="About AMC" type="textarea" error={errors.about} {...register('about')} />
-                    <DynamicFormField control={control} name="inceptionDate" label="Inception Date" type="date-picker" error={errors.inceptionDate} />
+                    <DynamicFormField
+                        control={control}
+                        name="inceptionDate"
+                        label="Inception Date"
+                        type="date-picker"
+                        error={errors.inceptionDate}
+                        setValue={setValue}
+                        value={watch('inceptionDate')}
+                    />
                     <DynamicFormField control={control} label="SEBI Registration No" error={errors.sebiRegistrationNo} {...register('sebiRegistrationNo')} />
                     <DynamicFormField control={control} label="No. of Strategies" type="number" error={errors.noOfStrategies} {...register('noOfStrategies')} />
                     <DynamicFormField control={control} label="Common Investment Philosophy" type="textarea" error={errors.commonInvestmentPhilosophy} {...register('commonInvestmentPhilosophy')} />

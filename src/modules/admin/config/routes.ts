@@ -12,6 +12,7 @@ const BenchmarkIndices = lazy(() => import('@modules/admin/pages/Masters/Benchma
 const FundManagers = lazy(() => import('@modules/admin/pages/Masters/FundManagers/FundManagers'));
 const SchemeList = lazy(() => import('@modules/admin/pages/Schemes/SchemeList'));
 const CreateScheme = lazy(() => import('@modules/admin/pages/Schemes/CreateScheme'));
+const EditScheme = lazy(() => import('@modules/admin/pages/Schemes/EditScheme'));
 const Uploads = lazy(() => import('@modules/admin/pages/Uploads/Uploads'));
 const Amcs = lazy(() => import('@modules/admin/pages/Amcs/Amcs'));
 const CreateAmc = lazy(() => import('@modules/admin/pages/Amcs/CreateAmc'));
@@ -106,6 +107,12 @@ export const adminRoutes: AppRouteConfig[] = [
     key: 'create-scheme',
     path: 'schemes/create',
     component: CreateScheme,
+    authority: ['ADMIN'],
+  },
+  {
+    key: 'edit-scheme',
+    path: 'schemes/edit/:id',
+    component: EditScheme,
     authority: ['ADMIN'],
   },
   {

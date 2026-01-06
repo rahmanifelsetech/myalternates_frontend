@@ -2,6 +2,7 @@ import { PaginatedResponse, SingleResponse } from "@shared/types/api";
 
 export interface Amc {
     id: string;
+    productId?: string;
     amcCode: string | null;
     name: string | null;
     shortName: string | null;

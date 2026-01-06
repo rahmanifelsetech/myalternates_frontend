@@ -14,7 +14,7 @@ export interface User {
   role?: Role;
   userCode: string;
   username: string;
-  // status?: 'active' | 'inactive' | 'suspended';
+  // status?: 'active' | 'Inactive' | 'suspended';
   isActive: boolean;
   lastLogin?: string;
   createdAt?: string;

@@ -13,6 +13,7 @@ export const useSchemes = () => {
     const { execute: remove } = useAsyncMutation();
 
     const handleCreate = useCallback(async (data: CreateSchemePayload) => {
+        console.log('Execute Creating scheme with data:', data);
         return create(createScheme, data, {
             successMessage: 'Scheme created successfully!',
             errorMessage: 'Failed to create Scheme.',

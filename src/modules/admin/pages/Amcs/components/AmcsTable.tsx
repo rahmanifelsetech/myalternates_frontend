@@ -13,6 +13,7 @@ import { PERMISSIONS } from '@shared/constants/permissions';
 import { IconButton } from '@shared/components/ui/button/IconButton';
 import { PencilIcon, TrashBinIcon } from '@shared/icons';
 import appConfig from '@/shared/config/app.config';
+import { formatDate } from '@/shared/utils/dateUtils';
 
 interface AmcsTableProps {
   amcs: Amc[];
@@ -39,13 +40,19 @@ export const AmcsTable: React.FC<AmcsTableProps> = ({ amcs, isLoading, onEdit, o
           <TableHeader className="border-b border-gray-100 dark:border-white/[0.05]">
             <TableRow>
               <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">
-                Code
+                AMC Code
               </TableCell>
               <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">
-                Name
+                AMC Name
               </TableCell>
               <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">
-                Short Name
+                Inception Date
+              </TableCell>
+              <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">
+                SEBI Reg. No.
+              </TableCell>
+              <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">
+                Strategies
               </TableCell>
               <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">
                 Status
@@ -57,13 +64,13 @@ export const AmcsTable: React.FC<AmcsTableProps> = ({ amcs, isLoading, onEdit, o
           </TableHeader>
           <TableBody className="divide-y divide-gray-100 dark:divide-white/[0.05]">
             {amcs.map((amc) => (
-              <TableRow key={amc.id} onClick={() => navigate(`${amc.id}`)} className="cursor-pointer">
+              <TableRow key={amc.id}>
                 <TableCell className="px-5 py-4 sm:px-6 text-start text-theme-sm dark:text-gray-400">
                   {amc.amcCode}
                 </TableCell>
                 <TableCell className="px-5 py-4 sm:px-6 text-start text-theme-sm dark:text-gray-400">
                   <div className="flex items-center gap-3">
-                    {amc.logoUrl && (
+                    {/* {amc.logoUrl && (
                       <div className="h-10 w-10 flex-shrink-0 overflow-hidden rounded-md border border-gray-100 dark:border-white/[0.05]">
                         <img
                           src={amc.logoUrl.startsWith('http') ? amc.logoUrl : `${appConfig.baseUrl}${amc.logoUrl}`}
@@ -71,24 +78,28 @@ export const AmcsTable: React.FC<AmcsTableProps> = ({ amcs, isLoading, onEdit, o
                           className="h-full w-full object-contain"
                         />
                       </div>
-                    )}
+                    )} */}
                     <h5 className="font-medium text-gray-800 dark:text-white/90">
                       {amc.name}
                     </h5>
                   </div>
                 </TableCell>
                 <TableCell className="px-5 py-4 sm:px-6 text-start text-theme-sm dark:text-gray-400">
-                  {amc.shortName}
+                  {amc.inceptionDate ? formatDate(amc.inceptionDate) : 'N/A'}
                 </TableCell>
-                <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
-                  <span
-                    className={`inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium ${
-                      amc.isActive
-                        ? 'bg-success/10 text-success'
-                        : 'bg-error/10 text-error-500'
-                    }`}
-                  >
-                    {amc.isActive ? 'Active' : 'Inactive'}
+                <TableCell className="px-5 py-4 sm:px-6 text-start text-theme-sm dark:text-gray-400">
+                  {amc.sebiRegistrationNo}
+                </TableCell>
+                <TableCell className="px-5 py-4 sm:px-6 text-start text-theme-sm dark:text-gray-400">
+                  {amc.noOfStrategies}
+                </TableCell>
+                <TableCell className="px-5 py-4 text-gray-500 text-theme-sm dark:text-gray-400">
+                  <span className={`inline-block px-2 py-1 rounded text-xs font-medium ${
+                    amc.isActive
+                      ? 'bg-success-100 text-success-800 dark:bg-success-900 dark:text-success-100' 
+                      : 'bg-error-100 text-error-800 dark:bg-error-700 dark:text-error-100'
+                  }`}>
+                    {amc.isActive ? "Active" : 'Inactive'}
                   </span>
                 </TableCell>
                 <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">

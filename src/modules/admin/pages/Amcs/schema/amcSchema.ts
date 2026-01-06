@@ -5,6 +5,7 @@ const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/web
 
 
 export const AmcSchema = z.object({
+    productId: z.string().min(1, 'Product is required'),
     amcCode: z.string().min(1, 'AMC Code is required'),
     name: z.string().min(1, 'AMC Name is required'),
     shortName: z.string().optional(),

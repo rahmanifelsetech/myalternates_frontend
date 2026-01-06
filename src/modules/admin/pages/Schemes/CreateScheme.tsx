@@ -10,8 +10,7 @@ const CreateScheme: React.FC = () => {
   const navigate = useNavigate();
 
   const handleSubmit = async (data: SchemeSchemaType) => {
-    // Map schema type to payload if needed (e.g. date formatting)
-    // For now, schema matches payload largely
+    console.log('Submitting scheme data:', data);
     await handleCreate(data as any);
     navigate('../schemes');
   };

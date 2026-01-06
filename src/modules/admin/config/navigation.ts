@@ -70,17 +70,17 @@ export const adminNavigation: NavigationItem[] = [
   {
     title: 'Categories',
     path: '/admin/categories',
-    icon: 'grid',
+    icon: 'folder',
     permissions: [PERMISSIONS.MASTERS.CATEGORY_READ],
   },
   {
     title: 'Masters',
     path: '/admin/masters/fund-managers',
-    icon: 'grid',
+    icon: 'plugIn',
     children: [
       { title: 'Fund Managers', path: '/admin/masters/fund-managers', icon: 'userCircle', permissions: [PERMISSIONS.MASTERS.FUND_MANAGER_READ] },
-      // { title: 'Asset Classes', path: '/admin/masters/asset-classes', icon: 'grid', permissions: [PERMISSIONS.MASTERS.ASSET_CLASS_READ] },
-      // { title: 'Benchmarks', path: '/admin/masters/benchmarks', icon: 'grid', permissions: [PERMISSIONS.MASTERS.BENCHMARK_READ] },
+      { title: 'Asset Classes', path: '/admin/masters/asset-classes', icon: 'grid', permissions: [PERMISSIONS.MASTERS.ASSET_CLASS_READ] },
+      { title: 'Benchmarks', path: '/admin/masters/benchmarks', icon: 'grid', permissions: [PERMISSIONS.MASTERS.BENCHMARK_READ] },
     ]
   },
   {
@@ -89,12 +89,12 @@ export const adminNavigation: NavigationItem[] = [
     icon: 'briefcase',
     permissions: [PERMISSIONS.AMCS.READ],
   },
-  // {
-  //   title: 'Schemes',
-  //   path: '/admin/schemes',
-  //   icon: 'briefcase',
-  //   permissions: [PERMISSIONS.SCHEMES.READ],
-  // },
+  {
+    title: 'Schemes',
+    path: '/admin/schemes',
+    icon: 'docs',
+    permissions: [PERMISSIONS.SCHEMES.READ],
+  },
   // {
   //   title: 'Data Upload',
   //   path: '/admin/uploads',

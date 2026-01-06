@@ -86,6 +86,7 @@ export const SchemeSchema = z.object({
     isSuggested: z.boolean().optional().nullable(),
     isOpenForSubscription: z.boolean().optional().nullable(),
     priorityOrder: z.coerce.number().optional().nullable(),
+    isActive: z.boolean().default(true),
 
     investorType: z.string().optional().nullable(),
     fundType: z.string().optional().nullable(),

@@ -120,10 +120,10 @@ export const FundManagersTable: React.FC<FundManagersTableProps> = ({
                 <TableCell className="px-5 py-4 text-gray-500 text-theme-sm dark:text-gray-400">
                   <span className={`inline-block px-2 py-1 rounded text-xs font-medium ${
                     fm.isActive
-                      ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100' 
-                      : 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-100'
+                      ? 'bg-success-100 text-success-800 dark:bg-success-900 dark:text-success-100' 
+                      : 'bg-error-100 text-error-800 dark:bg-error-700 dark:text-error-100'
                   }`}>
-                    {fm.isActive ? "Active" : 'inactive'}
+                    {fm.isActive ? "Active" : 'Inactive'}
                   </span>
                 </TableCell>
                 <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">

@@ -2,7 +2,7 @@ import RtkQueryService from "@shared/services/rtkService";
 import { SchemeListResponse, SchemeResponse, CreateSchemePayload, UpdateSchemePayload, SchemeFilters } from "../types/scheme";
 
 const schemeApiWithTags = RtkQueryService.enhanceEndpoints({
-    addTagTypes: ["Schemes", "Scheme", "Amcs", "Categories", "AssetClasses", "BenchmarkIndices", "FundManagers"],
+    addTagTypes: ["Schemes", "Scheme", "Amcs", "Categories", "AssetClasses", "BenchmarkIndices", "FundManagers", "Products"],
 });
 
 const schemeApi = schemeApiWithTags.injectEndpoints({
@@ -26,7 +26,7 @@ const schemeApi = schemeApiWithTags.injectEndpoints({
             query: (body) => ({
                 url: '/schemes',
                 method: 'POST',
-                body,
+                data: body,
             }),
             invalidatesTags: ["Schemes"],
         }),
@@ -34,7 +34,7 @@ const schemeApi = schemeApiWithTags.injectEndpoints({
             query: ({ id, ...body }) => ({
                 url: `/schemes/${id}`,
                 method: 'PUT',
-                body,
+                data: body,
             }),
             invalidatesTags: (_result, _error, { id }) => ["Schemes", { type: "Scheme", id }],
         }),
@@ -46,24 +46,32 @@ const schemeApi = schemeApiWithTags.injectEndpoints({
             invalidatesTags: ["Schemes"],
         }),
         // Master Data Endpoints
-        getAmcList: builder.query<any, void>({
-            query: () => ({ url: '/amcs?limit=1000', method: 'GET' }),
+        getAmcList: builder.query<any, { productId?: string } | void>({
+            query: (params) => ({
+                url: '/amcs?limit=1000&active=true',
+                method: 'GET',
+                params: params || {},
+            }),
             providesTags: [{ type: "Amcs", id: "LIST" }],
         }),
         getCategoryList: builder.query<any, void>({
-            query: () => ({ url: '/masters/categories?limit=1000', method: 'GET' }),
+            query: () => ({ url: '/masters/categories?limit=1000&active=true', method: 'GET' }),
             providesTags: [{ type: "Categories", id: "LIST" }],
         }),
+        getProductList: builder.query<any, void>({
+            query: () => ({ url: '/products?limit=1000&active=true', method: 'GET' }),
+            providesTags: [{ type: "Products", id: "LIST" }],
+        }),
         getAssetClassList: builder.query<any, void>({
-            query: () => ({ url: '/masters/asset-classes?limit=1000', method: 'GET' }),
+            query: () => ({ url: '/masters/asset-classes?limit=1000&active=true', method: 'GET' }),
             providesTags: [{ type: "AssetClasses", id: "LIST" }],
         }),
         getBenchmarkIndexList: builder.query<any, void>({
-            query: () => ({ url: '/masters/benchmark-indices?limit=1000', method: 'GET' }),
+            query: () => ({ url: '/masters/benchmark-indices?limit=1000&active=true', method: 'GET' }),
             providesTags: [{ type: "BenchmarkIndices", id: "LIST" }],
         }),
         getFundManagerList: builder.query<any, void>({
-            query: () => ({ url: '/masters/fund-managers?limit=1000', method: 'GET' }),
+            query: () => ({ url: '/masters/fund-managers?limit=1000&active=true', method: 'GET' }),
             providesTags: [{ type: "FundManagers", id: "LIST" }],
         }),
     }),
@@ -76,6 +84,7 @@ export const {
     useUpdateSchemeMutation,
     useDeleteSchemeMutation,
     useGetAmcListQuery,
+    useGetProductListQuery,
     useGetCategoryListQuery,
     useGetAssetClassListQuery,
     useGetBenchmarkIndexListQuery,

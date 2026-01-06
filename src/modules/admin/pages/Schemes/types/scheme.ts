@@ -3,13 +3,18 @@ import { PaginatedResponse, SingleResponse } from "@shared/types/api";
 export interface Scheme {
     id: string;
     amcId: string;
-    productId: string | null;
+    productId: string;
+    amc: { id: string, name: string };
+    product: { id: string, name: string } | null;
     schemeCode: string;
     schemeName: string;
     color: string | null;
     categoryId: string | null;
     subCategoryId: string | null;
     assetClassId: string | null;
+    category: { id: string, name: string } | null;
+    subCategory: { id: string, name: string } | null;
+    assetClass: { id: string, name: string } | null;
     benchmarkIndexId: string | null;
     benchmarkShortIndexId: string | null;
     iaStructure: string | null;
@@ -159,6 +164,7 @@ export interface CreateSchemePayload {
     isSuggested?: boolean;
     isOpenForSubscription?: boolean;
     priorityOrder?: number;
+    isActive?: boolean;
     investorType?: string;
     fundType?: string;
     schemeType?: string;

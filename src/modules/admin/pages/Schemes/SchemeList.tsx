@@ -21,10 +21,7 @@ const SchemeList: React.FC = () => {
   const { handleDelete: deleteScheme } = useSchemes();
 
   const handleEdit = (scheme: Scheme) => {
-    // Navigate to edit page, which I haven't created yet.
-    // For now, I'll log it.
-    console.log('Edit scheme:', scheme);
-    // navigate(`edit/${scheme.id}`);
+    navigate(`edit/${scheme.id}`);
   };
 
   const handleDelete = async (id: string) => {

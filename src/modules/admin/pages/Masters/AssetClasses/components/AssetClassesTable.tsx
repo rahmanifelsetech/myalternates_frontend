@@ -67,15 +67,13 @@ export const AssetClassesTable: React.FC<AssetClassesTableProps> = ({
                     {assetClass.name}
                   </h5>
                 </TableCell>
-                <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
-                  <span
-                    className={`inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium ${
-                      assetClass.isActive
-                        ? 'bg-success/10 text-success'
-                        : 'bg-error/10 text-error-500'
-                    }`}
-                  >
-                    {assetClass.isActive ? 'Active' : 'Inactive'}
+                <TableCell className="px-5 py-4 text-gray-500 text-theme-sm dark:text-gray-400">
+                  <span className={`inline-block px-2 py-1 rounded text-xs font-medium ${
+                    assetClass.isActive
+                      ? 'bg-success-100 text-success-800 dark:bg-success-900 dark:text-success-100' 
+                      : 'bg-error-100 text-error-800 dark:bg-error-700 dark:text-error-100'
+                  }`}>
+                    {assetClass.isActive ? "Active" : 'Inactive'}
                   </span>
                 </TableCell>
                 <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">

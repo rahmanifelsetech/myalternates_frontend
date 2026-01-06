@@ -39,7 +39,7 @@ const axiosBaseQuery =
   > =>
   async ({ url, method, data, params}) => {
     try {
-        console.log('is data instance of formdata: ', data instanceof FormData); // MUST be true
+        // console.log('is data instance of formdata: ', data instanceof FormData); // MUST be true
 
         const headers: AxiosRequestConfig['headers'] = {};
         if (data instanceof FormData) {
@@ -56,7 +56,7 @@ const axiosBaseQuery =
             headers,
         });
 
-        console.log('baseQuery response', response);
+        // console.log('baseQuery response', response);
 
         return { data: response.data };
     } catch (axiosError) {

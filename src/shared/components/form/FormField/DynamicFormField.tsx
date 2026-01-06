@@ -212,6 +212,13 @@ const DynamicFormField = forwardRef<HTMLSelectElement, DynamicFormFieldProps>(
   ) => {
   const [showPassword, setShowPassword] = useState(false);
 
+  // Function to generate a default placeholder
+  const getPlaceholder = () => {
+    if (placeholder) return placeholder;
+    if (label) return `Enter ${label}`;
+    return "";
+  };
+
   // Determine if component is controlled (value prop provided and not undefined)
   const isControlled = value !== undefined && value !== null;
 
@@ -230,7 +237,7 @@ const DynamicFormField = forwardRef<HTMLSelectElement, DynamicFormFieldProps>(
             <Input
               ref={ref as any}
               type={showPassword ? "text" : "password"}
-              placeholder={placeholder}
+              placeholder={getPlaceholder()}
               {...(isControlled ? { value: stringValue } : {})}
               onChange={onChange}
               onBlur={onBlur}
@@ -258,7 +265,7 @@ const DynamicFormField = forwardRef<HTMLSelectElement, DynamicFormFieldProps>(
           <Input
             ref={ref as any}
             type="tel"
-            placeholder={placeholder || countryCode}
+            placeholder={getPlaceholder() || countryCode}
             {...(isControlled && { value: stringValue })}
             onChange={onChange}
             onBlur={onBlur}
@@ -325,8 +332,8 @@ const DynamicFormField = forwardRef<HTMLSelectElement, DynamicFormFieldProps>(
 								<PhoneInput
 									value={field.value || ""}
 									countryCode={props.getValues?.(countryCodeName)}
-                  codeClassName={props.codeClassName}
-									placeholder={placeholder || "8232432432"}
+									         codeClassName={props.codeClassName}
+									placeholder={getPlaceholder() || "8232432432"}
 									onChange={field.onChange}
 									onCountryChange={(dialCode) => {
 										console.log('dialCode selected:', dialCode);
@@ -357,7 +364,7 @@ const DynamicFormField = forwardRef<HTMLSelectElement, DynamicFormFieldProps>(
             <Input
               ref={ref as any}
               type="number"
-              placeholder={placeholder}
+              placeholder={getPlaceholder()}
               {...(isControlled && { value: numberValue })}
               onChange={onChange}
               onBlur={onBlur}
@@ -380,7 +387,7 @@ const DynamicFormField = forwardRef<HTMLSelectElement, DynamicFormFieldProps>(
             <Input
               ref={ref as any}
               type="text"
-              placeholder={placeholder || "Card number"}
+              placeholder={getPlaceholder() || "Card number"}
               {...(isControlled && { value: stringValue })}
               onChange={onChange}
               onBlur={onBlur}
@@ -406,11 +413,27 @@ const DynamicFormField = forwardRef<HTMLSelectElement, DynamicFormFieldProps>(
         );
 
       case "date-picker":
+        const sanitizedId = name ? name.replace(/[.\[\]]/g, '-') : "date-picker";
         return (
           <DatePicker
-            id={name || "date-picker"}
-            placeholder={placeholder}
-            onChange={onDateChange || onChange}
+            id={sanitizedId}
+            value={stringValue}
+            placeholder={getPlaceholder()}
+            onChange={(dates, currentDateString) => {
+              if (onDateChange) {
+                onDateChange(dates, currentDateString);
+              }
+              if (setValue && name) {
+                setValue(name, currentDateString);
+              } else if (onChange) {
+                onChange(currentDateString);
+              }
+            }}
+            onClear={() => {
+              if (setValue && name) {
+                setValue(name, null);
+              }
+            }}
           />
         );
 
@@ -452,7 +475,7 @@ const DynamicFormField = forwardRef<HTMLSelectElement, DynamicFormFieldProps>(
           <Input
             ref={ref as any}
             type="number"
-            placeholder={placeholder}
+            placeholder={getPlaceholder()}
             {...(isControlled && { value: numberValue })}
             onChange={onChange}
             onBlur={onBlur}
@@ -470,7 +493,7 @@ const DynamicFormField = forwardRef<HTMLSelectElement, DynamicFormFieldProps>(
           <Input
             ref={ref as any}
             type="email"
-            placeholder={placeholder}
+            placeholder={getPlaceholder()}
             {...(isControlled && { value: stringValue })}
             onChange={onChange}
             onBlur={onBlur}
@@ -493,7 +516,7 @@ const DynamicFormField = forwardRef<HTMLSelectElement, DynamicFormFieldProps>(
             render={({ field }) => (
               <TextArea
                 {...field}
-                placeholder={placeholder}
+                placeholder={getPlaceholder()}
                 onChange={field.onChange}
                 disabled={disabled}
                 rows={rows}
@@ -569,7 +592,7 @@ const DynamicFormField = forwardRef<HTMLSelectElement, DynamicFormFieldProps>(
 								onChange={(opt: any) => field.onChange(opt?.value ?? null)}
 								onBlur={field.onBlur}
 								isDisabled={disabled}
-								placeholder={placeholder}
+								placeholder={getPlaceholder()}
 							/>
 						)}
 					/>
@@ -694,7 +717,7 @@ const DynamicFormField = forwardRef<HTMLSelectElement, DynamicFormFieldProps>(
           <Input
             ref={ref as any}
             type="text"
-            placeholder={placeholder}
+            placeholder={getPlaceholder()}
             {...(isControlled && { value: stringValue })}
             onChange={onChange}
             onBlur={onBlur}
