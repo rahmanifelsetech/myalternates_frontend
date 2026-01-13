@@ -10,6 +10,7 @@ import { Role } from '../types/role';
 import { IconButton } from '@shared/components/ui/button/IconButton';
 import { PencilIcon, TrashBinIcon } from '@shared/icons';
 import Loading from '@shared/components/common/Loading';
+import { typographyClasses } from '@shared/utils/typographyUtils';
 import { CanAccess } from '@/shared/components/common/CanAccess';
 import { PERMISSIONS } from '@/shared/constants/permissions';
 
@@ -29,17 +30,17 @@ export const RolesTable: React.FC<RolesTableProps> = ({ roles, isLoading, onEdit
         <Table>
           <TableHeader className="border-b border-gray-100 dark:border-white/[0.05]">
             <TableRow>
-              <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">
+              <TableCell isHeader className={`px-5 py-3 text-start ${typographyClasses.colors.text.muted} ${typographyClasses.body.caption}`}>
                 Name
               </TableCell>
-              <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">
+              <TableCell isHeader className={`px-5 py-3 text-start ${typographyClasses.colors.text.muted} ${typographyClasses.body.caption}`}>
                 Description
               </TableCell>
-              <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">
+              <TableCell isHeader className={`px-5 py-3 text-start ${typographyClasses.colors.text.muted} ${typographyClasses.body.caption}`}>
                 Created At
               </TableCell>
               <CanAccess any={[PERMISSIONS.ROLES.UPDATE,PERMISSIONS.ROLES.DELETE]}>
-                <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-end text-theme-xs dark:text-gray-400">
+                <TableCell isHeader className={`px-5 py-3 text-end ${typographyClasses.colors.text.muted} ${typographyClasses.body.caption}`}>
                   Actions
                 </TableCell>
               </CanAccess>
@@ -49,7 +50,7 @@ export const RolesTable: React.FC<RolesTableProps> = ({ roles, isLoading, onEdit
             {
               !isLoading && roles.length === 0 && (
                 <TableRow>
-                  <TableCell colSpan={4} className="px-5 py-4 text-center text-gray-500 text-theme-sm dark:text-gray-400">
+                  <TableCell colSpan={4} className={`px-5 py-4 text-center ${typographyClasses.body.small} ${typographyClasses.colors.text.muted}`}>
                     No roles found
                   </TableCell>
                 </TableRow>
@@ -57,13 +58,13 @@ export const RolesTable: React.FC<RolesTableProps> = ({ roles, isLoading, onEdit
             }
             {roles.map((role) => (
               <TableRow key={role.id}>
-                <TableCell className="px-5 py-4 text-gray-800 text-theme-sm dark:text-white/90">
+                <TableCell className={`px-5 py-4 ${typographyClasses.body.small} ${typographyClasses.colors.text.primary}`}>
                   {role.name}
                 </TableCell>
-                <TableCell className="px-5 py-4 text-gray-500 text-theme-sm dark:text-gray-400">
+                <TableCell className={`px-5 py-4 ${typographyClasses.body.small} ${typographyClasses.colors.text.secondary}`}>
                   {role.description || '-'}
                 </TableCell>
-                <TableCell className="px-5 py-4 text-gray-500 text-theme-sm dark:text-gray-400">
+                <TableCell className={`px-5 py-4 ${typographyClasses.body.small} ${typographyClasses.colors.text.secondary}`}>
                   {role.createdAt ? new Date(role.createdAt).toLocaleDateString() : '-'}
                 </TableCell>
                 <TableCell className="px-5 py-4 text-end">

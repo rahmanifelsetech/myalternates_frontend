@@ -45,6 +45,13 @@ const schemeApi = schemeApiWithTags.injectEndpoints({
             }),
             invalidatesTags: ["Schemes"],
         }),
+        populateSchemes: builder.mutation<void, void>({
+            query: () => ({
+                url: '/populate/external/schemes',
+                method: 'POST',
+            }),
+            invalidatesTags: ["Schemes"],
+        }),
         // Master Data Endpoints
         getAmcList: builder.query<any, { productId?: string } | void>({
             query: (params) => ({
@@ -83,6 +90,7 @@ export const {
     useCreateSchemeMutation,
     useUpdateSchemeMutation,
     useDeleteSchemeMutation,
+    usePopulateSchemesMutation,
     useGetAmcListQuery,
     useGetProductListQuery,
     useGetCategoryListQuery,

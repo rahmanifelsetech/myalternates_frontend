@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { DynamicFormField } from "@shared/components/form/FormField";
+import { typographyClasses } from '@shared/utils/typographyUtils';
 import { useAuth } from "@/modules/open/auth/hooks/useAuth";
 import { useForm } from "@shared/hooks/useForm";
 import { SignUpStep1Schema, SignUpStep2Schema, SignUpStep1Data, SignUpStep2Data } from "@/modules/open/auth/schema/auth.schemas";

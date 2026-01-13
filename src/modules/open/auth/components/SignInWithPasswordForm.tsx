@@ -1,7 +1,6 @@
 import React from 'react';
 import { useForm } from '@shared/hooks/useForm';
-import { DynamicFormField } from '@shared/components/form/FormField';
-import Button from '@shared/components/ui/button/Button';
+import { DynamicFormField } from '@shared/components/form/FormField';import { typographyClasses } from '@shared/utils/typographyUtils';import Button from '@shared/components/ui/button/Button';
 import { Link, useNavigate } from 'react-router';
 import { useAuth } from '../hooks/useAuth';
 import { SignInWithPasswordSchema } from '../schema/auth.schemas';

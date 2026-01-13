@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Modal } from '@shared/components/ui/modal';
+import { Modal } from '@/shared/components/ui/modal/Modal';
 import Button from '@shared/components/ui/button/Button';
 import { PermissionsSelector } from './PermissionsSelector';
 import { usePermissionsList } from '../../Permissions/hooks/usePermissionsList';
 import { Role } from '../types/role';
+import { typographyClasses } from '@shared/utils/typographyUtils';
 
 interface PermissionAssignmentModalProps {
   isOpen: boolean;
@@ -53,10 +54,10 @@ export const PermissionAssignmentModal: React.FC<PermissionAssignmentModalProps>
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} className="max-w-2xl p-6 max-h-[90vh] overflow-y-auto">
-      <h3 className="text-xl font-semibold mb-1 text-gray-800 dark:text-white">
+      <h3 className={`${typographyClasses.heading.h4} mb-1 ${typographyClasses.colors.text.primary}`}>
         Assign Permissions
       </h3>
-      <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+      <p className={`${typographyClasses.body.small} ${typographyClasses.colors.text.muted} mb-4`}>
         {role?.name}
       </p>
 

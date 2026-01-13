@@ -4,6 +4,7 @@ import { useAmcs } from './hooks/useAmcs';
 import { AmcSchemaType } from './schema/amcSchema';
 import { AmcForm } from './components/AmcForm';
 import ComponentCard from '@shared/components/common/ComponentCard';
+import { typographyClasses } from '@shared/utils/typographyUtils';
 
 const CreateAmc: React.FC = () => {
     const navigate = useNavigate();
@@ -18,7 +19,7 @@ const CreateAmc: React.FC = () => {
 
     return (
         <ComponentCard>
-            <h2 className="text-theme-xl text-gray-900 dark:text-white">Create AMC</h2>
+            <h2 className={`${typographyClasses.heading.h2} ${typographyClasses.colors.text.primary}`}>Create AMC</h2>
             <AmcForm onSubmit={handleSubmit} isLoading={isCreating} />
         </ComponentCard>
     );

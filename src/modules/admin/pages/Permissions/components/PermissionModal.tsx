@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { Modal } from '@shared/components/ui/modal';
+import { Modal } from '@/shared/components/ui/modal/Modal';
 import Input from '@shared/components/form/input/InputField';
 import Button from '@shared/components/ui/button/Button';
 import { CreatePermissionPayload, Permission } from '../types/permission';
 import { setFormErrors } from '@/shared/utils/formUtils';
 import { ApiError } from '@/shared/types/api';
+import { typographyClasses } from '@shared/utils/typographyUtils';
 
 interface PermissionModalProps {
   isOpen: boolean;
@@ -59,12 +60,12 @@ export const PermissionModal: React.FC<PermissionModalProps> = ({
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} className="max-w-lg p-6">
-      <h3 className="text-xl font-semibold mb-4 text-gray-800 dark:text-white">
+      <h3 className={`${typographyClasses.heading.h4} mb-4 ${typographyClasses.colors.text.primary}`}>
         {permission ? 'Edit Permission' : 'Create Permission'}
       </h3>
       <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+          <label className={`${typographyClasses.form.label} block mb-1`}>
             Name
           </label>
           <Input
@@ -72,11 +73,11 @@ export const PermissionModal: React.FC<PermissionModalProps> = ({
             error={!!errors.name}
             placeholder="Permission Name"
           />
-          {errors.name && <span className="text-error-500 text-xs">{errors.name.message}</span>}
+          {errors.name && <span className={`${typographyClasses.form.error}`}>{errors.name.message}</span>}
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+          <label className={`${typographyClasses.form.label} block mb-1`}>
             Slug
           </label>
           <Input
@@ -86,7 +87,7 @@ export const PermissionModal: React.FC<PermissionModalProps> = ({
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+          <label className={`${typographyClasses.form.label} block mb-1`}>
             Resource
           </label>
           <Input
@@ -96,7 +97,7 @@ export const PermissionModal: React.FC<PermissionModalProps> = ({
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+          <label className={`${typographyClasses.form.label} block mb-1`}>
             Action
           </label>
           <Input
@@ -106,7 +107,7 @@ export const PermissionModal: React.FC<PermissionModalProps> = ({
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+          <label className={`${typographyClasses.form.label} block mb-1`}>
             Description
           </label>
           <Input

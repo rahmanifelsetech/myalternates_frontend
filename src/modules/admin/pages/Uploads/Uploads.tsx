@@ -1,11 +1,12 @@
 import React from 'react';
 import ComponentCard from '@/shared/components/common/ComponentCard';
+import { typographyClasses } from '@shared/utils/typographyUtils';
 import { UploadCenter } from './components/UploadCenter';
 
 const Uploads: React.FC = () => {
   const header = (
     <div className="mb-5">
-      <h2 className="text-title-md2 font-semibold text-black dark:text-white">
+      <h2 className={`${typographyClasses.heading.h2} ${typographyClasses.colors.text.primary}`}>
         Data Upload Center
       </h2>
     </div>

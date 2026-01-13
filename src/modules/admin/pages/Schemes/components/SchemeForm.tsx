@@ -19,6 +19,7 @@ import {
 } from '../api/schemeApi';
 import { PlusIcon, TrashBinIcon } from '@shared/icons';
 import { formatDate } from '@shared/utils/dateUtils';
+import { typographyClasses } from '@shared/utils/typographyUtils';
 
 interface SchemeFormProps {
     scheme?: Scheme | null;
@@ -377,7 +378,7 @@ export const SchemeForm: React.FC<SchemeFormProps> = ({ scheme, onSubmit, onCanc
             hasError: tabFields["Basic Details"].some(field => errors[field]),
             content: (
                 <div className="space-y-6">
-                    <h3 className="text-lg font-semibold border-b pb-2 mb-4">Basic Details</h3>
+                    <h3 className={`${typographyClasses.heading.h4} ${typographyClasses.colors.text.primary} border-b pb-2 mb-4`}>Basic Details</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <DynamicFormField control={control} label="Product" type="select" options={productOptions} error={errors.productId} {...register('productId')} />
                         <DynamicFormField control={control} label="AMC" type="select" options={amcOptions} required error={errors.amcId} {...register('amcId')} />
@@ -398,7 +399,7 @@ export const SchemeForm: React.FC<SchemeFormProps> = ({ scheme, onSubmit, onCanc
             hasError: tabFields["Details"].some(field => errors[field]),
             content: (
                 <div className="space-y-6">
-                    <h3 className="text-lg font-semibold border-b pb-2 mb-4 mt-6">Investment Approach</h3>
+                    <h3 className={`${typographyClasses.heading.h4} ${typographyClasses.colors.text.primary} border-b pb-2 mb-4 mt-6`}>Investment Approach</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <DynamicFormField control={control} label="IA Structure" type="select" options={iaStructures} error={errors.iaStructure} {...register('iaStructure')} />
                         <DynamicFormField control={control} label="IA Code" error={errors.iaCode} {...register('iaCode')} />
@@ -406,7 +407,7 @@ export const SchemeForm: React.FC<SchemeFormProps> = ({ scheme, onSubmit, onCanc
                         <DynamicFormField control={control} label="Strategy Name" error={errors.strategyName} {...register('strategyName')} />
                     </div>
 
-                    <h3 className="text-lg font-semibold border-b pb-2 mb-4 mt-6">Scheme Details</h3>
+                    <h3 className={`${typographyClasses.heading.h4} ${typographyClasses.colors.text.primary} border-b pb-2 mb-4 mt-6`}>Scheme Details</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <DynamicFormField control={control} label="About Scheme" type="textarea" error={errors.about} {...register('about')} />
                         <DynamicFormField control={control} label="Investment Objective" type="textarea" error={errors.investmentObjective} {...register('investmentObjective')} />
@@ -423,12 +424,12 @@ export const SchemeForm: React.FC<SchemeFormProps> = ({ scheme, onSubmit, onCanc
             hasError: tabFields["Financials"].some(field => errors[field]),
             content: (
                 <div className="space-y-6">
-                    <h3 className="text-lg font-semibold border-b pb-2 mb-4 mt-6">Financials</h3>
+                    <h3 className={`${typographyClasses.heading.h4} ${typographyClasses.colors.text.primary} border-b pb-2 mb-4 mt-6`}>Financials</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <DynamicFormField control={control} label="AUM" type="number" error={errors.aum} {...register('aum')} />
                         <DynamicFormField control={control} label="Avg. Market Cap" type="number" error={errors.avgMarketCap} {...register('avgMarketCap')} />
                     </div>
-                    <h3 className="text-lg font-semibold border-b pb-2 mb-4 mt-6">Fees & Portfolio Composition</h3>
+                    <h3 className={`${typographyClasses.heading.h4} ${typographyClasses.colors.text.primary} border-b pb-2 mb-4 mt-6`}>Fees & Portfolio Composition</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <DynamicFormField control={control} label="Setup Fees" type="number" error={errors.setupFees} {...register('setupFees')} />
                         <DynamicFormField control={control} label="Large Cap" type="number" error={errors.largeCap} {...register('largeCap')} />
@@ -445,7 +446,7 @@ export const SchemeForm: React.FC<SchemeFormProps> = ({ scheme, onSubmit, onCanc
             hasError: tabFields["Fees & Loads"].some(field => errors[field]),
             content: (
                 <div className="space-y-6">
-                    <h3 className="text-lg font-semibold border-b pb-2 mb-4 mt-6">Fee Structure</h3>
+                    <h3 className={`${typographyClasses.heading.h4} ${typographyClasses.colors.text.primary} border-b pb-2 mb-4 mt-6`}>Fee Structure</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <DynamicFormField control={control} label="Fee Profit Share" type="number" error={errors.feeProfitShare} {...register('feeProfitShare')} />
                         <DynamicFormField control={control} label="Fee Structure" type="select" options={feeStructures} error={errors.feeStructure} {...register('feeStructure')} />
@@ -454,7 +455,7 @@ export const SchemeForm: React.FC<SchemeFormProps> = ({ scheme, onSubmit, onCanc
                         <DynamicFormField control={control} label="Fee Hurdle" type="number" error={errors.feeHurdle} {...register('feeHurdle')} />
                         <DynamicFormField control={control} label="Remarks for Fee Structure" type="textarea" error={errors.remarksForFeeStructure} {...register('remarksForFeeStructure')} />
                     </div>
-                    <h3 className="text-lg font-semibold border-b pb-2 mb-4 mt-6">Exit Loads</h3>
+                    <h3 className={`${typographyClasses.heading.h4} ${typographyClasses.colors.text.primary} border-b pb-2 mb-4 mt-6`}>Exit Loads</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <DynamicFormField control={control} label="Exit Load 1 Yr" type="number" error={errors.exitLoad1Yr} {...register('exitLoad1Yr')} />
                         <DynamicFormField control={control} label="Exit Load 2 Yr" type="number" error={errors.exitLoad2Yr} {...register('exitLoad2Yr')} />
@@ -470,7 +471,7 @@ export const SchemeForm: React.FC<SchemeFormProps> = ({ scheme, onSubmit, onCanc
             hasError: tabFields["Portfolio"].some(field => errors[field]),
             content: (
                 <div className="space-y-6">
-                    <h3 className="text-lg font-semibold border-b pb-2 mb-4 mt-6">Portfolio Construction</h3>
+                    <h3 className={`${typographyClasses.heading.h4} ${typographyClasses.colors.text.primary} border-b pb-2 mb-4 mt-6`}>Portfolio Construction</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <DynamicFormField control={control} label="Ideal Stocks In Portfolio" type="number" error={errors.idealStocksInPortfolio} {...register('idealStocksInPortfolio')} />
                         <DynamicFormField control={control} label="Min Investment" type="number" error={errors.minInvestment} {...register('minInvestment')} />
@@ -485,18 +486,18 @@ export const SchemeForm: React.FC<SchemeFormProps> = ({ scheme, onSubmit, onCanc
             hasError: tabFields["Configuration"].some(field => errors[field]),
             content: (
                 <div className="space-y-6">
-                    <h3 className="text-lg font-semibold border-b pb-2 mb-4 mt-6">Reporting Structure</h3>
+                    <h3 className={`${typographyClasses.heading.h4} ${typographyClasses.colors.text.primary} border-b pb-2 mb-4 mt-6`}>Reporting Structure</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <DynamicFormField control={control} label="Reporting Structure" type="select" options={reportingStructures} error={errors.reportingStructure} {...register('reportingStructure')} />
                         <DynamicFormField control={control} label="Comparison Reporting Structure" type="select" options={reportingStructures} error={errors.comparisonReportingStructure} {...register('comparisonReportingStructure')} />
                     </div>
-                    <h3 className="text-lg font-semibold border-b pb-2 mb-4 mt-6">Options</h3>
+                    <h3 className={`${typographyClasses.heading.h4} ${typographyClasses.colors.text.primary} border-b pb-2 mb-4 mt-6`}>Options</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <DynamicFormField control={control} label="SIP Option" type="checkbox" error={errors.sipOption} {...register('sipOption')} />
                         <DynamicFormField control={control} label="STP Option" type="checkbox" error={errors.stpOption} {...register('stpOption')} />
                         <DynamicFormField control={control} label="Topup Option" type="checkbox" error={errors.topupOption} {...register('topupOption')} />
                     </div>
-                    <h3 className="text-lg font-semibold border-b pb-2 mb-4 mt-6">Flags</h3>
+                    <h3 className={`${typographyClasses.heading.h4} ${typographyClasses.colors.text.primary} border-b pb-2 mb-4 mt-6`}>Flags</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <DynamicFormField control={control} label="Is Distributable?" type="checkbox" error={errors.isDistributable} {...register('isDistributable')} />
                         <DynamicFormField control={control} label="Show In Dashboard?" type="checkbox" error={errors.showInDashboard} {...register('showInDashboard')} />
@@ -506,7 +507,7 @@ export const SchemeForm: React.FC<SchemeFormProps> = ({ scheme, onSubmit, onCanc
                         <DynamicFormField control={control} label="Is Active?" type="checkbox" error={errors.isActive} {...register('isActive')} />
                         <DynamicFormField control={control} label="Priority Order" type="number" error={errors.priorityOrder} {...register('priorityOrder')} />
                     </div>
-                    <h3 className="text-lg font-semibold border-b pb-2 mb-4 mt-6">Additional Details</h3>
+                    <h3 className={`${typographyClasses.heading.h4} ${typographyClasses.colors.text.primary} border-b pb-2 mb-4 mt-6`}>Additional Details</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <DynamicFormField control={control} label="Investor Type" type="select" options={investorTypes} error={errors.investorType} {...register('investorType')} />
                         <DynamicFormField control={control} label="Fund Type" type="select" options={fundTypes} error={errors.fundType} {...register('fundType')} />
@@ -521,7 +522,7 @@ export const SchemeForm: React.FC<SchemeFormProps> = ({ scheme, onSubmit, onCanc
             hasError: tabFields["Advanced"].some(field => errors[field]),
             content: (
                 <div className='space-y-6'>
-                    <h3 className="text-lg font-semibold border-b pb-2 mb-4 mt-6">Fund Approach & Tenure</h3>
+                    <h3 className={`${typographyClasses.heading.h4} ${typographyClasses.colors.text.primary} border-b pb-2 mb-4 mt-6`}>Fund Approach & Tenure</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <DynamicFormField control={control} label="Fund Approach" type="select" options={fundApproaches} error={errors.fundApproach} {...register('fundApproach')} />
                         <DynamicFormField control={control} label="Fund Approach Description" type="textarea" error={errors.fundApproachDescription} {...register('fundApproachDescription')} />
@@ -529,7 +530,7 @@ export const SchemeForm: React.FC<SchemeFormProps> = ({ scheme, onSubmit, onCanc
                         <DynamicFormField control={control} label="Fund Tenure Description" type="textarea" error={errors.fundTenureDescription} {...register('fundTenureDescription')} />
                     </div>
 
-                    <h3 className="text-lg font-semibold border-b pb-2 mb-4 mt-6">Fund Size & Commitments</h3>
+                    <h3 className={`${typographyClasses.heading.h4} ${typographyClasses.colors.text.primary} border-b pb-2 mb-4 mt-6`}>Fund Size & Commitments</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <DynamicFormField control={control} label="Fund Target Size" type="number" error={errors.fundTargetSize} {...register('fundTargetSize')} />
                         <DynamicFormField control={control} label="Fund Target Size Description" type="textarea" error={errors.fundTargetSizeDescription} {...register('fundTargetSizeDescription')} />
@@ -548,7 +549,7 @@ export const SchemeForm: React.FC<SchemeFormProps> = ({ scheme, onSubmit, onCanc
             hasError: tabFields["Policy & Legal"].some(field => errors[field]),
             content: (
                 <div className='space-y-6'>
-                    <h3 className="text-lg font-semibold border-b pb-2 mb-4 mt-6">Policy</h3>
+                    <h3 className={`${typographyClasses.heading.h4} ${typographyClasses.colors.text.primary} border-b pb-2 mb-4 mt-6`}>Policy</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <DynamicFormField control={control} label="Who Can Invest?" type="textarea" error={errors.whoCanInvest} {...register('whoCanInvest')} />
                         <DynamicFormField control={control} label="Who Cannot Invest?" type="textarea" error={errors.whoCannotInvest} {...register('whoCannotInvest')} />
@@ -558,7 +559,7 @@ export const SchemeForm: React.FC<SchemeFormProps> = ({ scheme, onSubmit, onCanc
                         <DynamicFormField control={control} label="Subscription And Redemption" type="textarea" error={errors.subscriptionAndRedemption} {...register('subscriptionAndRedemption')} />
                     </div>
 
-                    <h3 className="text-lg font-semibold border-b pb-2 mb-4 mt-6">Operational</h3>
+                    <h3 className={`${typographyClasses.heading.h4} ${typographyClasses.colors.text.primary} border-b pb-2 mb-4 mt-6`}>Operational</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <DynamicFormField control={control} label="NAV Frequency" error={errors.navFrequency} {...register('navFrequency')} />
                         <DynamicFormField control={control} label="Custody" error={errors.custody} {...register('custody')} />
@@ -579,7 +580,7 @@ export const SchemeForm: React.FC<SchemeFormProps> = ({ scheme, onSubmit, onCanc
             content: (
                 <div className='space-y-6'>
                     <div className="flex justify-between items-center space-x-2 border-b pb-2 mb-4">
-                        <h3 className="text-md font-semibold pb-2">Fund Managers</h3>
+                        <h3 className={`${typographyClasses.heading.h5} ${typographyClasses.colors.text.primary} pb-2`}>Fund Managers</h3>
                         <Button type="button" variant='outline' className='h-fit' onClick={() => appendFundManager({ fundManagerId: '', fromDate: '', isCurrent: true })} startIcon={<PlusIcon />}>
                             Add Fund Manager
                         </Button>
@@ -643,7 +644,7 @@ export const SchemeForm: React.FC<SchemeFormProps> = ({ scheme, onSubmit, onCanc
                     <hr className="my-6" />
 
                     <div className="flex justify-between items-center space-x-2 border-b pb-2 mb-4">
-                        <h3 className="text-md font-semibold pb-2">Top 5 Holdings</h3>
+                        <h3 className={`${typographyClasses.heading.h5} ${typographyClasses.colors.text.primary} pb-2`}>Top 5 Holdings</h3>
                         <Button type="button" variant='outline' className='h-fit' onClick={() => appendHolding({ name: '', value: 0 })} startIcon={<PlusIcon />}>
                             Add Holdings
                         </Button>
@@ -690,7 +691,7 @@ export const SchemeForm: React.FC<SchemeFormProps> = ({ scheme, onSubmit, onCanc
                     <hr className="my-6" />
 
                     <div className="flex justify-between items-center space-x-2 border-b pb-2 mb-4">
-                        <h3 className="text-md font-semibold pb-2">Top 5 Sectors</h3>
+                        <h3 className={`${typographyClasses.heading.h5} ${typographyClasses.colors.text.primary} pb-2`}>Top 5 Sectors</h3>
                         <Button type="button" variant='outline' className='h-fit' onClick={() => appendSector({ name: '', value: 0 })} startIcon={<PlusIcon />}>
                             Add Sectors
                         </Button>
@@ -739,7 +740,7 @@ export const SchemeForm: React.FC<SchemeFormProps> = ({ scheme, onSubmit, onCanc
                     <hr className="my-6" />
 
                     <div className="flex justify-between items-center space-x-2 border-b pb-2 mb-4">
-                        <h3 className="text-md font-semibold pb-2">Performance</h3>
+                        <h3 className={`${typographyClasses.heading.h5} ${typographyClasses.colors.text.primary} pb-2`}>Performance</h3>
                         <Button type="button" variant='outline' className='h-fit' onClick={() => appendPerformance({ performanceType: '', year: '' })} startIcon={<PlusIcon />}>
                             Add Performance
                         </Button>

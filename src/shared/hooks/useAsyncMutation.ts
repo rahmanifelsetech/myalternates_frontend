@@ -16,6 +16,7 @@ export const useAsyncMutation = () => {
       options?: {
         successMessage?: string;
         errorMessage?: string;
+        onSuccess?: (data: TResponse) => void;
       }
     ): Promise<TResponse> => {
       try {
@@ -24,6 +25,10 @@ export const useAsyncMutation = () => {
         
         if (options?.successMessage) {
           toastSuccess(options.successMessage);
+        }
+
+        if (options?.onSuccess) {
+          options.onSuccess(result);
         }
         
         return result;

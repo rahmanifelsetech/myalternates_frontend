@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { Modal } from '@shared/components/ui/modal';
+import { Modal } from '@/shared/components/ui/modal/Modal';
 import Input from '@shared/components/form/input/InputField';
 import Button from '@shared/components/ui/button/Button';
 import { CreateAssetClassPayload, AssetClass } from '../types/assetClass';
 import { setFormErrors } from '@/shared/utils/formUtils';
 import { ApiError } from '@/shared/types/api';
+import { typographyClasses } from '@shared/utils/typographyUtils';
 
 interface AssetClassModalProps {
   isOpen: boolean;
@@ -53,12 +54,12 @@ export const AssetClassModal: React.FC<AssetClassModalProps> = ({
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} className="max-w-lg p-6">
-      <h3 className="text-xl font-semibold mb-4 text-gray-800 dark:text-white">
+      <h3 className={`${typographyClasses.heading.h4} mb-4 ${typographyClasses.colors.text.primary}`}>
         {assetClass ? 'Edit Asset Class' : 'Create Asset Class'}
       </h3>
       <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+          <label className={`${typographyClasses.form.label} block mb-1`}>
             Name
           </label>
           <Input
@@ -66,7 +67,7 @@ export const AssetClassModal: React.FC<AssetClassModalProps> = ({
             error={!!errors.name}
             placeholder="Asset Class Name"
           />
-          {errors.name && <span className="text-error-500 text-xs">{errors.name.message}</span>}
+          {errors.name && <span className={`${typographyClasses.form.error}`}>{errors.name.message}</span>}
         </div>
 
         <div>
@@ -76,7 +77,7 @@ export const AssetClassModal: React.FC<AssetClassModalProps> = ({
               {...register('isActive')}
               className="form-checkbox h-4 w-4 text-brand-500 transition duration-150 ease-in-out"
             />
-            <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Active</span>
+            <span className={`${typographyClasses.form.label}`}>Active</span>
           </label>
         </div>
 

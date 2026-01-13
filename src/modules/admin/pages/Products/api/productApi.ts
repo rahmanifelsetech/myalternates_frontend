@@ -36,6 +36,13 @@ export const productApi = RtkQueryService.enhanceEndpoints({
       }),
       invalidatesTags: ['Products'],
     }),
+    populateProducts: builder.mutation<void, void>({
+      query: () => ({
+        url: '/populate/external/products',
+        method: 'POST',
+      }),
+      invalidatesTags: ['Products'],
+    }),
   }),
 });
 
@@ -44,4 +51,5 @@ export const {
   useCreateProductMutation,
   useUpdateProductMutation,
   useDeleteProductMutation,
+  usePopulateProductsMutation,
 } = productApi;

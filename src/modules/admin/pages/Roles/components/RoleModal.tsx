@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Modal } from '@shared/components/ui/modal';
+import { Modal } from '@/shared/components/ui/modal/Modal';
 import Input from '@shared/components/form/input/InputField';
 import Button from '@shared/components/ui/button/Button';
+import { typographyClasses } from '@shared/utils/typographyUtils';
 import { CreateRolePayload, Role } from '../types/role';
 // import { PermissionsSelector } from './PermissionsSelector';
 // import { usePermissionsList } from '../../Permissions/hooks/usePermissionsList';
@@ -74,12 +75,12 @@ export const RoleModal: React.FC<RoleModalProps> = ({
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} className={`${isCreating ? 'max-w-2xl' : 'max-w-lg'} p-6 ${isCreating ? 'max-h-[90vh] overflow-y-auto' : ''}`}>
-      <h3 className="text-xl font-semibold mb-4 text-gray-800 dark:text-white">
+      <h3 className={`${typographyClasses.heading.h4} mb-4 ${typographyClasses.colors.text.primary}`}>
         {role ? 'Edit Role' : 'Create Role'}
       </h3>
       <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+          <label className={`block ${typographyClasses.form.label} mb-1`}>
             Name
           </label>
           <Input
@@ -87,11 +88,11 @@ export const RoleModal: React.FC<RoleModalProps> = ({
             error={!!errors.name}
             placeholder="Role Name"
           />
-          {errors.name && <span className="text-error-500 text-xs">{errors.name.message}</span>}
+          {errors.name && <span className={`${typographyClasses.form.error}`}>{errors.name.message}</span>}
         </div>
         
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+          <label className={`block ${typographyClasses.form.label} mb-1`}>
             Description
           </label>
           <Input

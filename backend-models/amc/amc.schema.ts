@@ -9,7 +9,7 @@ export const amcs = pgTable('amcs', {
     logoUrl: text('logo_url'),
     about: text('about'),
     color: varchar('color', { length: 7 }), // Hex color code
-    inceptionDate: date('inception_date', { mode: 'date' }),
+    inceptionDate: date('inception_date'),
     sebiRegistrationNo: varchar('sebi_registration_no', { length: 100 }),
     commonInvestmentPhilosophy: text('common_investment_philosophy'),
     noOfStrategies: integer('no_of_strategies'),

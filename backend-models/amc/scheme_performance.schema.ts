@@ -1,5 +1,5 @@
 import { pgTable, uuid, varchar, numeric, timestamp, integer } from "drizzle-orm/pg-core";
-import { InferInsertModel, InferSelectModel } from "drizzle-orm";
+import { InferInsertModel, InferSelectModel, relations } from "drizzle-orm";
 import { schemes } from "./schemes.schema";
 
 export const scheme_performance = pgTable("scheme_performance", {
@@ -16,6 +16,13 @@ export const scheme_performance = pgTable("scheme_performance", {
     createdAt: timestamp("created_at").defaultNow(),
     updatedAt: timestamp("updated_at").defaultNow(),
 });
+
+export const schemePerformanceRelations = relations(scheme_performance, ({ one }) => ({
+    scheme: one(schemes, {
+        fields: [scheme_performance.schemeId],
+        references: [schemes.id],
+    }),
+}));
 
 export type SchemePerformance = InferSelectModel<typeof scheme_performance>;
 export type NewSchemePerformance = InferInsertModel<typeof scheme_performance>;

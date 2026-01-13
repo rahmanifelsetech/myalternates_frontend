@@ -125,11 +125,11 @@ export default function ErrorPage({
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Button
-              onClick={() => navigate("/", { replace: true })}
+              onClick={() => navigate(-1)}
               variant="primary"
               startIcon={<ArrowRightIcon className="rotate-180" />}
             >
-              Go back to Dashboard
+              Go back
             </Button>
 
             <Button

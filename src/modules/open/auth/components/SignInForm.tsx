@@ -2,6 +2,7 @@
 import { Link, useNavigate } from "react-router";
 // import { EyeCloseIcon, EyeIcon } from "../../icons";
 import { DynamicFormField } from "@shared/components/form/FormField";
+import { typographyClasses } from '@shared/utils/typographyUtils';
 import { useAuth } from "@/modules/open/auth/hooks/useAuth";
 import { useForm } from "@shared/hooks/useForm";
 import { SignInSchema } from "@/modules/open/auth/schema/auth.schemas";
@@ -39,10 +40,10 @@ export default function SignInForm() {
       <div className="flex flex-col flex-1 items-center justify-center w-full ">
         <div className="shadow-sm p-10 rounded-lg bg-white dark:bg-gray-800 w-96">
           <div className="text-center mb-5 sm:mb-8">
-            <h1 className="mb-2 font-semibold text-gray-800 text-title-sm dark:text-white/90 sm:text-title-md">
+            <h1 className={`mb-2 ${typographyClasses.heading.h4} text-gray-800 dark:text-white/90`}>
               Welcome Back!
             </h1>
-            <p className="text-sm text-gray-500 dark:text-gray-400">
+            <p className={`${typographyClasses.body.small} text-gray-500 dark:text-gray-400`}>
               Sign-in to continue your journey.
             </p>
           </div>

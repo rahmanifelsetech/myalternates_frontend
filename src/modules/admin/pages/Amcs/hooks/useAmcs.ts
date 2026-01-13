@@ -1,4 +1,4 @@
-import { useCreateAmcMutation, useUpdateAmcMutation, useDeleteAmcMutation } from '../api/amcApi';
+import { useCreateAmcMutation, useUpdateAmcMutation, useDeleteAmcMutation, usePopulateAmcsMutation } from '../api/amcApi';
 import { useAsyncMutation } from '@shared/hooks/useAsyncMutation';
 import { CreateAmcPayload, UpdateAmcPayload } from '../types/amc';
 // import { setFormErrors } from '@shared/utils/setFormErrors';
@@ -9,10 +9,19 @@ export const useAmcs = () => {
     const [createAmc, { isLoading: isCreating }] = useCreateAmcMutation();
     const [updateAmc, { isLoading: isUpdating }] = useUpdateAmcMutation();
     const [deleteAmc, { isLoading: isDeleting }] = useDeleteAmcMutation();
+    // const [populateAmcs, { isLoading: isPopulating }] = usePopulateAmcsMutation();
 
     const { execute: create } = useAsyncMutation();
     const { execute: update } = useAsyncMutation();
     const { execute: remove } = useAsyncMutation();
+    // const { execute: populate } = useAsyncMutation();
+
+    // const handlePopulate = useCallback(async () => {
+    //     return populate(populateAmcs, undefined, {
+    //         successMessage: 'AMCs populated successfully!',
+    //         errorMessage: 'Failed to populate AMCs.',
+    //     });
+    // }, [populate, populateAmcs]);
 
     const handleCreate = useCallback(async (data: CreateAmcPayload) => {
         const formData = objectToFormData(data);
@@ -42,8 +51,10 @@ export const useAmcs = () => {
         handleCreate,
         handleUpdate,
         handleDelete,
+        // handlePopulate,
         isCreating,
         isUpdating,
         isDeleting,
+        // isPopulating,
     };
 };

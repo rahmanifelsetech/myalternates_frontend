@@ -8,12 +8,14 @@ import {
   TableRow,
 } from '@shared/components/ui/table';
 import { useNavigate } from 'react-router';
+import { typographyClasses } from '@shared/utils/typographyUtils';
 import { CanAccess } from '@shared/components/common/CanAccess';
 import { PERMISSIONS } from '@shared/constants/permissions';
 import { IconButton } from '@shared/components/ui/button/IconButton';
 import { PencilIcon, TrashBinIcon } from '@shared/icons';
 import appConfig from '@/shared/config/app.config';
 import { formatDate } from '@/shared/utils/dateUtils';
+import NoDataRow from '@/shared/components/common/NoDataRow';
 
 interface AmcsTableProps {
   amcs: Amc[];
@@ -29,9 +31,6 @@ export const AmcsTable: React.FC<AmcsTableProps> = ({ amcs, isLoading, onEdit, o
     return <div className="p-4 text-center">Loading amcs...</div>;
   }
 
-  if (amcs.length === 0) {
-    return <div className="p-4 text-center text-gray-500">No amcs found.</div>;
-  }
 
   return (
     <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
@@ -39,89 +38,93 @@ export const AmcsTable: React.FC<AmcsTableProps> = ({ amcs, isLoading, onEdit, o
         <Table>
           <TableHeader className="border-b border-gray-100 dark:border-white/[0.05]">
             <TableRow>
-              <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">
+              <TableCell isHeader className={`px-5 py-3 text-start ${typographyClasses.colors.text.muted} ${typographyClasses.body.caption}`}>
                 AMC Code
               </TableCell>
-              <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">
+              <TableCell isHeader className={`px-5 py-3 text-start ${typographyClasses.colors.text.muted} ${typographyClasses.body.caption}`}>
                 AMC Name
               </TableCell>
-              <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">
+              <TableCell isHeader className={`px-5 py-3 text-start ${typographyClasses.colors.text.muted} ${typographyClasses.body.caption}`}>
                 Inception Date
               </TableCell>
-              <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">
+              <TableCell isHeader className={`px-5 py-3 text-start ${typographyClasses.colors.text.muted} ${typographyClasses.body.caption}`}>
                 SEBI Reg. No.
               </TableCell>
-              <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">
+              <TableCell isHeader className={`px-5 py-3 text-start ${typographyClasses.colors.text.muted} ${typographyClasses.body.caption}`}>
                 Strategies
               </TableCell>
-              <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">
+              <TableCell isHeader className={`px-5 py-3 text-start ${typographyClasses.colors.text.muted} ${typographyClasses.body.caption}`}>
                 Status
               </TableCell>
-              <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">
+              <TableCell isHeader className={`px-5 py-3 text-start ${typographyClasses.colors.text.muted} ${typographyClasses.body.caption}`}>
                 Actions
               </TableCell>
             </TableRow>
           </TableHeader>
           <TableBody className="divide-y divide-gray-100 dark:divide-white/[0.05]">
-            {amcs.map((amc) => (
-              <TableRow key={amc.id}>
-                <TableCell className="px-5 py-4 sm:px-6 text-start text-theme-sm dark:text-gray-400">
-                  {amc.amcCode}
-                </TableCell>
-                <TableCell className="px-5 py-4 sm:px-6 text-start text-theme-sm dark:text-gray-400">
-                  <div className="flex items-center gap-3">
-                    {/* {amc.logoUrl && (
-                      <div className="h-10 w-10 flex-shrink-0 overflow-hidden rounded-md border border-gray-100 dark:border-white/[0.05]">
-                        <img
-                          src={amc.logoUrl.startsWith('http') ? amc.logoUrl : `${appConfig.baseUrl}${amc.logoUrl}`}
-                          alt={amc.name || 'AMC Logo'}
-                          className="h-full w-full object-contain"
+            {amcs.length === 0 ? (
+              <NoDataRow colSpan={7} message="No AMCs found." />
+            ) : (
+              amcs.map((amc) => (
+                <TableRow key={amc.id}>
+                  <TableCell className={`px-5 py-4 sm:px-6 text-start ${typographyClasses.body.small} ${typographyClasses.colors.text.secondary}`}>
+                    {amc.amcCode}
+                  </TableCell>
+                  <TableCell className={`px-5 py-4 sm:px-6 text-start ${typographyClasses.body.small} ${typographyClasses.colors.text.secondary}`}>
+                    <div className="flex items-center gap-3">
+                      {/* {amc.logoUrl && (
+                        <div className="h-10 w-10 flex-shrink-0 overflow-hidden rounded-md border border-gray-100 dark:border-white/[0.05]">
+                          <img
+                            src={amc.logoUrl.startsWith('http') ? amc.logoUrl : `${appConfig.baseUrl}${amc.logoUrl}`}
+                            alt={amc.name || 'AMC Logo'}
+                            className="h-full w-full object-contain"
+                          />
+                        </div>
+                      )} */}
+                      <h5 className={`${typographyClasses.component.button} ${typographyClasses.colors.text.primary}`}>
+                        {amc.name}
+                      </h5>
+                    </div>
+                  </TableCell>
+                  <TableCell className={`px-5 py-4 sm:px-6 text-start ${typographyClasses.body.small} ${typographyClasses.colors.text.secondary}`}>
+                    {amc.inceptionDate ? formatDate(amc.inceptionDate) : 'N/A'}
+                  </TableCell>
+                  <TableCell className={`px-5 py-4 sm:px-6 text-start ${typographyClasses.body.small} ${typographyClasses.colors.text.secondary}`}>
+                    {amc.sebiRegistrationNo || 'N/A'}
+                  </TableCell>
+                  <TableCell className={`px-5 py-4 sm:px-6 text-start ${typographyClasses.body.small} ${typographyClasses.colors.text.secondary}`}>
+                    {amc.noOfStrategies || 'N/A'}
+                  </TableCell>
+                  <TableCell className={`px-5 py-4 ${typographyClasses.body.small} ${typographyClasses.colors.text.secondary}`}>
+                    <span className={`inline-block px-2 py-1 rounded ${typographyClasses.body.caption} ${
+                      amc.isActive
+                        ? 'bg-success-100 text-success-800 dark:bg-success-900 dark:text-success-100'
+                        : 'bg-error-100 text-error-800 dark:bg-error-700 dark:text-error-100'
+                    }`}>
+                      {amc.isActive ? "Active" : 'Inactive'}
+                    </span>
+                  </TableCell>
+                  <TableCell className={`px-4 py-3 text-start ${typographyClasses.body.small} ${typographyClasses.colors.text.secondary}`}>
+                    <div className="flex items-center space-x-3.5">
+                      <CanAccess any={[PERMISSIONS.AMCS.UPDATE]}>
+                        <IconButton
+                          onClick={() => onEdit(amc)}
+                          className="hover:text-primary"
+                          icon={<PencilIcon className="size-5" />}
                         />
-                      </div>
-                    )} */}
-                    <h5 className="font-medium text-gray-800 dark:text-white/90">
-                      {amc.name}
-                    </h5>
-                  </div>
-                </TableCell>
-                <TableCell className="px-5 py-4 sm:px-6 text-start text-theme-sm dark:text-gray-400">
-                  {amc.inceptionDate ? formatDate(amc.inceptionDate) : 'N/A'}
-                </TableCell>
-                <TableCell className="px-5 py-4 sm:px-6 text-start text-theme-sm dark:text-gray-400">
-                  {amc.sebiRegistrationNo}
-                </TableCell>
-                <TableCell className="px-5 py-4 sm:px-6 text-start text-theme-sm dark:text-gray-400">
-                  {amc.noOfStrategies}
-                </TableCell>
-                <TableCell className="px-5 py-4 text-gray-500 text-theme-sm dark:text-gray-400">
-                  <span className={`inline-block px-2 py-1 rounded text-xs font-medium ${
-                    amc.isActive
-                      ? 'bg-success-100 text-success-800 dark:bg-success-900 dark:text-success-100' 
-                      : 'bg-error-100 text-error-800 dark:bg-error-700 dark:text-error-100'
-                  }`}>
-                    {amc.isActive ? "Active" : 'Inactive'}
-                  </span>
-                </TableCell>
-                <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
-                  <div className="flex items-center space-x-3.5">
-                    <CanAccess any={[PERMISSIONS.AMCS.UPDATE]}>
-                      <IconButton
-                        onClick={(e) => { e.stopPropagation(); onEdit(amc); }}
-                        className="hover:text-primary"
-                        icon={<PencilIcon className="size-5" />}
-                      />
-                    </CanAccess>
-                    <CanAccess any={[PERMISSIONS.AMCS.DELETE]}>
-                      <IconButton
-                        onClick={(e) => { e.stopPropagation(); onDelete(amc.id); }}
-                        className="hover:text-error-500"
-                        icon={<TrashBinIcon className="size-5" />}
-                      />
-                    </CanAccess>
-                  </div>
-                </TableCell>
-              </TableRow>
-            ))}
+                      </CanAccess>
+                      <CanAccess any={[PERMISSIONS.AMCS.DELETE]}>
+                        <IconButton
+                          onClick={() => onDelete(amc.id) }
+                          className="hover:text-error-500"
+                          icon={<TrashBinIcon className="size-5" />}
+                        />
+                      </CanAccess>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))
+            )}
           </TableBody>
         </Table>
       </div>

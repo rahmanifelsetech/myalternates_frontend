@@ -9,9 +9,11 @@ import {
   TableHeader,
   TableRow,
 } from '@shared/components/ui/table';
+import { typographyClasses } from '@shared/utils/typographyUtils';
 import { CanAccess } from '@/shared/components/common/CanAccess';
 import { PERMISSIONS } from '@/shared/constants/permissions';
 import appConfig from '@/shared/config/app.config';
+import NoDataRow from '@/shared/components/common/NoDataRow';
 
 interface FundManagersTableProps {
   fundManagers: FundManager[];
@@ -30,9 +32,6 @@ export const FundManagersTable: React.FC<FundManagersTableProps> = ({
     return <div className="p-4 text-center">Loading fund managers...</div>;
   }
 
-  if (fundManagers.length === 0) {
-    return <div className="p-4 text-center text-gray-500">No fund managers found.</div>;
-  }
 
   return (
     <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
@@ -42,47 +41,50 @@ export const FundManagersTable: React.FC<FundManagersTableProps> = ({
             <TableRow>
               <TableCell
                 isHeader
-                className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
+                className={`px-5 py-3 text-start ${typographyClasses.colors.text.muted} ${typographyClasses.body.caption}`}
               >
                 Name
               </TableCell>
               <TableCell
                 isHeader
-                className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
+                className={`px-5 py-3 text-start ${typographyClasses.colors.text.muted} ${typographyClasses.body.caption}`}
               >
                 Code
               </TableCell>
               <TableCell
                 isHeader
-                className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
+                className={`px-5 py-3 text-start ${typographyClasses.colors.text.muted} ${typographyClasses.body.caption}`}
               >
                 AMC
               </TableCell>
               <TableCell
                 isHeader
-                className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
+                className={`px-5 py-3 text-start ${typographyClasses.colors.text.muted} ${typographyClasses.body.caption}`}
               >
                 AUM (Cr.)
               </TableCell>
               <TableCell
                 isHeader
-                className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
+                className={`px-5 py-3 text-start ${typographyClasses.colors.text.muted} ${typographyClasses.body.caption}`}
               >
                 Status
               </TableCell>
               <TableCell
                 isHeader
-                className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
+                className={`px-5 py-3 text-start ${typographyClasses.colors.text.muted} ${typographyClasses.body.caption}`}
               >
                 Actions
               </TableCell>
             </TableRow>
           </TableHeader>
-          <TableBody className="divide-y divide-gray-100 dark:divide-white/[0.05]">
-            {fundManagers.map((fm) => (
-              <TableRow key={fm.id}>
-                <TableCell className="px-5 py-4 sm:px-6 text-start text-theme-sm dark:text-gray-400">
-                  <div className="flex items-center gap-3">
+         <TableBody className="divide-y divide-gray-100 dark:divide-white/[0.05]">
+           {fundManagers.length === 0 ? (
+             <NoDataRow colSpan={7} message="No Fund Managers found." />
+           ) : (
+             fundManagers.map((fm) => (
+               <TableRow key={fm.id}>
+                 <TableCell className={`px-5 py-4 sm:px-6 text-start ${typographyClasses.body.small} ${typographyClasses.colors.text.secondary}`}>
+                   <div className="flex items-center gap-3">
                     {fm.profilePicture ? (
                       <div className="w-10 h-10 overflow-hidden rounded-full">
                         <img
@@ -99,26 +101,26 @@ export const FundManagersTable: React.FC<FundManagersTableProps> = ({
                       </div>
                     )}
                     <div>
-                      <span className="block font-medium text-gray-800 dark:text-white/90">
+                      <span className={`block ${typographyClasses.component.button} ${typographyClasses.colors.text.primary}`}>
                         {fm.name}
                       </span>
-                      <span className="block text-xs text-gray-500">
+                      <span className={`block ${typographyClasses.body.xsmall} ${typographyClasses.colors.text.muted}`}>
                         {fm.designation}
                       </span>
                     </div>
                   </div>
                 </TableCell>
-                <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
+                <TableCell className={`px-4 py-3 text-start ${typographyClasses.body.small} ${typographyClasses.colors.text.secondary}`}>
                   {fm.code || '-'}
                 </TableCell>
-                <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
+                <TableCell className={`px-4 py-3 text-start ${typographyClasses.body.small} ${typographyClasses.colors.text.secondary}`}>
                   {fm.amc?.name || '-'}
                 </TableCell>
-                <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
+                <TableCell className={`px-4 py-3 text-start ${typographyClasses.body.small} ${typographyClasses.colors.text.secondary}`}>
                   {fm.aum ? Number(fm.aum).toLocaleString() : '-'}
                 </TableCell>
-                <TableCell className="px-5 py-4 text-gray-500 text-theme-sm dark:text-gray-400">
-                  <span className={`inline-block px-2 py-1 rounded text-xs font-medium ${
+                <TableCell className={`px-5 py-4 ${typographyClasses.body.small} ${typographyClasses.colors.text.secondary}`}>
+                  <span className={`inline-block px-2 py-1 rounded ${typographyClasses.body.caption} ${
                     fm.isActive
                       ? 'bg-success-100 text-success-800 dark:bg-success-900 dark:text-success-100' 
                       : 'bg-error-100 text-error-800 dark:bg-error-700 dark:text-error-100'
@@ -126,7 +128,7 @@ export const FundManagersTable: React.FC<FundManagersTableProps> = ({
                     {fm.isActive ? "Active" : 'Inactive'}
                   </span>
                 </TableCell>
-                <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
+                <TableCell className={`px-4 py-3 text-start ${typographyClasses.body.small} ${typographyClasses.colors.text.secondary}`}>
                   <div className="flex items-center space-x-3.5">
                     <CanAccess any={[PERMISSIONS.MASTERS.FUND_MANAGER_UPDATE]}>
                       <IconButton
@@ -145,7 +147,7 @@ export const FundManagersTable: React.FC<FundManagersTableProps> = ({
                   </div>
                 </TableCell>
               </TableRow>
-            ))}
+            )))}
           </TableBody>
         </Table>
       </div>

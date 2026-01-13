@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import { typographyClasses } from '@shared/utils/typographyUtils';
 
 // Props for Table
 interface TableProps {
@@ -63,9 +64,15 @@ const TableCell: React.FC<TableCellProps> = ({
   rowSpan = 1,
 }) => {
   const CellTag = isHeader ? "th" : "td";
+  
+  // Default typography for table cells
+  const defaultTypography = isHeader 
+    ? typographyClasses.table.header
+    : typographyClasses.table.cell;
+
   return (
     <CellTag
-      className={` ${className}`}
+      className={`${defaultTypography} ${className || ''}`}
       colSpan={colSpan} 
       rowSpan={rowSpan}
     >

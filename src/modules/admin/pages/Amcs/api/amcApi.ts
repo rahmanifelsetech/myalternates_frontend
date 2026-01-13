@@ -45,6 +45,13 @@ const amcApi = amcApiWithTags.injectEndpoints({
       }),
       invalidatesTags: ["Amcs"],
     }),
+    populateAmcs: builder.mutation<void, void>({
+      query: () => ({
+        url: '/populate/external/amcs',
+        method: 'POST',
+      }),
+      invalidatesTags: ["Amcs"],
+    }),
   }),
 });
 export const {
@@ -53,4 +60,5 @@ export const {
     useCreateAmcMutation,
     useUpdateAmcMutation,
     useDeleteAmcMutation,
+    usePopulateAmcsMutation,
 } = amcApi;

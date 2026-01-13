@@ -5,6 +5,7 @@ import { useForm } from "@shared/hooks/useForm";
 import { ChangePasswordSchema } from "@/modules/open/auth/schema/auth.schemas";
 import { useToast } from "@/shared/hooks/useToast";
 import appConfig from "@/shared/config/app.config";
+import typographyClasses from "@/shared/utils/typographyUtils";
 
 export default function ChangePasswordForm() {
   const navigate = useNavigate();
@@ -20,7 +21,6 @@ export default function ChangePasswordForm() {
     });
 
     if (result.success) {
-      toastSuccess("Password changed successfully!");
       setTimeout(() => {
         navigate(appConfig.authenticatedEntryPath);
       }, 500);
@@ -37,10 +37,10 @@ export default function ChangePasswordForm() {
       <div className="flex flex-col flex-1 items-center justify-center w-full ">
         <div className="shadow-sm p-10 rounded-lg bg-white dark:bg-gray-800 w-96">
           <div className="text-center mb-5 sm:mb-8">
-            <h1 className="mb-2 font-semibold text-gray-800 text-title-sm dark:text-white/90 sm:text-title-md">
+            <h1 className={`mb-2 ${typographyClasses.heading.h4} text-gray-800 dark:text-white/90`}>
               Change Password
             </h1>
-            <p className="text-sm text-gray-500 dark:text-gray-400">
+            <p className={`${typographyClasses.body.small} text-gray-500 dark:text-gray-400`}>
               Please change your password to continue.
             </p>
           </div>

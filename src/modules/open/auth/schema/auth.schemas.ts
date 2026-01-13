@@ -190,7 +190,7 @@ export const IdentifierSchema = z.object({
   identifier: z.string().refine(
     (value) => {
       const isEmail = z.string().email().safeParse(value).success;
-      const isPhone = /^\d{10}$/.test(value);
+      const isPhone =  /^\+?[1-9]\d{1,14}$/.test(value);
       const isPan = /^[A-Z]{5}\d{4}[A-Z]{1}$/.test(value);
       return isEmail || isPhone || isPan;
     },
@@ -209,7 +209,7 @@ export const SignInWithPasswordSchema = z.object({
   identifier: z.string().refine(
     (value) => {
       const isEmail = z.string().email().safeParse(value).success;
-      const isPhone = /^\d{10}$/.test(value);
+      const isPhone = /^\+?[1-9]\d{1,14}$/.test(value);
       const isPan = /^[A-Z]{5}\d{4}[A-Z]{1}$/.test(value);
       return isEmail || isPhone || isPan;
     },

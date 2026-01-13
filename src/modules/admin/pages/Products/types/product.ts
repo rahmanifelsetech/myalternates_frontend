@@ -3,6 +3,7 @@ import { PaginatedResponse, PaginationParams, SingleResponse, EmptyResponse } fr
 export interface Product {
   id: string;
   name: string;
+  code: string;
   desc?: string;
   isActive: boolean;
   createdAt?: string;
@@ -11,6 +12,7 @@ export interface Product {
 
 export interface CreateProductPayload {
   name: string;
+  code: string;
   desc?: string;
   isActive?: boolean;
 }

@@ -5,11 +5,13 @@ import { FundManagersFilter } from './components/FundManagersFilter';
 import { FundManagerModal } from './components/FundManagerModal';
 import Button from '@shared/components/ui/button/Button';
 import { PlusIcon } from '@shared/icons';
+import FetchDataWithConfirm from '@/shared/components/common/FetchDataWithConfirm';
 import { FundManager } from './types/fundManager';
 import { CanAccess } from '@/shared/components/common/CanAccess';
 import { PERMISSIONS } from '@/shared/constants/permissions';
 import ComponentCard from '@/shared/components/common/ComponentCard';
 import { useFundManagers } from './hooks/useFundManagers';
+import { typographyClasses } from '@shared/utils/typographyUtils';
 import { Pagination } from '@shared/components/common/Pagination';
 
 const FundManagers: React.FC = () => {
@@ -49,18 +51,29 @@ const FundManagers: React.FC = () => {
   const header = (
     <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between mb-5">
       <div>
-        <h2 className="text-title-md2 font-semibold text-black dark:text-white">
+        <h2 className={`${typographyClasses.heading.h2} ${typographyClasses.colors.text.primary}`}>
           Fund Managers
         </h2>
-        <p className="text-sm text-gray-500 dark:text-gray-400">
+        <p className={`${typographyClasses.body.small} ${typographyClasses.colors.text.muted}`}>
           Manage fund managers
         </p>
       </div>
-      <CanAccess any={[PERMISSIONS.MASTERS.FUND_MANAGER_CREATE]}>
-        <Button onClick={handleCreate} startIcon={<PlusIcon fontSize={20} className="text-white" />}>
-          Add Fund Manager
-        </Button>
-      </CanAccess>
+      <div className="flex gap-2">
+        {/* <CanAccess any={[PERMISSIONS.MASTERS.FUND_MANAGER_POPULATE]}>
+          <FetchDataWithConfirm
+            onConfirm={handlePopulate}
+            buttonText="Populate Fund Managers"
+            modalTitle="Confirm Populate"
+            modalDescription="Are you sure you want to populate fund managers? This will fetch data from an external API."
+            isLoading={isPopulating}
+          />
+        </CanAccess> */}
+        <CanAccess any={[PERMISSIONS.MASTERS.FUND_MANAGER_CREATE]}>
+          <Button onClick={handleCreate} startIcon={<PlusIcon fontSize={20} className="text-white" />}>
+            Add Fund Manager
+          </Button>
+        </CanAccess>
+      </div>
     </div>
   );
 

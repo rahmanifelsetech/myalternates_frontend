@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo } from 'react';
 // import { useForm } from 'react-hook-form';
-import { Modal } from '@shared/components/ui/modal';
+import { Modal } from '@/shared/components/ui/modal/Modal';
 import Button from '@shared/components/ui/button/Button';
 import DynamicFormField from '@shared/components/form/FormField/DynamicFormField';
 import { CreateUserPayload, CreateUserResponse, User } from '../types/user';
@@ -9,6 +9,7 @@ import { ApiError } from '@/shared/types/api';
 import { setFormErrors } from '@/shared/utils/formUtils';
 import { UserSchema, UserSchemaType } from '../schema/userSchema';
 import { useForm } from '@/shared/hooks/useForm';
+import { typographyClasses } from '@shared/utils/typographyUtils';
 
 
 interface UserModalProps {
@@ -96,7 +97,7 @@ export const UserModal: React.FC<UserModalProps> = ({
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} className="max-w-2xl p-6">
-      <h3 className="text-xl font-semibold mb-4 text-gray-800 dark:text-white">
+      <h3 className={`${typographyClasses.heading.h4} mb-4 ${typographyClasses.colors.text.primary}`}>
         {user ? 'Edit User' : 'Create User'}
       </h3>
       <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-4">

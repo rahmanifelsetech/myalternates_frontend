@@ -8,6 +8,7 @@ import { IdentifierPayload, OtpPayload, SetNewPasswordFormData } from '../types/
 import { useAuth } from '../hooks/useAuth';
 import { ResendOtpButton } from '@shared/components/common/ResendOtpButton';
 import appConfig from '@/shared/config/app.config';
+import typographyClasses from '@/shared/utils/typographyUtils';
 
 export const ForgotPasswordForm: React.FC = () => {
   const [step, setStep] = React.useState(1);
@@ -48,10 +49,10 @@ export const ForgotPasswordForm: React.FC = () => {
     <div className="flex flex-col flex-1 items-center justify-center w-full">
       <div className="shadow-sm p-10 rounded-lg bg-white dark:bg-gray-800 w-96">
         <div className="text-center mb-5 sm:mb-8">
-          <h1 className="font-semibold text-gray-800 text-title-sm dark:text-white/90 sm:text-title-md">
+          <h1 className={`${typographyClasses.heading.h4} text-gray-800 dark:text-white/90`}>
             Forgot Password
           </h1>
-          <p className="text-sm text-gray-500 dark:text-gray-400">
+          <p className={`${typographyClasses.body.small} text-gray-500 dark:text-gray-400`}>
             {step === 1 && 'Enter your email or phone to reset your password'}
             {step === 2 && 'Enter the OTP sent to your email or phone'}
             {step === 3 && 'Enter your new password'}

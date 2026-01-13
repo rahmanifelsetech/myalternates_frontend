@@ -6,6 +6,7 @@ import { categories } from '../master/categories.schema';
 import { asset_classes } from '../master/asset_classes.schema';
 import { benchmark_indices } from '../master/benchmark_indices.schema';
 import { scheme_fund_managers } from './scheme_fund_managers.schema';
+import { scheme_performance } from './scheme_performance.schema';
 
 export const schemes = pgTable('schemes', {
     id: uuid("id").defaultRandom().primaryKey(),
@@ -167,6 +168,7 @@ export const schemesRelations = relations(schemes, ({ one, many }) => ({
         references: [benchmark_indices.id],
     }),
     fundManagers: many(scheme_fund_managers),
+    performance: many(scheme_performance),
 }));
 
 export type Scheme = typeof schemes;

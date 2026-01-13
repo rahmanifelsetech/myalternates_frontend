@@ -14,6 +14,7 @@ const SchemeList = lazy(() => import('@modules/admin/pages/Schemes/SchemeList'))
 const CreateScheme = lazy(() => import('@modules/admin/pages/Schemes/CreateScheme'));
 const EditScheme = lazy(() => import('@modules/admin/pages/Schemes/EditScheme'));
 const Uploads = lazy(() => import('@modules/admin/pages/Uploads/Uploads'));
+// const DataProcessingHistory = lazy(() => import('@modules/admin/pages/Logs/DataProcessingHistory'));
 const Amcs = lazy(() => import('@modules/admin/pages/Amcs/Amcs'));
 const CreateAmc = lazy(() => import('@modules/admin/pages/Amcs/CreateAmc'));
 const EditAmc = lazy(() => import('@modules/admin/pages/Amcs/EditAmc'));
@@ -109,6 +110,12 @@ export const adminRoutes: AppRouteConfig[] = [
     component: CreateScheme,
     authority: ['ADMIN'],
   },
+  // {
+  //   key: 'data-processing-history',
+  //   path: 'logs/data-processing-history',
+  //   component: DataProcessingHistory,
+  //   authority: ['ADMIN'],
+  // },
   {
     key: 'edit-scheme',
     path: 'schemes/edit/:id',
@@ -146,3 +153,4 @@ export const adminRoutes: AppRouteConfig[] = [
   //   authority: ['ADMIN'],
   // },
 ];
+

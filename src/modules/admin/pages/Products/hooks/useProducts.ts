@@ -3,6 +3,7 @@ import {
   useCreateProductMutation,
   useUpdateProductMutation,
   useDeleteProductMutation,
+  usePopulateProductsMutation,
 } from '../api/productApi';
 import { CreateProductPayload, UpdateProductPayload } from '../types/product';
 import { useAsyncMutation } from '@shared/hooks/useAsyncMutation';
@@ -12,6 +13,16 @@ export const useProducts = () => {
   const [createProduct, { isLoading: isCreating }] = useCreateProductMutation();
   const [updateProduct, { isLoading: isUpdating }] = useUpdateProductMutation();
   const [deleteProduct, { isLoading: isDeleting }] = useDeleteProductMutation();
+  // const [populateProducts, { isLoading: isPopulating }] = usePopulateProductsMutation();
+
+  // const handlePopulate = useCallback(
+  //   () =>
+  //     execute(populateProducts, undefined, {
+  //       successMessage: 'Products populated successfully!',
+  //       errorMessage: 'Failed to populate products',
+  //     }),
+  //   [populateProducts, execute]
+  // );
 
   const handleCreate = useCallback(
     (data: CreateProductPayload) =>
@@ -44,8 +55,10 @@ export const useProducts = () => {
     handleCreate,
     handleUpdate,
     handleDelete,
+    // handlePopulate,
     isCreating,
     isUpdating,
     isDeleting,
+    // isPopulating,
   };
 };

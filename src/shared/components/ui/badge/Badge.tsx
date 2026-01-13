@@ -1,3 +1,5 @@
+import { typographyClasses } from '@shared/utils/typographyUtils';
+
 type BadgeVariant = "light" | "solid";
 type BadgeSize = "sm" | "md";
 type BadgeColor =
@@ -27,12 +29,12 @@ const Badge: React.FC<BadgeProps> = ({
   children,
 }) => {
   const baseStyles =
-    "inline-flex items-center px-2.5 py-0.5 justify-center gap-1 rounded-full font-medium";
+    "inline-flex items-center px-2.5 py-0.5 justify-center gap-1 rounded-full";
 
-  // Define size styles
+  // Define size styles - using standardized typography
   const sizeStyles = {
-    sm: "text-theme-xs", // Smaller padding and font size
-    md: "text-sm", // Default padding and font size
+    sm: `text-[12px] ${typographyClasses.component.badge}`,
+    md: typographyClasses.component.badge,
   };
 
   // Define color styles for variants

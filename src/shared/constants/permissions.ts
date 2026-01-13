@@ -45,6 +45,7 @@ export const PERMISSIONS = {
     READ: 'products.read',
     UPDATE: 'products.update',
     DELETE: 'products.delete',
+    POPULATE: 'products.populate',
   },
   DATA_UPLOAD: {
     DAILY_VALUATION_CREATE: 'data_upload.daily_valuation.create',
@@ -71,6 +72,7 @@ export const PERMISSIONS = {
     FUND_MANAGER_READ: 'masters.fund_manager.read',
     FUND_MANAGER_UPDATE: 'masters.fund_manager.update',
     FUND_MANAGER_DELETE: 'masters.fund_manager.delete',
+    FUND_MANAGER_POPULATE: 'masters.fund_manager.populate',
     CATEGORY_CREATE: 'masters.category.create',
     CATEGORY_READ: 'masters.category.read',
     CATEGORY_UPDATE: 'masters.category.update',
@@ -78,6 +80,7 @@ export const PERMISSIONS = {
   },
   SCHEMES: {
     CREATE: 'schemes.create',
+    POPULATE: 'schemes.upload',
     READ: 'schemes.read',
     UPDATE: 'schemes.update',
     DELETE: 'schemes.delete',
@@ -87,6 +90,7 @@ export const PERMISSIONS = {
     READ: 'amcs.read',
     UPDATE: 'amcs.update',
     DELETE: 'amcs.delete',
+    POPULATE: 'amcs.populate',
   },
 };
 
@@ -134,6 +138,7 @@ export const PERMISSION_GROUPS: Record<string, PermissionGroupUI> = {
       { slug: PERMISSIONS.PRODUCTS.READ, label: 'View Products', description: 'Allows viewing product information.' },
       { slug: PERMISSIONS.PRODUCTS.UPDATE, label: 'Update Product', description: 'Allows updating product information.' },
       { slug: PERMISSIONS.PRODUCTS.DELETE, label: 'Delete Product', description: 'Allows deleting products.' },
+      { slug: PERMISSIONS.PRODUCTS.POPULATE, label: 'Populate Products', description: 'Allows populating products data.' },
     ],
   },
 
@@ -142,6 +147,7 @@ export const PERMISSION_GROUPS: Record<string, PermissionGroupUI> = {
     description: 'Manage investment schemes',
     permissions: [
       { slug: PERMISSIONS.SCHEMES.CREATE, label: 'Create Scheme', description: 'Allows creating schemes.' },
+      { slug: PERMISSIONS.SCHEMES.POPULATE, label: 'Populate Schemes', description: 'Allows populating schemes data.' },
       { slug: PERMISSIONS.SCHEMES.READ, label: 'View Schemes', description: 'Allows viewing schemes.' },
       { slug: PERMISSIONS.SCHEMES.UPDATE, label: 'Update Scheme', description: 'Allows updating schemes.' },
       { slug: PERMISSIONS.SCHEMES.DELETE, label: 'Delete Scheme', description: 'Allows deleting schemes.' },
@@ -156,6 +162,7 @@ export const PERMISSION_GROUPS: Record<string, PermissionGroupUI> = {
       { slug: PERMISSIONS.AMCS.READ, label: 'View AMCs', description: 'Allows viewing AMC information.' },
       { slug: PERMISSIONS.AMCS.UPDATE, label: 'Update AMC', description: 'Allows updating AMC information.' },
       { slug: PERMISSIONS.AMCS.DELETE, label: 'Delete AMC', description: 'Allows deleting AMCs.' },
+      { slug: PERMISSIONS.AMCS.POPULATE, label: 'Populate AMCs', description: 'Allows populating AMCs data.' },
     ],
   },
 
@@ -178,6 +185,7 @@ export const PERMISSION_GROUPS: Record<string, PermissionGroupUI> = {
       { slug: PERMISSIONS.MASTERS.FUND_MANAGER_READ, label: 'View Fund Managers', description: 'Allows viewing fund managers.' },
       { slug: PERMISSIONS.MASTERS.FUND_MANAGER_UPDATE, label: 'Update Fund Manager', description: 'Allows updating fund managers.' },
       { slug: PERMISSIONS.MASTERS.FUND_MANAGER_DELETE, label: 'Delete Fund Manager', description: 'Allows deleting fund managers.' },
+      { slug: PERMISSIONS.MASTERS.FUND_MANAGER_POPULATE, label: 'Populate Fund Managers', description: 'Allows populating fund managers data.' },
       // Categories
       { slug: PERMISSIONS.MASTERS.CATEGORY_CREATE, label: 'Create Category', description: 'Allows creating categories.' },
       { slug: PERMISSIONS.MASTERS.CATEGORY_READ, label: 'View Categories', description: 'Allows viewing categories.' },

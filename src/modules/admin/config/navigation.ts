@@ -96,17 +96,22 @@ export const adminNavigation: NavigationItem[] = [
     permissions: [PERMISSIONS.SCHEMES.READ],
   },
   // {
-  //   title: 'Data Upload',
-  //   path: '/admin/uploads',
-  //   icon: 'upload',
-  //   permissions: [
-  //     PERMISSIONS.DATA_UPLOAD.DAILY_VALUATION_READ,
-  //     PERMISSIONS.DATA_UPLOAD.HOLDING_READ,
-  //     PERMISSIONS.DATA_UPLOAD.MARKET_LIST_READ,
-  //     PERMISSIONS.DATA_UPLOAD.TRANSACTION_READ,
-  //     PERMISSIONS.DATA_UPLOAD.INDEX_HISTORY_READ,
-  //   ],
+  //   title: 'Logs',
+  //   path: '/admin/uploads/logs',
+  //   icon: 'list',
   // },
+  {
+    title: 'Data Upload',
+    path: '/admin/uploads',
+    icon: 'upload',
+    permissions: [
+      PERMISSIONS.DATA_UPLOAD.DAILY_VALUATION_READ,
+      PERMISSIONS.DATA_UPLOAD.HOLDING_READ,
+      PERMISSIONS.DATA_UPLOAD.MARKET_LIST_READ,
+      PERMISSIONS.DATA_UPLOAD.TRANSACTION_READ,
+      PERMISSIONS.DATA_UPLOAD.INDEX_HISTORY_READ,
+    ],
+  },
   // {
   //   title: 'Transactions',
   //   path: '/admin/transactions',

@@ -4,6 +4,7 @@ import { InferInsertModel, InferSelectModel } from "drizzle-orm";
 export const products = pgTable("products", {
     id: uuid("id").defaultRandom().primaryKey(),
     name: varchar("name", { length: 255 }).notNull(),
+    code: varchar("code", { length: 100 }).notNull().unique(),
     desc: text("desc"),
     isActive: boolean('is_active').default(true).notNull(),
     createdAt: timestamp("created_at").defaultNow(),

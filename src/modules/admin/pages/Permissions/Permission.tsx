@@ -4,7 +4,8 @@ import { PermissionsTable } from './components/PermissionsTable';
 import { PermissionsFilter } from './components/PermissionsFilter';
 import ComponentCard from '@/shared/components/common/ComponentCard';
 
-import { Pagination } from '@shared/components/common/Pagination';
+import { typographyClasses } from '@shared/utils/typographyUtils';
+import { Pagination } from '@/shared/components/common/Pagination';
 
 const Permissions: React.FC = () => {
   const [search, setSearch] = useState('');
@@ -15,10 +16,10 @@ const Permissions: React.FC = () => {
   const header = (
     <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between mb-5">
       <div>
-        <h2 className="text-title-md2 font-semibold text-black dark:text-white">
+        <h2 className={`${typographyClasses.heading.h2} ${typographyClasses.colors.text.primary}`}>
           Permissions
         </h2>
-        <p className="text-sm text-gray-500 dark:text-gray-400">
+        <p className={`${typographyClasses.body.subtitle} ${typographyClasses.colors.text.muted}`}>
           System permissions - read-only
         </p>
       </div>

@@ -1,7 +1,7 @@
 import { forwardRef, useState, useEffect } from "react";
 import { EyeIcon } from "@/shared/icons";
 import appConfig from "@/shared/config/app.config";
-import { Modal } from "@/shared/components/ui/modal";
+import { Modal } from "@/shared/components/ui/modal/Modal";
 import Button from "@/shared/components/ui/button/Button";
 
 interface FileInputProps {

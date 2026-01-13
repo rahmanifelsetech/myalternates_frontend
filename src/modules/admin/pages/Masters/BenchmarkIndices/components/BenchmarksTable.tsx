@@ -9,6 +9,7 @@ import {
   TableHeader,
   TableRow,
 } from '@shared/components/ui/table';
+import { typographyClasses } from '@shared/utils/typographyUtils';
 import { CanAccess } from '@/shared/components/common/CanAccess';
 import { PERMISSIONS } from '@/shared/constants/permissions';
 
@@ -41,19 +42,19 @@ export const BenchmarksTable: React.FC<BenchmarksTableProps> = ({
             <TableRow>
               <TableCell
                 isHeader
-                className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
+                className={`px-5 py-3 text-start ${typographyClasses.colors.text.muted} ${typographyClasses.body.caption}`}
               >
                 Name
               </TableCell>
               <TableCell
                 isHeader
-                className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
+                className={`px-5 py-3 text-start ${typographyClasses.colors.text.muted} ${typographyClasses.body.caption}`}
               >
                 Status
               </TableCell>
               <TableCell
                 isHeader
-                className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
+                className={`px-5 py-3 text-start ${typographyClasses.colors.text.muted} ${typographyClasses.body.caption}`}
               >
                 Actions
               </TableCell>
@@ -62,13 +63,13 @@ export const BenchmarksTable: React.FC<BenchmarksTableProps> = ({
           <TableBody className="divide-y divide-gray-100 dark:divide-white/[0.05]">
             {benchmarks.map((benchmark) => (
               <TableRow key={benchmark.id}>
-                <TableCell className="px-5 py-4 sm:px-6 text-start text-theme-sm dark:text-gray-400">
-                  <h5 className="font-medium text-gray-800 dark:text-white/90">
+                <TableCell className={`px-5 py-4 sm:px-6 text-start ${typographyClasses.body.small} ${typographyClasses.colors.text.secondary}`}>
+                  <h5 className={`${typographyClasses.component.button} ${typographyClasses.colors.text.primary}`}>
                     {benchmark.name}
                   </h5>
                 </TableCell>
-                <TableCell className="px-5 py-4 text-gray-500 text-theme-sm dark:text-gray-400">
-                  <span className={`inline-block px-2 py-1 rounded text-xs font-medium ${
+                <TableCell className={`px-5 py-4 ${typographyClasses.body.small} ${typographyClasses.colors.text.secondary}`}>
+                  <span className={`inline-block px-2 py-1 rounded ${typographyClasses.body.caption} ${
                     benchmark.isActive
                       ? 'bg-success-100 text-success-800 dark:bg-success-900 dark:text-success-100' 
                       : 'bg-error-100 text-error-800 dark:bg-error-700 dark:text-error-100'
@@ -76,7 +77,7 @@ export const BenchmarksTable: React.FC<BenchmarksTableProps> = ({
                     {benchmark.isActive ? "Active" : 'Inactive'}
                   </span>
                 </TableCell>
-                <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
+                <TableCell className={`px-4 py-3 text-start ${typographyClasses.body.small} ${typographyClasses.colors.text.secondary}`}>
                   <div className="flex items-center space-x-3.5">
                     <CanAccess any={[PERMISSIONS.MASTERS.BENCHMARK_UPDATE]}>
                       <IconButton

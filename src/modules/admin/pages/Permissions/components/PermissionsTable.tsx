@@ -8,6 +8,7 @@ import {
 } from '@shared/components/ui/table';
 import { Permission } from '../types/permission';
 import Loading from '@shared/components/common/Loading';
+import { typographyClasses } from '@shared/utils/typographyUtils';
 
 interface PermissionsTableProps {
   permissions: Permission[];
@@ -22,10 +23,10 @@ export const PermissionsTable: React.FC<PermissionsTableProps> = ({ permissions,
         <Table>
           <TableHeader className="border-b border-gray-100 dark:border-white/[0.05]">
             <TableRow>
-              <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">
+              <TableCell isHeader className={`px-5 py-3 text-start ${typographyClasses.colors.text.muted} ${typographyClasses.body.caption}`}>
                 Name
               </TableCell>
-              <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">
+              <TableCell isHeader className={`px-5 py-3 text-start ${typographyClasses.colors.text.muted} ${typographyClasses.body.caption}`}>
                 Description
               </TableCell>
             </TableRow>
@@ -34,7 +35,7 @@ export const PermissionsTable: React.FC<PermissionsTableProps> = ({ permissions,
             {
               !isLoading && permissions.length === 0 && (
                 <TableRow>
-                  <TableCell colSpan={2} className="px-5 py-4 text-center text-gray-500 text-theme-sm dark:text-gray-400">
+                  <TableCell colSpan={2} className={`px-5 py-4 text-center ${typographyClasses.body.small} ${typographyClasses.colors.text.muted}`}>
                     No permissions found
                   </TableCell>
                 </TableRow>
@@ -42,10 +43,10 @@ export const PermissionsTable: React.FC<PermissionsTableProps> = ({ permissions,
             }
             {permissions.map((permission) => (
               <TableRow key={permission.id}>
-                <TableCell className="px-5 py-4 text-gray-800 text-theme-sm dark:text-white/90">
+                <TableCell className={`px-5 py-4 ${typographyClasses.body.small} ${typographyClasses.colors.text.primary}`}>
                   {permission.name}
                 </TableCell>
-                <TableCell className="px-5 py-4 text-gray-500 text-theme-sm dark:text-gray-400">
+                <TableCell className={`px-5 py-4 ${typographyClasses.body.small} ${typographyClasses.colors.text.secondary}`}>
                   {permission.description || '-'}
                 </TableCell>
               </TableRow>

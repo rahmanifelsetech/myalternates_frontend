@@ -3,7 +3,10 @@ import ComponentCard from '@/shared/components/common/ComponentCard';
 import { SchemeForm } from './components/SchemeForm';
 import { useSchemes } from './hooks/useSchemes';
 import { useNavigate } from 'react-router';
+
 import { SchemeSchemaType } from './schema/schemeSchema';
+import { typographyClasses } from '@shared/utils/typographyUtils';
+
 
 const CreateScheme: React.FC = () => {
   const { handleCreate, isCreating } = useSchemes();
@@ -17,7 +20,7 @@ const CreateScheme: React.FC = () => {
 
   const header = (
     <div className="mb-5">
-      <h2 className="text-title-md2 font-semibold text-black dark:text-white">
+      <h2 className={`${typographyClasses.heading.h2} text-black dark:text-white`}>
         Create New Scheme
       </h2>
     </div>

@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router";
 import * as Icons from "../icons";
 import { useSidebar } from "../context/SidebarContext";
-// import SidebarWidget from "./SidebarWidget";
+import SidebarWidget from "./SidebarWidget";
 import type { NavigationItem } from "@/shared/types/navigation";
 import Button from "../components/ui/button/Button";
 import { useAuth } from "@/modules/open/auth/hooks/useAuth";
@@ -238,7 +238,7 @@ const AppSidebar: React.FC<AppSidebarProps> = ({ menuItems }) => {
 
   return (
     <aside
-      className={`fixed flex flex-col lg:mt-0 top-0 px-5 left-0 bg-white dark:bg-gray-900 dark:border-gray-800 text-gray-900 h-screen transition-all duration-300 ease-in-out z-50 border-r border-gray-200 
+      className={`fixed flex flex-col lg:mt-0 top-0 px-5 left-0 bg-light dark:bg-dark dark:border-gray-800 text-gray-900 h-screen transition-all duration-300 ease-in-out z-50 border-r border-gray-200
         ${
           isExpanded || isMobileOpen
             ? "w-[290px]"
@@ -285,7 +285,7 @@ const AppSidebar: React.FC<AppSidebarProps> = ({ menuItems }) => {
         </Link>
       </div>
       <div className="flex flex-col overflow-y-auto duration-300 ease-linear no-scrollbar">
-        <nav className="mb-6">
+        <nav className="mb-20">
           <div className="flex flex-col gap-4">
             <div>
               <h2
@@ -305,20 +305,20 @@ const AppSidebar: React.FC<AppSidebarProps> = ({ menuItems }) => {
             </div>
           </div>
         </nav>
-        {/* A fixed logout button at the bottom of the menu */}
-        <div className="fixed bottom-2 right-5 left-5">
-          <Button
-            onClick={handleLogout}
-            className="w-full group menu-item-text"
-            variant="outline"
-            startIcon={<Icons.LogOutIcon fontSize={20} className="group-hover:text-gray-50 dark:text-gray-100 dark:group-hover:text-brand-700" />}
-          >
-            {(isExpanded || isHovered || isMobileOpen) && (
-              <span className="menu-item-text">Sign out</span>
-            )}
-          </Button>
-        </div>
         {/* {isExpanded || isHovered || isMobileOpen ? <SidebarWidget /> : null} */}
+      </div>
+      {/* A fixed logout button at the bottom of the menu */}
+      <div className="fixed bottom-2 right-5 left-5">
+        <Button
+          onClick={handleLogout}
+          className="w-full group menu-item-text"
+          variant="outline"
+          startIcon={<Icons.LogOutIcon fontSize={20} className="group-hover:text-gray-50 dark:text-gray-100 dark:group-hover:text-brand-700" />}
+        >
+          {(isExpanded || isHovered || isMobileOpen) && (
+            <span className="menu-item-text">Sign out</span>
+          )}
+        </Button>
       </div>
     </aside>
   );

@@ -51,6 +51,13 @@ const fundManagerApi = fundManagerApiWithTags.injectEndpoints({
       }),
       invalidatesTags: ["FundManagers"],
     }),
+    populateFundManagers: builder.mutation<void, void>({
+      query: () => ({
+        url: '/populate/external/fund-managers',
+        method: 'POST',
+      }),
+      invalidatesTags: ["FundManagers"],
+    }),
   }),
 });
 
@@ -60,4 +67,5 @@ export const {
   useCreateFundManagerMutation,
   useUpdateFundManagerMutation,
   useDeleteFundManagerMutation,
+  usePopulateFundManagersMutation,
 } = fundManagerApi;

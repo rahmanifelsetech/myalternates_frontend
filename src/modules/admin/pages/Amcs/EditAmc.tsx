@@ -6,6 +6,7 @@ import { AmcForm } from './components/AmcForm';
 import { useGetAmcByIdQuery } from './api/amcApi';
 import ComponentCard from '@shared/components/common/ComponentCard';
 import Loading from '@shared/components/common/Loading';
+import { typographyClasses } from '@shared/utils/typographyUtils';
 
 const EditAmc: React.FC = () => {
     const { id } = useParams<{ id: string }>();
@@ -28,7 +29,7 @@ const EditAmc: React.FC = () => {
 
     return (
         <ComponentCard>
-            <h2 className="text-xl font-bold mb-4">Edit AMC</h2>
+            <h2 className={`${typographyClasses.heading.h2} ${typographyClasses.colors.text.primary}`}>Edit AMC</h2>
             <AmcForm amc={amc?.data} onSubmit={handleSubmit} isLoading={isUpdating} />
         </ComponentCard>
     );
