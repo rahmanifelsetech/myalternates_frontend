@@ -7,6 +7,7 @@ import { asset_classes } from '../master/asset_classes.schema';
 import { benchmark_indices } from '../master/benchmark_indices.schema';
 import { scheme_fund_managers } from './scheme_fund_managers.schema';
 import { scheme_performance } from './scheme_performance.schema';
+import { scheme_overall_performance } from './scheme_overall_performance.schema';
 
 export const schemes = pgTable('schemes', {
     id: uuid("id").defaultRandom().primaryKey(),
@@ -24,14 +25,14 @@ export const schemes = pgTable('schemes', {
     benchmarkShortIndexId: uuid("benchmark_short_index_id").references(() => benchmark_indices.id),
 
     // IA Fields
-    iaStructure: varchar("ia_structure", { length: 50 }),
-    iaCode: varchar("ia_code", { length: 50 }),
-    iaShortName: varchar("ia_short_name", { length: 100 }),
+    iaStructure: varchar("ia_structure", { length: 50 }), // scheme_type
+    // iaCode: varchar("ia_code", { length: 50 }), // scheme_code
+    iaShortName: varchar("ia_short_name", { length: 100 }), // scheme_short_name
     strategyCode: varchar("strategy_code", { length: 50 }),
-    strategyName: varchar("strategy_name", { length: 255 }),
+    // strategyName: varchar("strategy_name", { length: 255 }), // scheme_name
     
     // Financials
-    aum: numeric("aum"),
+    aum: varchar("aum"),
     avgMarketCap: numeric("avg_market_cap"),
     
     // Reporting
@@ -47,10 +48,10 @@ export const schemes = pgTable('schemes', {
     schemeInceptionDate: date("scheme_inception_date"),
     
     // Fees & Portfolio Composition
-    setupFees: numeric("setup_fees"),
-    largeCap: numeric("large_cap"),
-    midCap: numeric("mid_cap"),
-    smallCap: numeric("small_cap"),
+    setupFees: varchar("setup_fees"),
+    largeCap: varchar("large_cap", { length: 50 }),
+    midCap: varchar("mid_cap", { length: 50 }),
+    smallCap: varchar("small_cap", { length: 50 }),
     cashEquivalent: numeric("cash_equivalent"),
     others: numeric("others"),
     
@@ -60,25 +61,25 @@ export const schemes = pgTable('schemes', {
     topupOption: boolean("topup_option").default(false),
     
     // Fee Structure
-    feeProfitShare: numeric("fee_profit_share"),
-    feeStructure: varchar("fee_structure", { length: 50 }),
-    feeFixedAmc: numeric("fee_fixed_amc"),
-    feeVariableAmc: numeric("fee_variable_amc"),
-    feeHurdle: numeric("fee_hurdle"),
+    feeProfitShare: varchar("fee_profit_share", { length: 50 }),
+    feeStructure: text("fee_structure"),
+    feeFixedAmc: varchar("fee_fixed_amc", { length: 50 }),
+    feeVariableAmc: varchar("fee_variable_amc", { length: 50 }),
+    feeHurdle: varchar("fee_hurdle", { length: 50 }),
     remarksForFeeStructure: text("remarks_for_fee_structure"),
     
     // Exit Loads
-    exitLoad1Yr: numeric("exit_load_1_yr"),
-    exitLoad2Yr: numeric("exit_load_2_yr"),
-    exitLoad3Yr: numeric("exit_load_3_yr"),
+    exitLoad1Yr: varchar("exit_load_1_yr", { length: 50 }),
+    exitLoad2Yr: varchar("exit_load_2_yr", { length: 50 }),
+    exitLoad3Yr: varchar("exit_load_3_yr", { length: 50 }),
     exitLoad: text("exit_load"),
     exitOption: text("exit_option"),
     
     // Portfolio Const
     idealStocksInPortfolio: integer("ideal_stocks_in_portfolio"),
-    minInvestment: numeric("min_investment"),
-    minTopupAmount: numeric("min_topup_amount"),
-    initialDrawdown: numeric("initial_drawdown"),
+    minInvestment: varchar("min_investment"),
+    minTopupAmount: varchar("min_topup_amount"),
+    initialDrawdown: varchar("initial_drawdown"),
     
     // Flags
     isDistributable: boolean("is_distributable").default(false),
@@ -105,7 +106,7 @@ export const schemes = pgTable('schemes', {
     fundTargetSizeDescription: text("fund_target_size_description"),
     minCommitment: numeric("min_commitment"),
     minCommitmentDescription: text("min_commitment_description"),
-    drawdown: numeric("drawdown"),
+    drawdown: varchar("drawdown"),
     drawdownDescription: text("drawdown_description"),
     targettedGrossIrr: numeric("targetted_gross_irr"),
     targettedGrossIrrDescription: text("targetted_gross_irr_description"),
@@ -167,8 +168,16 @@ export const schemesRelations = relations(schemes, ({ one, many }) => ({
         fields: [schemes.benchmarkIndexId],
         references: [benchmark_indices.id],
     }),
+    benchmarkShortIndex: one(benchmark_indices, {
+        fields: [schemes.benchmarkShortIndexId],
+        references: [benchmark_indices.id],
+    }),
     fundManagers: many(scheme_fund_managers),
     performance: many(scheme_performance),
+    overallPerformance: one(scheme_overall_performance, {
+        fields: [schemes.id],
+        references: [scheme_overall_performance.schemeId],
+    }),
 }));
 
 export type Scheme = typeof schemes;

@@ -22,8 +22,8 @@ export interface Scheme {
     iaShortName: string | null;
     strategyCode: string | null;
     strategyName: string | null;
-    aum: number | null;
-    avgMarketCap: number | null;
+    aum: string | null;
+    avgMarketCap: string | null;
     reportingStructure: string | null;
     comparisonReportingStructure: string | null;
     about: string | null;
@@ -32,30 +32,30 @@ export interface Scheme {
     iaTheme: string | null;
     keyStrength: string | null;
     schemeInceptionDate: string | null;
-    setupFees: number | null;
-    largeCap: number | null;
-    midCap: number | null;
-    smallCap: number | null;
-    cashEquivalent: number | null;
-    others: number | null;
+    setupFees: string | null;
+    largeCap: string | null;
+    midCap: string | null;
+    smallCap: string | null;
+    cashEquivalent: string | null;
+    others: string | null;
     sipOption: boolean | null;
     stpOption: boolean | null;
     topupOption: boolean | null;
-    feeProfitShare: number | null;
+    feeProfitShare: string | null;
     feeStructure: string | null;
-    feeFixedAmc: number | null;
-    feeVariableAmc: number | null;
-    feeHurdle: number | null;
+    feeFixedAmc: string | null;
+    feeVariableAmc: string | null;
+    feeHurdle: string | null;
     remarksForFeeStructure: string | null;
-    exitLoad1Yr: number | null;
-    exitLoad2Yr: number | null;
-    exitLoad3Yr: number | null;
+    exitLoad1Yr: string | null;
+    exitLoad2Yr: string | null;
+    exitLoad3Yr: string | null;
     exitLoad: string | null;
     exitOption: string | null;
     idealStocksInPortfolio: number | null;
-    minInvestment: number | null;
-    minTopupAmount: number | null;
-    initialDrawdown: number | null;
+    minInvestment: string | null;
+    minTopupAmount: string | null;
+    initialDrawdown: string | null;
     isDistributable: boolean | null;
     showInDashboard: boolean | null;
     isFeatured: boolean;
@@ -70,13 +70,13 @@ export interface Scheme {
     fundApproachDescription: string | null;
     fundTenure: string | null;
     fundTenureDescription: string | null;
-    fundTargetSize: number | null;
+    fundTargetSize: string | null;
     fundTargetSizeDescription: string | null;
-    minCommitment: number | null;
+    minCommitment: string | null;
     minCommitmentDescription: string | null;
-    drawdown: number | null;
+    drawdown: string | null;
     drawdownDescription: string | null;
-    targettedGrossIrr: number | null;
+    targettedGrossIrr: string | null;
     targettedGrossIrrDescription: string | null;
     whoCanInvest: string | null;
     whoCannotInvest: string | null;
@@ -93,8 +93,8 @@ export interface Scheme {
     taxAdvisor: string | null;
     taxation: string | null;
     performanceNote: string | null;
-    top5Holdings: Array<{ name: string, value: number }> | null;
-    top5Sectors: Array<{ name: string, value: number }> | null;
+    top5Holdings: Array<{ name: string, value: string }> | null;
+    top5Sectors: Array<{ name: string, value: string }> | null;
     fundManagers?: Array<SchemeFundManager>; // Added fundManagers
     performance?: Array<SchemePerformance>; // Added performance
     tenureInMonths: number | null;
@@ -196,8 +196,8 @@ export interface CreateSchemePayload {
     taxAdvisor?: string;
     taxation?: string;
     performanceNote?: string;
-    top5Holdings?: Array<{ name: string, value: number }>;
-    top5Sectors?: Array<{ name: string, value: number }>;
+    top5Holdings?: Array<{ name: string, value: string }>;
+    top5Sectors?: Array<{ name: string, value: string }>;
     tenureInMonths?: number;
     riskLevel?: string;
 }
@@ -228,7 +228,7 @@ export interface SchemeFundManager {
 export interface SchemePerformance {
     performanceType: string;
     year: string;
-    displayOrder?: number;
+    display?: string;
     schemePerformance?: number;
     benchmarkPerformance?: number;
 }

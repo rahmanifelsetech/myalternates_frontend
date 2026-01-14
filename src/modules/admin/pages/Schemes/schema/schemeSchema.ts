@@ -2,7 +2,7 @@ import * as z from 'zod';
 
 const Top5ItemSchema = z.object({
     name: z.string().min(1, "Name is required"),
-    value: z.coerce.number().min(0, "Value must be non-negative"),
+    value: z.string().min(0, "Value must be non-negative"),
 });
 
 const SchemeFundManagerSchema = z.object({
@@ -62,16 +62,16 @@ export const SchemeSchema = z.object({
     stpOption: z.boolean().optional().nullable(),
     topupOption: z.boolean().optional().nullable(),
 
-    feeProfitShare: z.coerce.number().optional().nullable(),
+    feeProfitShare: z.string().optional().nullable(),
     feeStructure: z.string().optional().nullable(),
-    feeFixedAmc: z.coerce.number().optional().nullable(),
-    feeVariableAmc: z.coerce.number().optional().nullable(),
-    feeHurdle: z.coerce.number().optional().nullable(),
+    feeFixedAmc: z.string().optional().nullable(),
+    feeVariableAmc: z.string().optional().nullable(),
+    feeHurdle: z.string().optional().nullable(),
     remarksForFeeStructure: z.string().optional().nullable(),
 
-    exitLoad1Yr: z.coerce.number().optional().nullable(),
-    exitLoad2Yr: z.coerce.number().optional().nullable(),
-    exitLoad3Yr: z.coerce.number().optional().nullable(),
+    exitLoad1Yr: z.string().optional().nullable(),
+    exitLoad2Yr: z.string().optional().nullable(),
+    exitLoad3Yr: z.string().optional().nullable(),
     exitLoad: z.string().optional().nullable(),
     exitOption: z.string().optional().nullable(),
 

@@ -45,10 +45,8 @@ const emptyValues: SchemeSchemaType = {
     benchmarkIndexId: null,
     benchmarkShortIndexId: null,
     iaStructure: null,
-    iaCode: null,
     iaShortName: null,
     strategyCode: null,
-    strategyName: null,
     aum: null,
     avgMarketCap: null,
     reportingStructure: null,
@@ -138,12 +136,10 @@ export const SchemeForm: React.FC<SchemeFormProps> = ({ scheme, onSubmit, onCanc
         benchmarkIndexId: scheme.benchmarkIndexId ?? null,
         benchmarkShortIndexId: scheme.benchmarkShortIndexId ?? null,
         iaStructure: scheme.iaStructure ?? null,
-        iaCode: scheme.iaCode ?? null,
         iaShortName: scheme.iaShortName ?? null,
         strategyCode: scheme.strategyCode ?? null,
-        strategyName: scheme.strategyName ?? null,
-        aum: scheme.aum ? parseFloat(scheme.aum as any) : null,
-        avgMarketCap: scheme.avgMarketCap ? parseFloat(scheme.avgMarketCap as any) : null,
+        aum: scheme.aum ?? null,
+        avgMarketCap: scheme.avgMarketCap ?? null,
         reportingStructure: scheme.reportingStructure ?? null,
         comparisonReportingStructure: scheme.comparisonReportingStructure ?? null,
         about: scheme.about ?? null,
@@ -152,30 +148,30 @@ export const SchemeForm: React.FC<SchemeFormProps> = ({ scheme, onSubmit, onCanc
         iaTheme: scheme.iaTheme ?? null,
         keyStrength: scheme.keyStrength ?? null,
         schemeInceptionDate: scheme.schemeInceptionDate ? formatDate(scheme.schemeInceptionDate) : null,
-        setupFees: scheme.setupFees ? parseFloat(scheme.setupFees as any) : null,
-        largeCap: scheme.largeCap ? parseFloat(scheme.largeCap as any) : null,
-        midCap: scheme.midCap ? parseFloat(scheme.midCap as any) : null,
-        smallCap: scheme.smallCap ? parseFloat(scheme.smallCap as any) : null,
-        cashEquivalent: scheme.cashEquivalent ? parseFloat(scheme.cashEquivalent as any) : null,
-        others: scheme.others ? parseFloat(scheme.others as any) : null,
+        setupFees: scheme.setupFees ?? null,
+        largeCap: scheme.largeCap ?? null,
+        midCap: scheme.midCap ?? null,
+        smallCap: scheme.smallCap ?? null,
+        cashEquivalent: scheme.cashEquivalent ?? null,
+        others: scheme.others ?? null,
         sipOption: scheme.sipOption ?? null,
         stpOption: scheme.stpOption ?? null,
         topupOption: scheme.topupOption ?? null,
-        feeProfitShare: scheme.feeProfitShare ? parseFloat(scheme.feeProfitShare as any) : null,
+        feeProfitShare: scheme.feeProfitShare ?? null,
         feeStructure: scheme.feeStructure ?? null,
-        feeFixedAmc: scheme.feeFixedAmc ? parseFloat(scheme.feeFixedAmc as any) : null,
-        feeVariableAmc: scheme.feeVariableAmc ? parseFloat(scheme.feeVariableAmc as any) : null,
-        feeHurdle: scheme.feeHurdle ? parseFloat(scheme.feeHurdle as any) : null,
+        feeFixedAmc: scheme.feeFixedAmc ?? null,
+        feeVariableAmc: scheme.feeVariableAmc ?? null,
+        feeHurdle: scheme.feeHurdle ?? null,
         remarksForFeeStructure: scheme.remarksForFeeStructure ?? null,
-        exitLoad1Yr: scheme.exitLoad1Yr ? parseFloat(scheme.exitLoad1Yr as any) : null,
-        exitLoad2Yr: scheme.exitLoad2Yr ? parseFloat(scheme.exitLoad2Yr as any) : null,
-        exitLoad3Yr: scheme.exitLoad3Yr ? parseFloat(scheme.exitLoad3Yr as any) : null,
+        exitLoad1Yr: scheme.exitLoad1Yr ?? null,
+        exitLoad2Yr: scheme.exitLoad2Yr ?? null,
+        exitLoad3Yr: scheme.exitLoad3Yr ?? null,
         exitLoad: scheme.exitLoad ?? null,
         exitOption: scheme.exitOption ?? null,
         idealStocksInPortfolio: scheme.idealStocksInPortfolio ? parseInt(scheme.idealStocksInPortfolio as any, 10) : null,
-        minInvestment: scheme.minInvestment ? parseFloat(scheme.minInvestment as any) : null,
-        minTopupAmount: scheme.minTopupAmount ? parseFloat(scheme.minTopupAmount as any) : null,
-        initialDrawdown: scheme.initialDrawdown ? parseFloat(scheme.initialDrawdown as any) : null,
+        minInvestment: scheme.minInvestment ?? null,
+        minTopupAmount: scheme.minTopupAmount ?? null,
+        initialDrawdown: scheme.initialDrawdown ?? null,
         isDistributable: scheme.isDistributable ?? null,
         showInDashboard: scheme.showInDashboard ?? null,
         isSuggested: scheme.isSuggested ?? null,
@@ -189,13 +185,13 @@ export const SchemeForm: React.FC<SchemeFormProps> = ({ scheme, onSubmit, onCanc
         fundApproachDescription: scheme.fundApproachDescription ?? null,
         fundTenure: scheme.fundTenure ?? null,
         fundTenureDescription: scheme.fundTenureDescription ?? null,
-        fundTargetSize: scheme.fundTargetSize ? parseFloat(scheme.fundTargetSize as any) : null,
+        fundTargetSize: scheme.fundTargetSize ?? null,
         fundTargetSizeDescription: scheme.fundTargetSizeDescription ?? null,
-        minCommitment: scheme.minCommitment ? parseFloat(scheme.minCommitment as any) : null,
+        minCommitment: scheme.minCommitment ?? null,
         minCommitmentDescription: scheme.minCommitmentDescription ?? null,
-        drawdown: scheme.drawdown ? parseFloat(scheme.drawdown as any) : null,
+        drawdown: scheme.drawdown ?? null,
         drawdownDescription: scheme.drawdownDescription ?? null,
-        targettedGrossIrr: scheme.targettedGrossIrr ? parseFloat(scheme.targettedGrossIrr as any) : null,
+        targettedGrossIrr: scheme.targettedGrossIrr ?? null,
         targettedGrossIrrDescription: scheme.targettedGrossIrrDescription ?? null,
         priorityOrder: scheme.priorityOrder ? parseInt(scheme.priorityOrder as any, 10) : null,
         whoCanInvest: scheme.whoCanInvest ?? null,
@@ -213,8 +209,8 @@ export const SchemeForm: React.FC<SchemeFormProps> = ({ scheme, onSubmit, onCanc
         taxAdvisor: scheme.taxAdvisor ?? null,
         taxation: scheme.taxation ?? null,
         performanceNote: scheme.performanceNote ?? null,
-        top5Holdings: scheme.top5Holdings ? scheme.top5Holdings.map(h => ({ ...h, value: parseFloat(h.value as any) })) : [],
-        top5Sectors: scheme.top5Sectors ? scheme.top5Sectors.map(s => ({ ...s, value: parseFloat(s.value as any) })) : [],
+        top5Holdings: scheme.top5Holdings ? scheme.top5Holdings.map(h => ({ ...h, value: String(h.value) })) : [],
+        top5Sectors: scheme.top5Sectors ? scheme.top5Sectors.map(s => ({ ...s, value: String(s.value) })) : [],
         fundManagers: scheme.fundManagers ?? [],
         performance: scheme.performance ?? [],
     } as SchemeSchemaType : { ...emptyValues }), [scheme]);
@@ -353,8 +349,8 @@ export const SchemeForm: React.FC<SchemeFormProps> = ({ scheme, onSubmit, onCanc
     ];
 
     const performanceTypes = [
-        { label: "Financial Year Performance", value: "Financial Year Performance" },
-        { label: "Calendar Year Performance", value: "Calendar Year Performance" },
+        { label: "Financial Year Performance", value: "Financial Year" },
+        { label: "Calendar Year Performance", value: "Calendar Year" },
     ];
 
 
@@ -362,7 +358,7 @@ export const SchemeForm: React.FC<SchemeFormProps> = ({ scheme, onSubmit, onCanc
 
     const tabFields: Record<string, (keyof SchemeSchemaType)[]> = {
         "Basic Details": ['productId', 'amcId', 'schemeCode', 'schemeName', 'color', 'categoryId', 'subCategoryId', 'assetClassId', 'benchmarkIndexId', 'benchmarkShortIndexId'],
-        "Details": ['iaStructure', 'iaCode', 'iaShortName', 'strategyName', 'about', 'investmentObjective', 'investmentApproach', 'iaTheme', 'keyStrength', 'schemeInceptionDate'],
+        "Details": ['iaStructure', 'iaShortName', 'strategyCode', 'about', 'investmentObjective', 'investmentApproach', 'iaTheme', 'keyStrength', 'schemeInceptionDate'],
         "Financials": ['aum', 'avgMarketCap', 'setupFees', 'largeCap', 'midCap', 'smallCap', 'cashEquivalent', 'others'],
         "Fees & Loads": ['feeProfitShare', 'feeStructure', 'feeFixedAmc', 'feeVariableAmc', 'feeHurdle', 'remarksForFeeStructure', 'exitLoad1Yr', 'exitLoad2Yr', 'exitLoad3Yr', 'exitLoad', 'exitOption'],
         "Portfolio": ['idealStocksInPortfolio', 'minInvestment', 'minTopupAmount', 'initialDrawdown'],
@@ -402,9 +398,8 @@ export const SchemeForm: React.FC<SchemeFormProps> = ({ scheme, onSubmit, onCanc
                     <h3 className={`${typographyClasses.heading.h4} ${typographyClasses.colors.text.primary} border-b pb-2 mb-4 mt-6`}>Investment Approach</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <DynamicFormField control={control} label="IA Structure" type="select" options={iaStructures} error={errors.iaStructure} {...register('iaStructure')} />
-                        <DynamicFormField control={control} label="IA Code" error={errors.iaCode} {...register('iaCode')} />
                         <DynamicFormField control={control} label="IA Short Name" error={errors.iaShortName} {...register('iaShortName')} />
-                        <DynamicFormField control={control} label="Strategy Name" error={errors.strategyName} {...register('strategyName')} />
+                        <DynamicFormField control={control} label="Strategy Code" error={errors.strategyCode} {...register('strategyCode')} />
                     </div>
 
                     <h3 className={`${typographyClasses.heading.h4} ${typographyClasses.colors.text.primary} border-b pb-2 mb-4 mt-6`}>Scheme Details</h3>
@@ -426,17 +421,17 @@ export const SchemeForm: React.FC<SchemeFormProps> = ({ scheme, onSubmit, onCanc
                 <div className="space-y-6">
                     <h3 className={`${typographyClasses.heading.h4} ${typographyClasses.colors.text.primary} border-b pb-2 mb-4 mt-6`}>Financials</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <DynamicFormField control={control} label="AUM" type="number" error={errors.aum} {...register('aum')} />
-                        <DynamicFormField control={control} label="Avg. Market Cap" type="number" error={errors.avgMarketCap} {...register('avgMarketCap')} />
+                        <DynamicFormField control={control} label="AUM" type="text" error={errors.aum} {...register('aum')} />
+                        <DynamicFormField control={control} label="Avg. Market Cap" type="text" error={errors.avgMarketCap} {...register('avgMarketCap')} />
                     </div>
                     <h3 className={`${typographyClasses.heading.h4} ${typographyClasses.colors.text.primary} border-b pb-2 mb-4 mt-6`}>Fees & Portfolio Composition</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <DynamicFormField control={control} label="Setup Fees" type="number" error={errors.setupFees} {...register('setupFees')} />
-                        <DynamicFormField control={control} label="Large Cap" type="number" error={errors.largeCap} {...register('largeCap')} />
-                        <DynamicFormField control={control} label="Mid Cap" type="number" error={errors.midCap} {...register('midCap')} />
-                        <DynamicFormField control={control} label="Small Cap" type="number" error={errors.smallCap} {...register('smallCap')} />
-                        <DynamicFormField control={control} label="Cash Equivalent" type="number" error={errors.cashEquivalent} {...register('cashEquivalent')} />
-                        <DynamicFormField control={control} label="Others" type="number" error={errors.others} {...register('others')} />
+                        <DynamicFormField control={control} label="Setup Fees" type="text" error={errors.setupFees} {...register('setupFees')} />
+                        <DynamicFormField control={control} label="Large Cap" type="text" error={errors.largeCap} {...register('largeCap')} />
+                        <DynamicFormField control={control} label="Mid Cap" type="text" error={errors.midCap} {...register('midCap')} />
+                        <DynamicFormField control={control} label="Small Cap" type="text" error={errors.smallCap} {...register('smallCap')} />
+                        <DynamicFormField control={control} label="Cash Equivalent" type="text" error={errors.cashEquivalent} {...register('cashEquivalent')} />
+                        <DynamicFormField control={control} label="Others" type="text" error={errors.others} {...register('others')} />
                     </div>
                 </div>
             )
@@ -448,18 +443,18 @@ export const SchemeForm: React.FC<SchemeFormProps> = ({ scheme, onSubmit, onCanc
                 <div className="space-y-6">
                     <h3 className={`${typographyClasses.heading.h4} ${typographyClasses.colors.text.primary} border-b pb-2 mb-4 mt-6`}>Fee Structure</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <DynamicFormField control={control} label="Fee Profit Share" type="number" error={errors.feeProfitShare} {...register('feeProfitShare')} />
+                        <DynamicFormField control={control} label="Fee Profit Share" type="text" error={errors.feeProfitShare} {...register('feeProfitShare')} />
                         <DynamicFormField control={control} label="Fee Structure" type="select" options={feeStructures} error={errors.feeStructure} {...register('feeStructure')} />
-                        <DynamicFormField control={control} label="Fee Fixed AMC" type="number" error={errors.feeFixedAmc} {...register('feeFixedAmc')} />
-                        <DynamicFormField control={control} label="Fee Variable AMC" type="number" error={errors.feeVariableAmc} {...register('feeVariableAmc')} />
-                        <DynamicFormField control={control} label="Fee Hurdle" type="number" error={errors.feeHurdle} {...register('feeHurdle')} />
+                        <DynamicFormField control={control} label="Fee Fixed AMC" type="text" error={errors.feeFixedAmc} {...register('feeFixedAmc')} />
+                        <DynamicFormField control={control} label="Fee Variable AMC" type="text" error={errors.feeVariableAmc} {...register('feeVariableAmc')} />
+                        <DynamicFormField control={control} label="Fee Hurdle" type="text" error={errors.feeHurdle} {...register('feeHurdle')} />
                         <DynamicFormField control={control} label="Remarks for Fee Structure" type="textarea" error={errors.remarksForFeeStructure} {...register('remarksForFeeStructure')} />
                     </div>
                     <h3 className={`${typographyClasses.heading.h4} ${typographyClasses.colors.text.primary} border-b pb-2 mb-4 mt-6`}>Exit Loads</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <DynamicFormField control={control} label="Exit Load 1 Yr" type="number" error={errors.exitLoad1Yr} {...register('exitLoad1Yr')} />
-                        <DynamicFormField control={control} label="Exit Load 2 Yr" type="number" error={errors.exitLoad2Yr} {...register('exitLoad2Yr')} />
-                        <DynamicFormField control={control} label="Exit Load 3 Yr" type="number" error={errors.exitLoad3Yr} {...register('exitLoad3Yr')} />
+                        <DynamicFormField control={control} label="Exit Load 1 Yr" type="text" error={errors.exitLoad1Yr} {...register('exitLoad1Yr')} />
+                        <DynamicFormField control={control} label="Exit Load 2 Yr" type="text" error={errors.exitLoad2Yr} {...register('exitLoad2Yr')} />
+                        <DynamicFormField control={control} label="Exit Load 3 Yr" type="text" error={errors.exitLoad3Yr} {...register('exitLoad3Yr')} />
                         <DynamicFormField control={control} label="Exit Load" error={errors.exitLoad} {...register('exitLoad')} />
                         <DynamicFormField control={control} label="Exit Option" error={errors.exitOption} {...register('exitOption')} />
                     </div>
@@ -474,9 +469,9 @@ export const SchemeForm: React.FC<SchemeFormProps> = ({ scheme, onSubmit, onCanc
                     <h3 className={`${typographyClasses.heading.h4} ${typographyClasses.colors.text.primary} border-b pb-2 mb-4 mt-6`}>Portfolio Construction</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <DynamicFormField control={control} label="Ideal Stocks In Portfolio" type="number" error={errors.idealStocksInPortfolio} {...register('idealStocksInPortfolio')} />
-                        <DynamicFormField control={control} label="Min Investment" type="number" error={errors.minInvestment} {...register('minInvestment')} />
-                        <DynamicFormField control={control} label="Min Topup Amount" type="number" error={errors.minTopupAmount} {...register('minTopupAmount')} />
-                        <DynamicFormField control={control} label="Initial Drawdown" type="number" error={errors.initialDrawdown} {...register('initialDrawdown')} />
+                        <DynamicFormField control={control} label="Min Investment" type="text" error={errors.minInvestment} {...register('minInvestment')} />
+                        <DynamicFormField control={control} label="Min Topup Amount" type="text" error={errors.minTopupAmount} {...register('minTopupAmount')} />
+                        <DynamicFormField control={control} label="Initial Drawdown" type="text" error={errors.initialDrawdown} {...register('initialDrawdown')} />
                     </div>
                 </div>
             )
@@ -532,13 +527,13 @@ export const SchemeForm: React.FC<SchemeFormProps> = ({ scheme, onSubmit, onCanc
 
                     <h3 className={`${typographyClasses.heading.h4} ${typographyClasses.colors.text.primary} border-b pb-2 mb-4 mt-6`}>Fund Size & Commitments</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <DynamicFormField control={control} label="Fund Target Size" type="number" error={errors.fundTargetSize} {...register('fundTargetSize')} />
+                        <DynamicFormField control={control} label="Fund Target Size" type="text" error={errors.fundTargetSize} {...register('fundTargetSize')} />
                         <DynamicFormField control={control} label="Fund Target Size Description" type="textarea" error={errors.fundTargetSizeDescription} {...register('fundTargetSizeDescription')} />
-                        <DynamicFormField control={control} label="Min Commitment" type="number" error={errors.minCommitment} {...register('minCommitment')} />
+                        <DynamicFormField control={control} label="Min Commitment" type="text" error={errors.minCommitment} {...register('minCommitment')} />
                         <DynamicFormField control={control} label="Min Commitment Description" type="textarea" error={errors.minCommitmentDescription} {...register('minCommitmentDescription')} />
-                        <DynamicFormField control={control} label="Drawdown" type="number" error={errors.drawdown} {...register('drawdown')} />
+                        <DynamicFormField control={control} label="Drawdown" type="text" error={errors.drawdown} {...register('drawdown')} />
                         <DynamicFormField control={control} label="Drawdown Description" type="textarea" error={errors.drawdownDescription} {...register('drawdownDescription')} />
-                        <DynamicFormField control={control} label="Targeted Gross IRR" type="number" error={errors.targettedGrossIrr} {...register('targettedGrossIrr')} />
+                        <DynamicFormField control={control} label="Targeted Gross IRR" type="text" error={errors.targettedGrossIrr} {...register('targettedGrossIrr')} />
                         <DynamicFormField control={control} label="Targeted Gross IRR Description" type="textarea" error={errors.targettedGrossIrrDescription} {...register('targettedGrossIrrDescription')} />
                     </div>
                 </div>
@@ -675,7 +670,7 @@ export const SchemeForm: React.FC<SchemeFormProps> = ({ scheme, onSubmit, onCanc
                                     <DynamicFormField
                                         control={control}
                                         label="Holding %"
-                                        type="number"
+                                        type="text"
                                         required
                                         error={(errors.top5Holdings as any)?.[index]?.value}
                                         {...register(`top5Holdings.${index}.value`)}
@@ -723,7 +718,7 @@ export const SchemeForm: React.FC<SchemeFormProps> = ({ scheme, onSubmit, onCanc
                                     <DynamicFormField
                                         control={control}
                                         label="Sector %"
-                                        type="number"
+                                        type="text"
                                         required
                                         error={(errors.top5Sectors as any)?.[index]?.value}
                                         {...register(`top5Sectors.${index}.value`)}
@@ -779,10 +774,10 @@ export const SchemeForm: React.FC<SchemeFormProps> = ({ scheme, onSubmit, onCanc
                                     />
                                     <DynamicFormField
                                         control={control}
-                                        label="Display Order"
-                                        type="number"
-                                        error={(errors.performance as any)?.[index]?.displayOrder}
-                                        {...register(`performance.${index}.displayOrder`)}
+                                        label="Display"
+                                        type="text"
+                                        error={(errors.performance as any)?.[index]?.display}
+                                        {...register(`performance.${index}.display`)}
                                     />
                                     <DynamicFormField
                                         control={control}
