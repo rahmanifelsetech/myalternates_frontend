@@ -20,6 +20,13 @@ import {
 import { PlusIcon, TrashBinIcon } from '@shared/icons';
 import { formatDate } from '@shared/utils/dateUtils';
 import { typographyClasses } from '@shared/utils/typographyUtils';
+import {
+    INVESTOR_TYPES,
+    FUND_TYPES,
+    SCHEME_TYPES,
+    FUND_APPROACHES,
+    PERFORMANCE_TYPES,
+} from '@/modules/admin/pages/Schemes/scheme.constants';
 
 interface SchemeFormProps {
     scheme?: Scheme | null;
@@ -46,7 +53,6 @@ const emptyValues: SchemeSchemaType = {
     benchmarkShortIndexId: null,
     iaStructure: null,
     iaShortName: null,
-    strategyCode: null,
     aum: null,
     avgMarketCap: null,
     reportingStructure: null,
@@ -137,7 +143,6 @@ export const SchemeForm: React.FC<SchemeFormProps> = ({ scheme, onSubmit, onCanc
         benchmarkShortIndexId: scheme.benchmarkShortIndexId ?? null,
         iaStructure: scheme.iaStructure ?? null,
         iaShortName: scheme.iaShortName ?? null,
-        strategyCode: scheme.strategyCode ?? null,
         aum: scheme.aum ?? null,
         avgMarketCap: scheme.avgMarketCap ?? null,
         reportingStructure: scheme.reportingStructure ?? null,
@@ -327,38 +332,44 @@ export const SchemeForm: React.FC<SchemeFormProps> = ({ scheme, onSubmit, onCanc
         { label: "Pre Fees Reporting", value: "Pre Fees Reporting" },
     ];
 
-    const investorTypes = [
-        { label: "All", value: "All" },
-        { label: "Indian & Non - US", value: "Indian& Non - US" },
-        { label: "ALL NRI", value: "ALL NRI" },
-        { label: "Non US", value: "Non US" },
-    ];
+    const investorTypes = INVESTOR_TYPES;
+    const fundTypes = FUND_TYPES;
+    const schemeTypes = SCHEME_TYPES;
+    const fundApproaches = FUND_APPROACHES;
+    const performanceTypes = PERFORMANCE_TYPES;
 
-    const fundTypes = [
-        { label: "India Focused Fund", value: "India Focused Fund" },
-        { label: "Global Focused Fund", value: "Global Focused Fund" },
-    ];
+    // const investorTypes = [
+    //     { label: "All", value: "All" },
+    //     { label: "Indian & Non - US", value: "Indian& Non - US" },
+    //     { label: "ALL NRI", value: "ALL NRI" },
+    //     { label: "Non US", value: "Non US" },
+    // ];
 
-    const schemeTypes = [
-        { label: "Restricted Scheme (Non-retail)", value: "Restricted Scheme(Non-retail)" },
-    ];
+    // const fundTypes = [
+    //     { label: "India Focused Fund", value: "India Focused Fund" },
+    //     { label: "Global Focused Fund", value: "Global Focused Fund" },
+    // ];
 
-    const fundApproaches = [
-        { label: "Feeder Fund", value: "Feeder Fund" },
-        { label: "Active Fund", value: "Active Fund" },
-    ];
+    // const schemeTypes = [
+    //     { label: "Restricted Scheme (Non-retail)", value: "Restricted Scheme(Non-retail)" },
+    // ];
 
-    const performanceTypes = [
-        { label: "Financial Year Performance", value: "Financial Year" },
-        { label: "Calendar Year Performance", value: "Calendar Year" },
-    ];
+    // const fundApproaches = [
+    //     { label: "Feeder Fund", value: "Feeder Fund" },
+    //     { label: "Active Fund", value: "Active Fund" },
+    // ];
+
+    // const performanceTypes = [
+    //     { label: "Financial Year Performance", value: "Financial Year" },
+    //     { label: "Calendar Year Performance", value: "Calendar Year" },
+    // ];
 
 
     const [activeTab, setActiveTab] = useState(0);
 
     const tabFields: Record<string, (keyof SchemeSchemaType)[]> = {
         "Basic Details": ['productId', 'amcId', 'schemeCode', 'schemeName', 'color', 'categoryId', 'subCategoryId', 'assetClassId', 'benchmarkIndexId', 'benchmarkShortIndexId'],
-        "Details": ['iaStructure', 'iaShortName', 'strategyCode', 'about', 'investmentObjective', 'investmentApproach', 'iaTheme', 'keyStrength', 'schemeInceptionDate'],
+        "Details": ['iaStructure', 'iaShortName', 'about', 'investmentObjective', 'investmentApproach', 'iaTheme', 'keyStrength', 'schemeInceptionDate'],
         "Financials": ['aum', 'avgMarketCap', 'setupFees', 'largeCap', 'midCap', 'smallCap', 'cashEquivalent', 'others'],
         "Fees & Loads": ['feeProfitShare', 'feeStructure', 'feeFixedAmc', 'feeVariableAmc', 'feeHurdle', 'remarksForFeeStructure', 'exitLoad1Yr', 'exitLoad2Yr', 'exitLoad3Yr', 'exitLoad', 'exitOption'],
         "Portfolio": ['idealStocksInPortfolio', 'minInvestment', 'minTopupAmount', 'initialDrawdown'],
@@ -399,7 +410,6 @@ export const SchemeForm: React.FC<SchemeFormProps> = ({ scheme, onSubmit, onCanc
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <DynamicFormField control={control} label="IA Structure" type="select" options={iaStructures} error={errors.iaStructure} {...register('iaStructure')} />
                         <DynamicFormField control={control} label="IA Short Name" error={errors.iaShortName} {...register('iaShortName')} />
-                        <DynamicFormField control={control} label="Strategy Code" error={errors.strategyCode} {...register('strategyCode')} />
                     </div>
 
                     <h3 className={`${typographyClasses.heading.h4} ${typographyClasses.colors.text.primary} border-b pb-2 mb-4 mt-6`}>Scheme Details</h3>
@@ -495,18 +505,19 @@ export const SchemeForm: React.FC<SchemeFormProps> = ({ scheme, onSubmit, onCanc
                     <h3 className={`${typographyClasses.heading.h4} ${typographyClasses.colors.text.primary} border-b pb-2 mb-4 mt-6`}>Flags</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <DynamicFormField control={control} label="Is Distributable?" type="checkbox" error={errors.isDistributable} {...register('isDistributable')} />
-                        <DynamicFormField control={control} label="Show In Dashboard?" type="checkbox" error={errors.showInDashboard} {...register('showInDashboard')} />
+                        <DynamicFormField control={control} label="Conservative" type="checkbox" error={errors.showInDashboard} {...register('showInDashboard')} />
                         <DynamicFormField control={control} label="Is Featured Product?" type="checkbox" error={errors.isFeatured} {...register('isFeatured')} />
-                        <DynamicFormField control={control} label="Is Suggested?" type="checkbox" error={errors.isSuggested} {...register('isSuggested')} />
+                        <DynamicFormField control={control} label="Moderate?" type="checkbox" error={errors.isSuggested} {...register('isSuggested')} />
+                        <DynamicFormField control={control} label="Aggressive?" type="checkbox" error={errors.isAggressive} {...register('isAggressive')} />
                         <DynamicFormField control={control} label="Is Open For Subscription?" type="checkbox" error={errors.isOpenForSubscription} {...register('isOpenForSubscription')} />
                         <DynamicFormField control={control} label="Is Active?" type="checkbox" error={errors.isActive} {...register('isActive')} />
                         <DynamicFormField control={control} label="Priority Order" type="number" error={errors.priorityOrder} {...register('priorityOrder')} />
                     </div>
                     <h3 className={`${typographyClasses.heading.h4} ${typographyClasses.colors.text.primary} border-b pb-2 mb-4 mt-6`}>Additional Details</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <DynamicFormField control={control} label="Investor Type" type="select" options={investorTypes} error={errors.investorType} {...register('investorType')} />
-                        <DynamicFormField control={control} label="Fund Type" type="select" options={fundTypes} error={errors.fundType} {...register('fundType')} />
-                        <DynamicFormField control={control} label="Scheme Type" type="select" options={schemeTypes} error={errors.schemeType} {...register('schemeType')} />
+                        <DynamicFormField control={control} label="Investor Type" type="select" options={INVESTOR_TYPES} error={errors.investorType} {...register('investorType')} />
+                        <DynamicFormField control={control} label="Fund Type" type="select" options={FUND_TYPES} error={errors.fundType} {...register('fundType')} />
+                        <DynamicFormField control={control} label="Scheme Type" type="select" options={SCHEME_TYPES} error={errors.schemeType} {...register('schemeType')} />
                         <DynamicFormField control={control} label="Currency" error={errors.currency} {...register('currency')} />
                     </div>
                 </div>
@@ -519,7 +530,8 @@ export const SchemeForm: React.FC<SchemeFormProps> = ({ scheme, onSubmit, onCanc
                 <div className='space-y-6'>
                     <h3 className={`${typographyClasses.heading.h4} ${typographyClasses.colors.text.primary} border-b pb-2 mb-4 mt-6`}>Fund Approach & Tenure</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <DynamicFormField control={control} label="Fund Approach" type="select" options={fundApproaches} error={errors.fundApproach} {...register('fundApproach')} />
+                        <DynamicFormField control={control} label="Fund Approach" type="select" options={FUND_APPROACHES} error={errors.fundApproach} {...register('fundApproach')} />
+                        <DynamicFormField control={control} label="Performance Type" type="select" options={PERFORMANCE_TYPES} error={errors.performanceType} {...register('performanceType')} />
                         <DynamicFormField control={control} label="Fund Approach Description" type="textarea" error={errors.fundApproachDescription} {...register('fundApproachDescription')} />
                         <DynamicFormField control={control} label="Fund Tenure" error={errors.fundTenure} {...register('fundTenure')} />
                         <DynamicFormField control={control} label="Fund Tenure Description" type="textarea" error={errors.fundTenureDescription} {...register('fundTenureDescription')} />

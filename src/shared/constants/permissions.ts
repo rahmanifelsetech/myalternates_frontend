@@ -92,6 +92,30 @@ export const PERMISSIONS = {
     DELETE: 'amcs.delete',
     POPULATE: 'amcs.populate',
   },
+  INVESTORS: {
+    CREATE: 'investors.create',
+    READ: 'investors.read',
+    UPDATE: 'investors.update',
+    DELETE: 'investors.delete',
+  },
+  BANKS: {
+    CREATE: 'banks.create',
+    READ: 'banks.read',
+    UPDATE: 'banks.update',
+    DELETE: 'banks.delete',
+  },
+  HOLDERS: {
+    CREATE: 'holders.create',
+    READ: 'holders.read',
+    UPDATE: 'holders.update',
+    DELETE: 'holders.delete',
+  },
+  INVESTMENTS: {
+    CREATE: 'investments.create',
+    READ: 'investments.read',
+    UPDATE: 'investments.update',
+    DELETE: 'investments.delete',
+  },
 };
 
 export const PERMISSION_GROUPS: Record<string, PermissionGroupUI> = {
@@ -163,6 +187,50 @@ export const PERMISSION_GROUPS: Record<string, PermissionGroupUI> = {
       { slug: PERMISSIONS.AMCS.UPDATE, label: 'Update AMC', description: 'Allows updating AMC information.' },
       { slug: PERMISSIONS.AMCS.DELETE, label: 'Delete AMC', description: 'Allows deleting AMCs.' },
       { slug: PERMISSIONS.AMCS.POPULATE, label: 'Populate AMCs', description: 'Allows populating AMCs data.' },
+    ],
+  },
+
+  investors: {
+    label: 'Investor Management',
+    description: 'Manage Investors',
+    permissions: [
+      { slug: PERMISSIONS.INVESTORS.CREATE, label: 'Create Investor', description: 'Allows creating new Investors.' },
+      { slug: PERMISSIONS.INVESTORS.READ, label: 'View Investors', description: 'Allows viewing Investor information.' },
+      { slug: PERMISSIONS.INVESTORS.UPDATE, label: 'Update Investor', description: 'Allows updating Investor information.' },
+      { slug: PERMISSIONS.INVESTORS.DELETE, label: 'Delete Investor', description: 'Allows deleting Investors.' },
+    ],
+  },
+
+  banks: {
+    label: 'Bank Management',
+    description: 'Manage Banks',
+    permissions: [
+      { slug: PERMISSIONS.BANKS.CREATE, label: 'Create Bank', description: 'Allows creating new Banks.' },
+      { slug: PERMISSIONS.BANKS.READ, label: 'View Banks', description: 'Allows viewing Bank information.' },
+      { slug: PERMISSIONS.BANKS.UPDATE, label: 'Update Bank', description: 'Allows updating Bank information.' },
+      { slug: PERMISSIONS.BANKS.DELETE, label: 'Delete Bank', description: 'Allows deleting Banks.' },
+    ],
+  },
+
+  holders: {
+    label: 'Holder Management',
+    description: 'Manage Holders',
+    permissions: [
+      { slug: PERMISSIONS.HOLDERS.CREATE, label: 'Create Holder', description: 'Allows creating new Holders.' },
+      { slug: PERMISSIONS.HOLDERS.READ, label: 'View Holders', description: 'Allows viewing Holder information.' },
+      { slug: PERMISSIONS.HOLDERS.UPDATE, label: 'Update Holder', description: 'Allows updating Holder information.' },
+      { slug: PERMISSIONS.HOLDERS.DELETE, label: 'Delete Holder', description: 'Allows deleting Holders.' },
+    ],
+  },
+
+  investments: {
+    label: 'Investment Management',
+    description: 'Manage Investments',
+    permissions: [
+      { slug: PERMISSIONS.INVESTMENTS.CREATE, label: 'Create Investment', description: 'Allows creating new Investments.' },
+      { slug: PERMISSIONS.INVESTMENTS.READ, label: 'View Investments', description: 'Allows viewing Investment information.' },
+      { slug: PERMISSIONS.INVESTMENTS.UPDATE, label: 'Update Investment', description: 'Allows updating Investment information.' },
+      { slug: PERMISSIONS.INVESTMENTS.DELETE, label: 'Delete Investment', description: 'Allows deleting Investments.' },
     ],
   },
 

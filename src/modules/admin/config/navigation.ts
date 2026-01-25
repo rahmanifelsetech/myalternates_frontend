@@ -10,31 +10,19 @@ export const adminNavigation: NavigationItem[] = [
     icon: 'grid',
     badge: undefined,
   },
-  // {
-  //   title: 'Distributors',
-  //   path: '/admin/distributors',
-  //   icon: 'bolt',
-  // },
-  // {
-  //   title: 'Investors',
-  //   path: '/admin/investors',
-  //   icon: 'group',
-  // },
-  // {
-  //   title: 'Users',
-  //   path: '/admin/users',
-  //   icon: 'userCircle',
-  // },
-  // {
-  //   title: 'Roles',
-  //   path: '/admin/roles',
-  //   icon: 'lock',
-  // },
-  // {
-  //   title: 'Permissions',
-  //   path: '/admin/permissions',
-  //   icon: 'checkLine',
-  // },
+
+  {
+    title: 'Products',
+    path: '/admin/products',
+    icon: 'boxCube',
+    permissions: [PERMISSIONS.PRODUCTS.READ],
+  },
+  {
+    title: 'Categories',
+    path: '/admin/categories',
+    icon: 'folder',
+    permissions: [PERMISSIONS.MASTERS.CATEGORY_READ],
+  },
   {
     title: 'Users',
     path: '/admin/users',
@@ -61,18 +49,32 @@ export const adminNavigation: NavigationItem[] = [
       },
     ],
   },
-  {
-    title: 'Products',
-    path: '/admin/products',
-    icon: 'boxCube',
-    permissions: [PERMISSIONS.PRODUCTS.READ],
-  },
-  {
-    title: 'Categories',
-    path: '/admin/categories',
-    icon: 'folder',
-    permissions: [PERMISSIONS.MASTERS.CATEGORY_READ],
-  },
+  // {
+  //   title: 'Investors',
+  //   path: '/admin/investors',
+  //   icon: 'group',
+  //   permissions: [PERMISSIONS.INVESTORS.READ],
+  //   // children: [
+  //   //   {
+  //   //     title: 'Banks',
+  //   //     path: '/admin/banks',
+  //   //     icon: 'creditCard',
+  //   //     permissions: [PERMISSIONS.BANKS.READ],
+  //   //   },
+  //   //   {
+  //   //     title: 'Holders',
+  //   //     path: '/admin/holders',
+  //   //     icon: 'user',
+  //   //     permissions: [PERMISSIONS.HOLDERS.READ],
+  //   //   },
+  //   // ],
+  // },
+  // {
+  //   title: 'Investments',
+  //   path: '/admin/investments',
+  //   icon: 'dollarLine',
+  //   permissions: [PERMISSIONS.INVESTMENTS.READ],
+  // },
   {
     title: 'Masters',
     path: '/admin/masters/fund-managers',
@@ -89,6 +91,8 @@ export const adminNavigation: NavigationItem[] = [
     icon: 'briefcase',
     permissions: [PERMISSIONS.AMCS.READ],
   },
+//   @~S Good afternoon, this is Aquib from dev team, 
+// in this sheet we have strategy code and in the api we have scheme code for schemes. due to this there were duplicate naming. 
   {
     title: 'Schemes',
     path: '/admin/schemes',

@@ -7,7 +7,7 @@ const Uploads: React.FC = () => {
   const header = (
     <div className="mb-5">
       <h2 className={`${typographyClasses.heading.h2} ${typographyClasses.colors.text.primary}`}>
-        Data Upload Center
+        Data File Upload Queue
       </h2>
     </div>
   );

@@ -1,36 +1,33 @@
 import React, { useState, useCallback, useMemo } from 'react';
-import { useGetUploadHistoryQuery, useGetUploadLogsQuery, useGetUploadLogDetailQuery } from '../api/uploadApi';
+import { useGetUploadLogsQuery, useGetUploadLogDetailQuery } from '../api/uploadApi';
 import { useUploadManagement } from '../hooks/useUploadManagement';
-import type { UploadType, UploadHistoryItem, UploadLogDetail } from '../types/upload';
+import { UploadType, UploadMetadata } from '../types/upload';
 import Button from '@shared/components/ui/button/Button';
 import { Tabs } from '@shared/components/common/Tabs';
 import { FormSection } from '@/shared/components/common/FormSection';
 import { FileUploader } from '@/shared/components/common/FileUploader';
-import { Table, TableHeader, TableBody, TableCell, TableRow } from '@shared/components/ui/table';
-import NoDataRow from '@/shared/components/common/NoDataRow';
-import Badge from '@shared/components/ui/badge/Badge';
 import { typographyClasses } from '@shared/utils/typographyUtils';
 import { EntitySelectionModal } from './EntitySelectionModal';
 import { DataProcessingHistoryTable } from './DataProcessingHistoryTable';
 import { LogDetailsModal } from './LogDetailsModal';
-import { formatDate } from '@shared/utils/dateUtils';
-import { SyncIcon } from '@shared/icons';
+import { SyncIcon, DownloadIcon, ArrowUpIcon } from '@shared/icons';
 import { IconButton } from '@shared/components/ui/button/IconButton';
 import { Pagination } from '@/shared/components/common/Pagination';
+import { ReactSelectComponent, SelectOption } from '@shared/components/form/select/ReactSelect';
 
-type MainTabType = 'file-upload' | 'external-api';
+type MainTabType = 'bulk-upload' | 'external-api';
 
 const MAIN_TABS: { label: string; type: MainTabType }[] = [
-  // { label: 'File Upload', type: 'file-upload' },
+  // { label: 'Bulk Data Upload', type: 'bulk-upload' },
   { label: 'External API Upload', type: 'external-api' },
 ];
 
-const FILE_UPLOAD_OPTIONS = [
-  { label: 'Daily Valuation', value: 'daily-valuation' },
-  { label: 'Holdings', value: 'holdings' },
-  { label: 'Market List', value: 'market-list' },
-  { label: 'Transactions', value: 'transactions' },
-  { label: 'Index History', value: 'index-history' },
+const BULK_UPLOAD_OPTIONS = [
+  { label: 'Daily Valuation', value: 'DAILY_VALUATION' },
+  { label: 'Holdings', value: 'HOLDINGS' },
+  { label: 'Market List', value: 'MARKET_LIST' },
+  { label: 'Transactions', value: 'TRANSACTION' },
+  { label: 'Index History', value: 'INDEX' },
 ];
 
 const EXTERNAL_API_OPTIONS = [
@@ -47,11 +44,10 @@ export const UploadCenter: React.FC = () => {
   // Main tab state
   const [activeMainTabIndex, setActiveMainTabIndex] = useState(0);
 
-  // File upload state
-  const [showFileUploadModal, setShowFileUploadModal] = useState(false);
-  const [selectedFileUploadType, setSelectedFileUploadType] = useState<string>('');
-  const [file, setFile] = useState<File | null>(null);
-  const [fileUploadPage, setFileUploadPage] = useState(1);
+  // Bulk Upload state
+  const [selectedBulkType, setSelectedBulkType] = useState<string>('');
+  const [bulkFile, setBulkFile] = useState<File | null>(null);
+  const [isBulkUploading, setIsBulkUploading] = useState(false);
 
   // External API state
   const [showApiModal, setShowApiModal] = useState(false);
@@ -61,19 +57,18 @@ export const UploadCenter: React.FC = () => {
   const [externalApiUploadPage, setExternalApiUploadPage] = useState(1);
 
   // Custom hooks
-  const { handleFileUpload, handleTriggerExternalApiFetch } = useUploadManagement();
+  const { handleTriggerExternalApiFetch, handleDownloadTemplate, handleFileUpload } = useUploadManagement();
 
   // API queries
-  const activeMainTabType = MAIN_TABS[activeMainTabIndex].type;
+  // const activeMainTabType = MAIN_TABS[activeMainTabIndex].type;
   
-  const { data: fileUploadHistory, isLoading: isLoadingFileHistory } = useGetUploadHistoryQuery(
-    { type: selectedFileUploadType as UploadType, page: 1, limit: 10 },
-    { skip: !selectedFileUploadType || activeMainTabType !== 'file-upload' }
-  );
-
+  // const activeMainTabType = MAIN_TABS[activeMainTabIndex].type;
+  const isExternalApiTab = MAIN_TABS[activeMainTabIndex].type === 'external-api';
+  const logType = isExternalApiTab ? 'DATA_FETCHING' : 'DATA_UPLOAD';
+  
   const { data: externalApiLogs, isLoading: isLoadingApiLogs, refetch: refetchApiLogs } = useGetUploadLogsQuery(
-    { page: externalApiUploadPage, limit: 10 },
-    { skip: activeMainTabType !== 'external-api' }
+    { page: externalApiUploadPage, limit: 10, logType },
+    { refetchOnMountOrArgChange: true }
   );
 
 
@@ -82,31 +77,45 @@ export const UploadCenter: React.FC = () => {
     { skip: !selectedLogId }
   );
 
-  // File Upload Handlers
-  const handleFileChange = useCallback((file: File | null) => {
-    setFile(file);
+  // Bulk Upload Handlers
+  const handleBulkTypeChange = useCallback((option: SelectOption | null) => {
+    setSelectedBulkType(option?.value?.toString() || '');
+    setBulkFile(null);
   }, []);
 
-  const handleFileUploadModalOpen = useCallback(() => {
-    setShowFileUploadModal(true);
+  const handleBulkFileChange = useCallback((file: File | null) => {
+    setBulkFile(file);
   }, []);
 
-  const handleFileUploadModalClose = useCallback(() => {
-    setShowFileUploadModal(false);
-    setSelectedFileUploadType('');
-    setFile(null);
-  }, []);
-
-  const handleFileUploadConfirm = useCallback(async (selected: string) => {
-    if (file) {
+  const handleTemplateDownload = useCallback(async () => {
+    if (selectedBulkType) {
       try {
-        await handleFileUpload(selected as UploadType, file);
-        setFile(null);
+        await handleDownloadTemplate(selectedBulkType as UploadType);
       } catch (error) {
-        // Error handled by useAsyncMutation
+        // Error handled by hook/UI
       }
     }
-  }, [file, handleFileUpload]);
+  }, [selectedBulkType, handleDownloadTemplate]);
+
+  const handleBulkUpload = useCallback(async () => {
+    if (!bulkFile || !selectedBulkType) return;
+    
+    setIsBulkUploading(true);
+    try {
+      const metadata: UploadMetadata = {
+        uploadType: selectedBulkType as UploadType,
+        source: 'ADMIN_PANEL',
+        processMode: 'QUEUE',
+        fileType: 'EXCEL',
+      };
+      await handleFileUpload(bulkFile, metadata);
+      setBulkFile(null);
+    } catch (error) {
+      // Error handled
+    } finally {
+      setIsBulkUploading(false);
+    }
+  }, [bulkFile, selectedBulkType, handleFileUpload]);
 
   // External API Handlers
   const handleApiModalOpen = useCallback(() => {
@@ -136,105 +145,95 @@ export const UploadCenter: React.FC = () => {
     setSelectedLogId('');
   }, []);
 
-  // Upload History Table
-  const renderFileUploadHistory = useMemo(() => {
-    if (!selectedFileUploadType) {
-      return (
-        <div className={`text-center py-8 ${typographyClasses.colors.text.muted}`}>
-          Select a file upload type from the modal to view upload history
-        </div>
-      );
-    }
+  // Bulk Upload Tab Content
+  const bulkUploadContent = useMemo(() => {
+    const selectedOption = BULK_UPLOAD_OPTIONS.find(o => o.value === selectedBulkType);
+    
+    return (
+      <FormSection title={null}>
+        <div className="space-y-6">
+          <div className="bg-white dark:bg-boxdark p-6 rounded-lg border border-stroke dark:border-strokedark shadow-default">
+            <h3 className={`${typographyClasses.heading.h4} mb-4 ${typographyClasses.colors.text.primary}`}>
+              Upload Configuration
+            </h3>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+              <div>
+                <label className={`${typographyClasses.form.label} mb-2.5 block ${typographyClasses.colors.text.primary}`}>
+                  Upload Type
+                </label>
+                <ReactSelectComponent
+                  options={BULK_UPLOAD_OPTIONS}
+                  value={selectedOption ? { label: selectedOption.label, value: selectedOption.value } : null}
+                  onChange={(opt: any) => handleBulkTypeChange(opt)}
+                  placeholder="Select upload type..."
+                  isSearchable
+                />
+              </div>
+              
+              <div className="flex items-end">
+                <Button
+                  variant="outline"
+                  onClick={handleTemplateDownload}
+                  disabled={!selectedBulkType}
+                  startIcon={<DownloadIcon />}
+                  className="w-full md:w-auto"
+                >
+                  Download Template
+                </Button>
+              </div>
+            </div>
 
-    const data = fileUploadHistory?.data;
-    if (isLoadingFileHistory) {
-      return (
-        <div className="flex items-center justify-center h-64">
-          <div className="text-center">
-            <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-primary mb-4"></div>
-            <p className={`${typographyClasses.colors.text.muted}`}>Loading upload history...</p>
+            {selectedBulkType && (
+              <div className="animate-fadeIn space-y-4">
+                 <div className="rounded-md bg-blue-50 p-4 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-800">
+                    <p className="text-sm text-blue-800 dark:text-blue-200">
+                      <strong>Instructions:</strong> Download the template, fill in your data, and upload it below.
+                      Supported formats: .xlsx, .csv (Max 10MB)
+                    </p>
+                </div>
+
+                <FileUploader
+                  label={`Upload ${selectedOption?.label} File`}
+                  accept={{
+                    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': ['.xlsx'],
+                    'text/csv': ['.csv']
+                  }}
+                  maxSize={10 * 1024 * 1024}
+                  onChange={handleBulkFileChange}
+                  disabled={isBulkUploading}
+                />
+
+                <div className="flex justify-end pt-2">
+                  <Button
+                    onClick={handleBulkUpload}
+                    disabled={!bulkFile || isBulkUploading}
+                    loading={isBulkUploading}
+                    size="lg"
+                    startIcon={<ArrowUpIcon />}
+                  >
+                    {isBulkUploading ? 'Uploading...' : 'Upload File'}
+                  </Button>
+                </div>
+              </div>
+            )}
+          </div>
+
+          <div className="mt-8">
+            <div className="flex justify-between items-center mb-4">
+              <h4 className={`${typographyClasses.heading.h4} ${typographyClasses.colors.text.primary}`}>Upload Processing Queue</h4>
+              <IconButton onClick={refetchApiLogs} icon={<SyncIcon className={isLoadingApiLogs ? 'animate-spin' : ''} />} title="Refresh History" />
+            </div>
+            <DataProcessingHistoryTable logs={externalApiLogs?.data} isLoading={isLoadingApiLogs} onViewDetails={handleViewLogDetails} />
+            
+             { externalApiLogs?.metaData && (
+                <Pagination meta={externalApiLogs?.metaData || { limit: 10, page: 1, total: 0, totalPages: 0}} onPageChange={setExternalApiUploadPage} />
+              )}
           </div>
         </div>
-      );
-    }
-
-    if (!data || data.length === 0) {
-      return (
-        <div className="overflow-x-auto rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-          <Table>
-            <TableHeader className="border-b border-gray-100 dark:border-white/[0.05]">
-              <TableRow>
-                <TableCell isHeader className={`px-4 py-4 ${typographyClasses.table.header} ${typographyClasses.colors.text.primary}`}>File Name</TableCell>
-                <TableCell isHeader className={`px-4 py-4 ${typographyClasses.table.header} ${typographyClasses.colors.text.primary}`}>Upload Date</TableCell>
-                <TableCell isHeader className={`px-4 py-4 ${typographyClasses.table.header} ${typographyClasses.colors.text.primary}`}>Status</TableCell>
-                <TableCell isHeader className={`px-4 py-4 ${typographyClasses.table.header} ${typographyClasses.colors.text.primary}`}>Rows</TableCell>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              <NoDataRow colSpan={4} message="No file upload history found" />
-            </TableBody>
-          </Table>
-        </div>
-      );
-    }
-
-    return (
-      <div className="max-w-full overflow-x-auto rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-        <Table>
-          <TableHeader className="border-b border-gray-100 dark:border-white/[0.05]">
-            <TableRow>
-              <TableCell isHeader className={`px-4 py-4 ${typographyClasses.table.header} ${typographyClasses.colors.text.primary}`}>File Name</TableCell>
-              <TableCell isHeader className={`px-4 py-4 ${typographyClasses.table.header} ${typographyClasses.colors.text.primary}`}>Upload Date</TableCell>
-              <TableCell isHeader className={`px-4 py-4 ${typographyClasses.table.header} ${typographyClasses.colors.text.primary}`}>Status</TableCell>
-              <TableCell isHeader className={`px-4 py-4 ${typographyClasses.table.header} ${typographyClasses.colors.text.primary}`}>Rows</TableCell>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {data.map((item: UploadHistoryItem) => (
-              <TableRow key={item.id} className="border-b border-[#eee] dark:border-strokedark">
-                <TableCell className={`py-5 px-4 ${typographyClasses.table.cell} ${typographyClasses.colors.text.primary}`}>{item.fileName}</TableCell>
-                <TableCell className={`py-5 px-4 ${typographyClasses.table.cell} ${typographyClasses.colors.text.secondary}`}>{formatDate(item.uploadDate)}</TableCell>
-                <TableCell className="py-5 px-4">
-                  <Badge 
-                    color={
-                      item.status === 'completed' ? 'success' : 
-                      item.status === 'failed' ? 'error' : 
-                      item.status === 'processing' ? 'warning' : 
-                      'info'
-                    }
-                  >
-                    {item.status}
-                  </Badge>
-                </TableCell>
-                <TableCell className={`py-5 px-4 ${typographyClasses.table.cell} ${typographyClasses.colors.text.secondary}`}>{item.rowCount}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </div>
+      </FormSection>
     );
-  }, [selectedFileUploadType, fileUploadHistory, isLoadingFileHistory]);
-
-  // File Upload Tab Content
-  const fileUploadContent = useMemo(() => (
-    <FormSection title="File Upload">
-      <div className="space-y-6">
-        <div>
-          <p className={`${typographyClasses.body.small} ${typographyClasses.colors.text.muted} mb-4`}>
-            Choose the type of data you want to upload and select a file.
-          </p>
-          <Button onClick={handleFileUploadModalOpen} size="md">
-            Upload File
-          </Button>
-        </div>
-
-        <div className="mt-8">
-          <h4 className={`${typographyClasses.heading.h4} mb-4 ${typographyClasses.colors.text.primary}`}>Upload History</h4>
-          {renderFileUploadHistory}
-        </div>
-      </div>
-    </FormSection>
-  ), [handleFileUploadModalOpen, selectedFileUploadType, file, handleFileUploadConfirm, renderFileUploadHistory]);
+  }, [selectedBulkType, bulkFile, isBulkUploading, handleBulkTypeChange, handleBulkFileChange, handleTemplateDownload, handleBulkUpload, externalApiLogs, isLoadingApiLogs, refetchApiLogs, handleViewLogDetails, setExternalApiUploadPage]);
 
   // External API Tab Content
   const externalApiContent = useMemo(() => (
@@ -274,8 +273,8 @@ export const UploadCenter: React.FC = () => {
   // Main Tabs
   const mainTabs = useMemo(() => MAIN_TABS.map(mainTab => ({
     label: mainTab.label,
-    content: mainTab.type === 'file-upload' ? fileUploadContent : externalApiContent
-  })), [fileUploadContent, externalApiContent]);
+    content: mainTab.type === 'bulk-upload' ? bulkUploadContent : externalApiContent
+  })), [bulkUploadContent, externalApiContent]);
 
   return (
     <div className="space-y-2">
@@ -285,23 +284,6 @@ export const UploadCenter: React.FC = () => {
         onChange={setActiveMainTabIndex}
         variant="full-width"
         // className="mb-6"
-      />
-
-      {/* File Upload Selection Modal */}
-      <EntitySelectionModal
-        isOpen={showFileUploadModal}
-        onClose={handleFileUploadModalClose}
-        onConfirm={async (selected) => {
-          setSelectedFileUploadType(selected);
-          setShowFileUploadModal(false);
-          return Promise.resolve();
-        }}
-        type="file-upload"
-        options={FILE_UPLOAD_OPTIONS}
-        selectedValue={selectedFileUploadType}
-        onSelectedValueChange={setSelectedFileUploadType}
-        onFileChange={handleFileChange}
-        file={file}
       />
 
       {/* External API Selection Modal */}

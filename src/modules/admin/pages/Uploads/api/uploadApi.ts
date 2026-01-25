@@ -1,5 +1,5 @@
 import RtkQueryService from '@shared/services/rtkService';
-import { UploadType, UploadHistoryFilters, GetUploadHistoryResponse, UploadFileResponse, UploadLog, UploadLogDetail, ExternalApiJobType, TriggerExternalApiResponse } from '../types/upload';
+import { UploadType, UploadHistoryFilters, GetUploadHistoryResponse, UploadFileResponse, UploadLog, UploadLogDetail, ExternalApiJobType, TriggerExternalApiResponse, UploadMetadata } from '../types/upload';
 import { PaginatedResponse, SingleResponse } from '@shared/types/api';
 
 export const uploadApi = RtkQueryService.enhanceEndpoints({
@@ -14,7 +14,7 @@ export const uploadApi = RtkQueryService.enhanceEndpoints({
       }),
       providesTags: (result, error, { type }) => [{ type: 'UploadHistory', id: type }],
     }),
-    getUploadLogs: builder.query<PaginatedResponse<UploadLog>, { page: number, limit: number }>({
+    getUploadLogs: builder.query<PaginatedResponse<UploadLog>, { page: number, limit: number, logType: 'DATA_FETCHING' | 'DATA_UPLOAD' }>({
       query: (params) => ({
         url: '/populate/external/logs',
         method: 'GET',
@@ -22,17 +22,30 @@ export const uploadApi = RtkQueryService.enhanceEndpoints({
       }),
       providesTags: ['UploadLogs'],
     }),
-    uploadFile: builder.mutation<UploadFileResponse, { type: UploadType; file: File }>({
-      query: ({ type, file }) => {
+    uploadFile: builder.mutation<UploadFileResponse, { file: File; metadata: UploadMetadata }>({
+      query: ({ file, metadata }) => {
         const formData = new FormData();
         formData.append('file', file);
+        formData.append('uploadType', metadata.uploadType);
+        formData.append('source', metadata.source);
+        formData.append('processMode', metadata.processMode);
+        formData.append('fileType', metadata.fileType);
+        if (metadata.uploadedBy) formData.append('uploadedBy', metadata.uploadedBy);
+        
         return {
-          url: `/data-upload/${type}`,
+          url: `/data-upload/bulk`,
           method: 'POST',
           data: formData,
         };
       },
-      invalidatesTags: (result, error, { type }) => [{ type: 'UploadHistory', id: type }],
+      invalidatesTags: ['UploadLogs'],
+    }),
+    downloadTemplate: builder.mutation<Blob, { type: UploadType }>({
+      query: ({ type }) => ({
+        url: `/data-upload/template/${type}`,
+        method: 'GET',
+        responseType: 'blob',
+      }),
     }),
     triggerExternalApiFetch: builder.mutation<TriggerExternalApiResponse, { jobType: ExternalApiJobType }>({
       query: ({ jobType }) => ({
@@ -58,4 +71,5 @@ export const {
   useGetUploadLogsQuery,
   useGetUploadLogDetailQuery,
   useTriggerExternalApiFetchMutation,
+  useDownloadTemplateMutation,
 } = uploadApi;

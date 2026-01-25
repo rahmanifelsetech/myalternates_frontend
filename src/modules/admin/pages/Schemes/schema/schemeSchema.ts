@@ -33,10 +33,7 @@ export const SchemeSchema = z.object({
     benchmarkShortIndexId: z.string().uuid("Benchmark Short Index is required").optional().nullable(),
 
     iaStructure: z.string().optional().nullable(),
-    iaCode: z.string().optional().nullable(),
     iaShortName: z.string().optional().nullable(),
-    strategyCode: z.string().optional().nullable(),
-    strategyName: z.string().optional().nullable(),
 
     aum: z.coerce.number().optional().nullable(),
     avgMarketCap: z.coerce.number().optional().nullable(),

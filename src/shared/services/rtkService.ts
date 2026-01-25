@@ -33,18 +33,19 @@ const axiosBaseQuery =
       data?: AxiosRequestConfig['data']
       params?: AxiosRequestConfig['params'],
       headers?: AxiosRequestConfig['headers'],
+      responseType?: AxiosRequestConfig['responseType'],
     },
     unknown,
     unknown
   > =>
-  async ({ url, method, data, params}) => {
+  async ({ url, method, data, params, headers: customHeaders, ...rest }) => {
     try {
         // console.log('is data instance of formdata: ', data instanceof FormData); // MUST be true
 
-        const headers: AxiosRequestConfig['headers'] = {};
+        const headers: AxiosRequestConfig['headers'] = { ...customHeaders };
         if (data instanceof FormData) {
             headers['Content-Type'] = undefined;
-        } else {
+        } else if (!headers['Content-Type']) {
             headers['Content-Type'] = 'application/json';
         }
         
@@ -54,6 +55,7 @@ const axiosBaseQuery =
             data,
             params,
             headers,
+            ...rest
         });
 
         // console.log('baseQuery response', response);

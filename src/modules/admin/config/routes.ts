@@ -18,6 +18,15 @@ const Uploads = lazy(() => import('@modules/admin/pages/Uploads/Uploads'));
 const Amcs = lazy(() => import('@modules/admin/pages/Amcs/Amcs'));
 const CreateAmc = lazy(() => import('@modules/admin/pages/Amcs/CreateAmc'));
 const EditAmc = lazy(() => import('@modules/admin/pages/Amcs/EditAmc'));
+const Investors = lazy(() => import('@modules/admin/pages/Investors/Investors'));
+const CreateInvestor = lazy(() => import('@modules/admin/pages/Investors/CreateInvestor'));
+const EditInvestor = lazy(() => import('@modules/admin/pages/Investors/EditInvestor'));
+const Banks = lazy(() => import('@modules/admin/pages/Banks/Banks'));
+const CreateBank = lazy(() => import('@modules/admin/pages/Banks/CreateBank'));
+const EditBank = lazy(() => import('@modules/admin/pages/Banks/EditBank'));
+const Holders = lazy(() => import('@modules/admin/pages/Holders/Holders'));
+const CreateHolder = lazy(() => import('@modules/admin/pages/Holders/CreateHolder'));
+const EditHolder = lazy(() => import('@modules/admin/pages/Holders/EditHolder'));
 
 export const adminRoutes: AppRouteConfig[] = [
   {
@@ -38,6 +47,78 @@ export const adminRoutes: AppRouteConfig[] = [
   //   component: Dashboard,
   //   authority: ['ADMIN'],
   // },
+  {
+    key: 'investments',
+    path: 'investments',
+    component: lazy(() => import('@modules/admin/pages/Investments/Investments')),
+    authority: ['ADMIN'],
+  },
+  {
+    key: 'investments-create',
+    path: 'investments/create',
+    component: lazy(() => import('@modules/admin/pages/Investments/CreateInvestment')),
+    authority: ['ADMIN'],
+  },
+  {
+    key: 'investments-edit',
+    path: 'investments/edit/:id',
+    component: lazy(() => import('@modules/admin/pages/Investments/EditInvestment')),
+    authority: ['ADMIN'],
+  },
+  {
+    key: 'investors',
+    path: 'investors',
+    component: Investors,
+    authority: ['ADMIN'],
+  },
+  {
+    key: 'investors-create',
+    path: 'investors/create',
+    component: CreateInvestor,
+    authority: ['ADMIN'],
+  },
+  {
+    key: 'investors-edit',
+    path: 'investors/edit/:id',
+    component: EditInvestor,
+    authority: ['ADMIN'],
+  },
+  {
+    key: 'banks',
+    path: 'banks',
+    component: Banks,
+    authority: ['ADMIN'],
+  },
+  {
+    key: 'banks-create',
+    path: 'banks/create',
+    component: CreateBank,
+    authority: ['ADMIN'],
+  },
+  {
+    key: 'banks-edit',
+    path: 'banks/edit/:id',
+    component: EditBank,
+    authority: ['ADMIN'],
+  },
+  {
+    key: 'holders',
+    path: 'holders',
+    component: Holders,
+    authority: ['ADMIN'],
+  },
+  {
+    key: 'holders-create',
+    path: 'holders/create',
+    component: CreateHolder,
+    authority: ['ADMIN'],
+  },
+  {
+    key: 'holders-edit',
+    path: 'holders/edit/:id',
+    component: EditHolder,
+    authority: ['ADMIN'],
+  },
   {
     key: 'users',
     path: 'users',

@@ -52,11 +52,18 @@ const Button: React.FC<ButtonProps> = ({
   }
 
   const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
-    if (disabled || loading) {
-        e.preventDefault()
-        return
+    if (type === 'submit') {
+      if (disabled || loading) {
+        e.preventDefault();
+      }
+      // Let native form submit happen if not disabled/loading
+      return;
     }
-    onClick?.()
+    if (disabled || loading) {
+      e.preventDefault();
+      return;
+    }
+    onClick?.();
   }
 
   return (

@@ -414,6 +414,8 @@ const DynamicFormField = forwardRef<HTMLSelectElement, DynamicFormFieldProps>(
 
       case "date-picker":
         const sanitizedId = name ? name.replace(/[.\[\]]/g, '-') : "date-picker";
+        // Always provide a fallback name for handlers
+        const fieldName = name || sanitizedId;
         return (
           <DatePicker
             id={sanitizedId}
@@ -423,15 +425,15 @@ const DynamicFormField = forwardRef<HTMLSelectElement, DynamicFormFieldProps>(
               if (onDateChange) {
                 onDateChange(dates, currentDateString);
               }
-              if (setValue && name) {
-                setValue(name, currentDateString);
+              if (setValue) {
+                setValue(fieldName, currentDateString);
               } else if (onChange) {
                 onChange(currentDateString);
               }
             }}
             onClear={() => {
-              if (setValue && name) {
-                setValue(name, null);
+              if (setValue) {
+                setValue(fieldName, null);
               }
             }}
           />

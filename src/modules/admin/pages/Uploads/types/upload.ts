@@ -1,7 +1,15 @@
 import { PaginatedResponse, PaginationParams, SingleResponse } from '@shared/types/api';
 
-export type UploadType = 'daily-valuation' | 'holdings' | 'market-list' | 'transactions' | 'index-history' | 'external-api-upload';
+export type UploadType = 'DAILY_VALUATION' | 'HOLDINGS' | 'MARKET_LIST' | 'TRANSACTION' | 'INDEX';
 export type ExternalApiJobType = 'FETCH_SCHEMES' | 'FETCH_AMC_DOCUMENTS' | 'FETCH_DISTRIBUTOR_DOCUMENTS' | 'FETCH_INVESTOR_DOCUMENTS';
+
+export interface UploadMetadata {
+  uploadType: UploadType;
+  source: 'ADMIN_PANEL';
+  processMode: 'QUEUE';
+  fileType: 'EXCEL' | 'CSV';
+  uploadedBy?: string; // Will be handled by backend usually, but interface might need it if we pass it explicitly
+}
 
 export interface UploadHistoryItem {
   id: string;
@@ -24,7 +32,7 @@ export interface UploadHistoryFilters extends PaginationParams {
 // DataFetchingLog mirrors the backend schema structure
 export interface UploadLog {
   id: string;
-  jobType: ExternalApiJobType;
+  jobType: ExternalApiJobType | UploadType;
   status: 'PENDING' | 'IN_PROGRESS' | 'COMPLETED' | 'FAILED';
   totalRecords: number;
   processedRecords: number;

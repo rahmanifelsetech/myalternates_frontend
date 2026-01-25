@@ -18,10 +18,7 @@ export interface Scheme {
     benchmarkIndexId: string | null;
     benchmarkShortIndexId: string | null;
     iaStructure: string | null;
-    iaCode: string | null;
     iaShortName: string | null;
-    strategyCode: string | null;
-    strategyName: string | null;
     aum: string | null;
     avgMarketCap: string | null;
     reportingStructure: string | null;
@@ -120,10 +117,7 @@ export interface CreateSchemePayload {
     benchmarkIndexId?: string;
     benchmarkShortIndexId?: string;
     iaStructure?: string;
-    iaCode?: string;
     iaShortName?: string;
-    strategyCode?: string;
-    strategyName?: string;
     aum?: number;
     avgMarketCap?: number;
     reportingStructure?: string;
