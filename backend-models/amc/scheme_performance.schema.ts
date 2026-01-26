@@ -1,4 +1,4 @@
-import { pgTable, uuid, varchar, numeric, timestamp, integer } from "drizzle-orm/pg-core";
+import { pgTable, uuid, varchar, numeric, timestamp, integer, text } from "drizzle-orm/pg-core";
 import { InferInsertModel, InferSelectModel, relations } from "drizzle-orm";
 import { schemes } from "./schemes.schema";
 
@@ -8,7 +8,7 @@ export const scheme_performance = pgTable("scheme_performance", {
     
     performanceType: varchar("performance_type", { length: 50 }).notNull(), // 'Financial Year' or 'Calendar Year'
     year: varchar("year", { length: 20 }).notNull(), // e.g., "2023-2024" or "2023"
-    displayOrder: integer("display_order").default(0),
+    display: varchar("display"),
     
     schemePerformance: numeric("scheme_performance"),
     benchmarkPerformance: numeric("benchmark_performance"),

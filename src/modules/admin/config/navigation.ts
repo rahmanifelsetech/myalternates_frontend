@@ -10,7 +10,6 @@ export const adminNavigation: NavigationItem[] = [
     icon: 'grid',
     badge: undefined,
   },
-
   {
     title: 'Products',
     path: '/admin/products',
@@ -49,32 +48,32 @@ export const adminNavigation: NavigationItem[] = [
       },
     ],
   },
-  // {
-  //   title: 'Investors',
-  //   path: '/admin/investors',
-  //   icon: 'group',
-  //   permissions: [PERMISSIONS.INVESTORS.READ],
-  //   // children: [
-  //   //   {
-  //   //     title: 'Banks',
-  //   //     path: '/admin/banks',
-  //   //     icon: 'creditCard',
-  //   //     permissions: [PERMISSIONS.BANKS.READ],
-  //   //   },
-  //   //   {
-  //   //     title: 'Holders',
-  //   //     path: '/admin/holders',
-  //   //     icon: 'user',
-  //   //     permissions: [PERMISSIONS.HOLDERS.READ],
-  //   //   },
-  //   // ],
-  // },
-  // {
-  //   title: 'Investments',
-  //   path: '/admin/investments',
-  //   icon: 'dollarLine',
-  //   permissions: [PERMISSIONS.INVESTMENTS.READ],
-  // },
+  {
+    title: 'Investors',
+    path: '/admin/investors',
+    icon: 'group',
+    permissions: [PERMISSIONS.INVESTORS.READ],
+    // children: [
+    //   {
+    //     title: 'Banks',
+    //     path: '/admin/banks',
+    //     icon: 'creditCard',
+    //     permissions: [PERMISSIONS.BANKS.READ],
+    //   },
+    //   {
+    //     title: 'Holders',
+    //     path: '/admin/holders',
+    //     icon: 'user',
+    //     permissions: [PERMISSIONS.HOLDERS.READ],
+    //   },
+    // ],
+  },
+  {
+    title: 'Investments',
+    path: '/admin/investments',
+    icon: 'dollarLine',
+    permissions: [PERMISSIONS.INVESTMENTS.READ],
+  },
   {
     title: 'Masters',
     path: '/admin/masters/fund-managers',

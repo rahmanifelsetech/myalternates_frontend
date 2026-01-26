@@ -1,11 +1,11 @@
 import { pgTable, uuid, varchar, timestamp, date, numeric, index } from "drizzle-orm/pg-core";
 import { InferInsertModel, InferSelectModel, relations } from "drizzle-orm";
-import { investor_investments } from "../investor/investor_investments.schema";
+import { investments } from "../investment/investments.schema";
 import { market_list } from "../master/market_list.schema";
 
 export const holdings = pgTable("holdings", {
     id: uuid("id").defaultRandom().primaryKey(),
-    investmentId: uuid("investment_id").notNull().references(() => investor_investments.id, { onDelete: "cascade" }),
+    investmentId: uuid("investment_id").notNull().references(() => investments.id, { onDelete: "cascade" }),
     clientCode: varchar("client_code", { length: 50 }),
     
     // Link to Security
@@ -30,9 +30,9 @@ export const holdings = pgTable("holdings", {
 ]);
 
 export const holdingsRelations = relations(holdings, ({ one }) => ({
-    investment: one(investor_investments, {
+    investment: one(investments, {
         fields: [holdings.investmentId],
-        references: [investor_investments.id],
+        references: [investments.id],
     }),
     security: one(market_list, {
         fields: [holdings.marketListId],

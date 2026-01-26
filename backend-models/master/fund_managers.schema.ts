@@ -6,8 +6,9 @@ import { scheme_fund_managers } from "../amc/scheme_fund_managers.schema";
 export const fund_managers = pgTable("fund_managers", {
     id: uuid("id").defaultRandom().primaryKey(),
     name: varchar("name", { length: 255 }).notNull(),
-    code: varchar("code", { length: 50 }),
+    code: varchar("code", { length: 50 }).unique().notNull(),
     designation: varchar("designation", { length: 255 }),
+    fundCount: integer("fund_count"),
     amcId: uuid("amc_id").references(() => amcs.id),
     aum: numeric("aum", { precision: 20, scale: 2 }),
     profilePicture: text("profile_picture"),

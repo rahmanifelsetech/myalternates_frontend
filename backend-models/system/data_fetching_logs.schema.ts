@@ -3,6 +3,7 @@ import { pgTable, uuid, varchar, integer, timestamp, jsonb } from 'drizzle-orm/p
 export const data_fetching_logs = pgTable('data_fetching_logs', {
     id: uuid('id').defaultRandom().primaryKey(),
     jobType: varchar('job_type', { length: 100 }).notNull(), // e.g., 'FETCH_SCHEMES'
+    logType: varchar('log_type', { length: 50 }).default('DATA_FETCHING').notNull(), // DATA_FETCHING, DATA_UPLOAD
     status: varchar('status', { length: 50 }).default('PENDING').notNull(), // PENDING, IN_PROGRESS, COMPLETED, FAILED
     
     totalRecords: integer('total_records').default(0),

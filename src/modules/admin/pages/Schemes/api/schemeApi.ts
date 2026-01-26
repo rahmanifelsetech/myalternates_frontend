@@ -66,7 +66,7 @@ const schemeApi = schemeApiWithTags.injectEndpoints({
             providesTags: [{ type: "Categories", id: "LIST" }],
         }),
         getProductList: builder.query<any, void>({
-            query: () => ({ url: '/products?limit=1000&active=true', method: 'GET' }),
+            query: () => ({ url: '/products?limit=1000&isActive=true', method: 'GET' }),
             providesTags: [{ type: "Products", id: "LIST" }],
         }),
         getAssetClassList: builder.query<any, void>({

@@ -22,6 +22,12 @@ const holderApi = holderApiWithTags.injectEndpoints({
       }),
       providesTags: (_result, _error, { id }) => [{ type: "Holder", id }],
     }),
+    getHolderByPan: builder.query<HolderResponse, string>({
+        query: (pan) => ({
+            url: `/holders/by-pan/${pan}`,
+            method: 'GET',
+        }),
+    }),
     createHolder: builder.mutation<HolderResponse, { investorId: string, data: any }>({
       query: ({ investorId, data }) => ({
         url: `/investors/${investorId}/holders`,
@@ -50,6 +56,7 @@ const holderApi = holderApiWithTags.injectEndpoints({
 export const {
     useGetHoldersQuery,
     useGetHolderByIdQuery,
+    useLazyGetHolderByPanQuery,
     useCreateHolderMutation,
     useUpdateHolderMutation,
     useDeleteHolderMutation,

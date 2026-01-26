@@ -15,6 +15,7 @@ export const schemes = pgTable('schemes', {
     productId: uuid('product_id').references(() => products.id),
     schemeCode: varchar("scheme_code", { length: 20 }).notNull().unique(),
     schemeName: varchar("scheme_name", { length: 255 }).notNull(),
+    amcCat: varchar("amc_cat", { length: 50 }),
     color: varchar('color', { length: 7 }), // Hex color code
     categoryId: uuid("category_id").references(() => categories.id, { onDelete: "set null" }),
     subCategoryId: uuid("sub_category_id").references(() => categories.id, { onDelete: "set null" }),
@@ -25,10 +26,10 @@ export const schemes = pgTable('schemes', {
     benchmarkShortIndexId: uuid("benchmark_short_index_id").references(() => benchmark_indices.id),
 
     // IA Fields
-    iaStructure: varchar("ia_structure", { length: 50 }), // scheme_type
+    iaStructure: varchar("ia_structure", { length: 255 }), // scheme_type
     // iaCode: varchar("ia_code", { length: 50 }), // scheme_code
     iaShortName: varchar("ia_short_name", { length: 100 }), // scheme_short_name
-    strategyCode: varchar("strategy_code", { length: 50 }),
+    // strategyCode: varchar("strategy_code", { length: 50 }),
     // strategyName: varchar("strategy_name", { length: 255 }), // scheme_name
     
     // Financials
@@ -49,9 +50,9 @@ export const schemes = pgTable('schemes', {
     
     // Fees & Portfolio Composition
     setupFees: varchar("setup_fees"),
-    largeCap: varchar("large_cap", { length: 50 }),
-    midCap: varchar("mid_cap", { length: 50 }),
-    smallCap: varchar("small_cap", { length: 50 }),
+    largeCap: varchar("large_cap", { length: 255 }),
+    midCap: varchar("mid_cap", { length: 255 }),
+    smallCap: varchar("small_cap", { length: 255 }),
     cashEquivalent: numeric("cash_equivalent"),
     others: numeric("others"),
     
@@ -61,17 +62,17 @@ export const schemes = pgTable('schemes', {
     topupOption: boolean("topup_option").default(false),
     
     // Fee Structure
-    feeProfitShare: varchar("fee_profit_share", { length: 50 }),
+    feeProfitShare: varchar("fee_profit_share", { length: 100 }),
     feeStructure: text("fee_structure"),
-    feeFixedAmc: varchar("fee_fixed_amc", { length: 50 }),
-    feeVariableAmc: varchar("fee_variable_amc", { length: 50 }),
-    feeHurdle: varchar("fee_hurdle", { length: 50 }),
+    feeFixedAmc: varchar("fee_fixed_amc", { length: 100 }),
+    feeVariableAmc: varchar("fee_variable_amc", { length: 100 }),
+    feeHurdle: varchar("fee_hurdle", { length: 100 }),
     remarksForFeeStructure: text("remarks_for_fee_structure"),
     
     // Exit Loads
-    exitLoad1Yr: varchar("exit_load_1_yr", { length: 50 }),
-    exitLoad2Yr: varchar("exit_load_2_yr", { length: 50 }),
-    exitLoad3Yr: varchar("exit_load_3_yr", { length: 50 }),
+    exitLoad1Yr: varchar("exit_load_1_yr", { length: 100 }),
+    exitLoad2Yr: varchar("exit_load_2_yr", { length: 100 }),
+    exitLoad3Yr: varchar("exit_load_3_yr", { length: 100 }),
     exitLoad: text("exit_load"),
     exitOption: text("exit_option"),
     
@@ -83,10 +84,12 @@ export const schemes = pgTable('schemes', {
     
     // Flags
     isDistributable: boolean("is_distributable").default(false),
-    showInDashboard: boolean("show_in_dashboard").default(true),
+    conservative: boolean("conservative").default(false),
     isFeatured: boolean('is_featured').default(false).notNull(), // Existing field mapped to IsFeaturedProduct
-    isSuggested: boolean("is_suggested").default(false),
+    moderate: boolean("moderate").default(false),
+    isAggressive: boolean("is_aggressive").default(false),
     isOpenForSubscription: boolean("is_open_for_subscription").default(true),
+    display: text('display'),
     priorityOrder: integer('priority_order').default(0).notNull(),
     
     // Additional Details
@@ -134,9 +137,10 @@ export const schemes = pgTable('schemes', {
     top5Holdings: json("top_5_holdings"), // { name: string, value: number }[]
     top5Sectors: json("top_5_sectors"), // { name: string, value: number }[]
 
+    // finalycaSchemeId: varchar("finalyca_scheme_id"),
     // Standard Fields
     tenureInMonths: integer("tenure_in_months"),
-    riskLevel: varchar("risk_level", { length: 50 }),
+    riskLevel: varchar("risk_level", { length: 255 }),
     isActive: boolean('is_active').default(true).notNull(),
     isDeleted: boolean('is_deleted').default(false).notNull(),
     createdAt: timestamp('created_at').defaultNow().notNull(),

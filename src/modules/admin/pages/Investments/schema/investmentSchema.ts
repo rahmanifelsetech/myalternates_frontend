@@ -44,7 +44,7 @@ export const InvestmentSchema = z.object({
     amcClientCode: z.string().min(1, 'AMC Client Code is required'),
     inceptionDate: z.string().optional(),
     modeOfHolding: z.string().min(1, 'Mode of Holdings is required'),
-    amcSharing: z.coerce.number().optional(),
+    amcSharing: z.string().optional(),
     schemeId: z.string().min(1, 'Scheme Name is required'),
     schemeCode: z.string().min(1, 'Scheme Code is required'),
     cpId: z.string().min(1, 'CP Name is required'),

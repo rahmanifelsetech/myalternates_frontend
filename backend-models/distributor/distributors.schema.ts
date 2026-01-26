@@ -1,37 +1,21 @@
-import { relations } from 'drizzle-orm';
-
+import { relations, InferSelectModel, InferInsertModel } from 'drizzle-orm';
 import { users } from '../core/users.schema';
-
+import { persons } from '../person/persons.schema';
 import { pgTable, uuid, text, timestamp, varchar, numeric, date, boolean } from 'drizzle-orm/pg-core';
+import { distributorBanks } from './distributor_banks.schema';
 
 export const distributors = pgTable('distributors', {
     id: uuid('id').defaultRandom().primaryKey(),
     userId: uuid('userId').notNull().references(() => users.id, { onDelete: 'cascade' }),
+    personId: uuid('personId').references(() => persons.id),
     type: text('type').notNull(),
     category: text('category'),
     parentDistributorId: uuid('parent_distributor_id').references(() => distributors.id),
     code: varchar('code', { length: 100 }).unique(),
-    name: varchar('name', { length: 255 }),
     relationshipManagerId: uuid('relationship_manager_id').references(() => users.id),
-    email: varchar('email', { length: 150 }),
-    phone: varchar('phone', { length: 20 }),
-    panNo: varchar('pan_no', { length: 20 }),
-    tanNo: varchar('tan_no', { length: 20 }),
-    gstType: text('gst_type'),
-    gstNo: varchar('gst_no', { length: 50 }),
-    address: text('address'),
-    city: varchar('city', { length: 100 }),
-    state: varchar('state', { length: 100 }),
-    country: varchar('country', { length: 100 }),
-    pincode: varchar('pincode', { length: 20 }),
     totalAum: numeric('total_aum', { precision: 18, scale: 2 }),
     commission: numeric('commission', { precision: 10, scale: 2 }),
     agreementDate: date('agreement_date'),
-    bankName: varchar('bank_name', { length: 150 }),
-    bankAccountName: varchar('bank_account_name', { length: 150 }),
-    bankAccountNo: varchar('bank_account_no', { length: 50 }),
-    ifscCode: varchar('ifsc_code', { length: 20 }),
-    micrCode: varchar('micr_code', { length: 20 }),
     apmiRegNo: varchar('apmi_reg_no', { length: 50 }),
     apmiEuinNo: varchar('apmi_euin_no', { length: 50 }),
     nismCertNo: varchar('nism_cert_no', { length: 50 }),
@@ -51,7 +35,8 @@ export const distributors = pgTable('distributors', {
     updatedById: uuid('updated_by_id').references(() => users.id),
 });
 
-export const distributorsRelations = relations(distributors, ({ one }) => ({
+export const distributorsRelations = relations(distributors, ({ one, many }) => ({
+    banks: many(distributorBanks),
     parent: one(distributors, {
         fields: [distributors.parentDistributorId],
         references: [distributors.id],
@@ -68,4 +53,11 @@ export const distributorsRelations = relations(distributors, ({ one }) => ({
         fields: [distributors.updatedById],
         references: [users.id],
     }),
+    person: one(persons, {
+        fields: [distributors.personId],
+        references: [persons.id],
+    }),
 }));
+
+export type Distributor = InferSelectModel<typeof distributors>;
+export type NewDistributor = InferInsertModel<typeof distributors>;

@@ -22,6 +22,13 @@ const investorApi = investorApiWithTags.injectEndpoints({
       }),
       providesTags: (_result, _error, id) => [{ type: "Investor", id }],
     }),
+    getInvestorByPan: builder.query<InvestorResponse, string>({
+        query: (pan) => ({
+            url: `/customers/by-pan/${pan}`,
+            method: 'GET',
+        }),
+        providesTags: (_result, _error, pan) => [{ type: "Investor", pan }],
+    }),
     createInvestor: builder.mutation<InvestorResponse, FormData>({
       query: (body) => ({
         url: '/investors',
@@ -53,4 +60,5 @@ export const {
     useCreateInvestorMutation,
     useUpdateInvestorMutation,
     useDeleteInvestorMutation,
+    useLazyGetInvestorByPanQuery,
 } = investorApi;
