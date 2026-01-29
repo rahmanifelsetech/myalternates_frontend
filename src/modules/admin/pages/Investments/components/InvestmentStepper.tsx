@@ -41,202 +41,202 @@ export const InvestmentStepper = () => {
     // State to store uploaded documents: keyed by holderIndex -> docType -> document details
     const [uploadedDocs, setUploadedDocs] = useState<Record<number, Record<string, any>>>({});
 
-    // const defaultValues: Partial<InvestmentFlowSchemaType> = {
-    //     // Investment Details
-    //     productId: '',
-    //     amcId: '',
-    //     amcClientCode: 'TEST-002',
-    //     schemeId: '',
-    //     capitalCommitment: '100000',
-    //     currency: 'INR',
-    //     feeStructure: '4% management fee',
-    //     inceptionDate: '2025-01-01',
-    //     remarks: 'Test investment 2 for onboarding',
-
-    //     // Investor Status
-    //     investorMyaltCode: 'MYALT-001',
-    //     investorResidentialStatus: ResidentialStatus.RESIDENT,
-    //     investorSubStatus: '',
-
-    //     // Internal Mapping
-    //     cpId: undefined,
-    //     creId: '',
-    //     rmId: undefined,
-    //     fmId: undefined,
-    //     branchCode: 'BR-001',
-
-    //     // DP & Bank
-    //     dpType: DPType.NSDL,
-    //     dpName: 'Test DP',
-    //     dpId: 'DP-001',
-    //     clientId: 'CLIENT-001',
-    //     bankId: null,
-    //     bankName: 'HDFC Bank',
-    //     accountNumber: '1234567890',
-    //     ifsc: 'HDFC0000123',
-    //     accountType: AccountType.SAVINGS,
-
-    //     // Holding Mode
-    //     holdingMode: HoldingMode.JOINT,
-
-    //     // Primary Holder
-    //     holders: [{
-    //         pan: 'ABCDE1234F',
-    //         name: 'Rohan Sharma',
-    //         dob: '1990-07-15',
-    //         gender: Gender.MALE,
-    //         email: 'rohan2@example.com',
-    //         mobile: '987654342',
-    //         address: {
-    //             addressLine1: '123 Test Street',
-    //             addressLine2: 'Apt 4B',
-    //             city: 'Mumbai',
-    //             state: 'Maharashtra',
-    //             pincode: '400001',
-    //             country: 'India',
-    //         },
-    //         isMinor: false,
-    //     },
-    //     {
-    //         pan: 'XYZAB5678G',
-    //         name: 'Anjali',
-    //         dob: '1992-08-20',
-    //         gender: Gender.FEMALE,
-    //         email: 'anjali@example.com',
-    //         mobile: '9876543211',
-    //         address: {
-    //             addressLine1: '456 Joint Street',
-    //             addressLine2: 'Suite 5C',
-    //             city: 'Mumbai',
-    //             state: 'Maharashtra',
-    //             pincode: '400002',
-    //             country: 'India',
-    //         },
-    //         isMinor: true,
-    //         guardian: {
-    //             fullName: 'Rajesh Kumar',
-    //             idType: IdType.PAN,
-    //             idNumber: 'RAJESH123H',
-    //             relationship: Relationship.CHILD,
-    //         },
-    //     }],
-
-    //     // Nominees
-    //     nominees: [{
-    //         name: 'Priya Sharma',
-    //         idType: IdType.AADHAAR,
-    //         idNumber: '123456789012',
-    //         relationship: Relationship.SPOUSE,
-    //         percentage: 50,
-    //         isMinor: false,
-    //     },
-    //     {
-    //         name: 'Arjun Sharma',
-    //         idType: IdType.PASSPORT,
-    //         idNumber: 'P123456789',
-    //         relationship: Relationship.CHILD,
-    //         percentage: 50,
-    //         isMinor: true,
-    //         guardian: {
-    //             fullName: 'Priya Sharma',
-    //             idType: IdType.AADHAAR,
-    //             idNumber: '987654321098',
-    //             relationship: Relationship.OTHER,
-    //         },
-    //     }],
-
-    //     // Drawdown
-    //     drawdownNumber: 'DD-002',
-    //     paymentReference: 'REF-002',
-    //     drawdownAmount: '45000',
-    //     drawdownPercentage: 50,
-    //     paymentDueDate: '2026-05-01',
-    //     lateFee: 1000,
-    //     nextDueDate: '2027-03-01',
-
-    //     // KYC Documents
-    //     kycDocuments: {},
-    // };
-
     const defaultValues: Partial<InvestmentFlowSchemaType> = {
         // Investment Details
-        productId: undefined,
-        amcId: undefined,
-        amcClientCode: undefined,
-        schemeId: undefined,
-        capitalCommitment: undefined,
+        productId: '',
+        amcId: '',
+        amcClientCode: 'TEST-002',
+        schemeId: '',
+        capitalCommitment: '100000',
         currency: 'INR',
-        feeStructure: undefined,
-        inceptionDate: undefined,
-        remarks: undefined,
+        feeStructure: '4% management fee',
+        inceptionDate: '2025-01-01',
+        remarks: 'Test investment 2 for onboarding',
 
         // Investor Status
-        investorMyaltCode: undefined,
-        investorResidentialStatus: undefined,
-        investorSubStatus: undefined,
+        investorMyaltCode: 'MYALT-001',
+        investorResidentialStatus: ResidentialStatus.RESIDENT,
+        investorSubStatus: '',
 
         // Internal Mapping
         cpId: undefined,
-        creId: undefined,
+        creId: '',
         rmId: undefined,
         fmId: undefined,
-        branchCode: undefined,
+        branchCode: 'BR-001',
 
         // DP & Bank
-        dpType: undefined,
-        dpName: undefined,
-        dpId: undefined,
-        clientId: undefined,
+        dpType: DPType.NSDL,
+        dpName: 'Test DP',
+        dpId: 'DP-001',
+        clientId: 'CLIENT-001',
         bankId: null,
-        bankName: undefined,
-        accountNumber: undefined,
-        ifsc: undefined,
-        accountType: undefined,
+        bankName: 'HDFC Bank',
+        accountNumber: '1234567890',
+        ifsc: 'HDFC0000123',
+        accountType: AccountType.SAVINGS,
 
         // Holding Mode
-        holdingMode: HoldingMode.SINGLE,
+        holdingMode: HoldingMode.JOINT,
 
         // Primary Holder
         holders: [{
-            pan: '',
-            name: '',
-            dob: '',
-            gender: '',
-            email: undefined,
-            mobile: undefined,
+            pan: 'ABCDE1234F',
+            name: 'Rohan Sharma',
+            dob: '1990-07-15',
+            gender: Gender.MALE,
+            email: 'rohan2@example.com',
+            mobile: '987654342',
             address: {
-                addressLine1: undefined,
-                addressLine2: undefined,
-                city: undefined,
-                state: undefined,
-                pincode: undefined,
-                country: undefined,
+                addressLine1: '123 Test Street',
+                addressLine2: 'Apt 4B',
+                city: 'Mumbai',
+                state: 'Maharashtra',
+                pincode: '400001',
+                country: 'India',
             },
             isMinor: false,
+        },
+        {
+            pan: 'XYZAB5678G',
+            name: 'Anjali',
+            dob: '1992-08-20',
+            gender: Gender.FEMALE,
+            email: 'anjali@example.com',
+            mobile: '9876543211',
+            address: {
+                addressLine1: '456 Joint Street',
+                addressLine2: 'Suite 5C',
+                city: 'Mumbai',
+                state: 'Maharashtra',
+                pincode: '400002',
+                country: 'India',
+            },
+            isMinor: true,
+            guardian: {
+                fullName: 'Rajesh Kumar',
+                idType: IdType.PAN,
+                idNumber: 'RAJESH123H',
+                relationship: Relationship.CHILD,
+            },
         }],
 
         // Nominees
         nominees: [{
-            name: '',
+            name: 'Priya Sharma',
             idType: IdType.AADHAAR,
-            idNumber: '',
-            relationship: '',
-            percentage: 0,
+            idNumber: '123456789012',
+            relationship: Relationship.SPOUSE,
+            percentage: 50,
             isMinor: false,
+        },
+        {
+            name: 'Arjun Sharma',
+            idType: IdType.PASSPORT,
+            idNumber: 'P123456789',
+            relationship: Relationship.CHILD,
+            percentage: 50,
+            isMinor: true,
+            guardian: {
+                fullName: 'Priya Sharma',
+                idType: IdType.AADHAAR,
+                idNumber: '987654321098',
+                relationship: Relationship.OTHER,
+            },
         }],
 
         // Drawdown
-        drawdownNumber: undefined,
-        paymentReference: undefined,
-        drawdownAmount: undefined,
-        drawdownPercentage: 0,
-        paymentDueDate: undefined,
-        lateFee: 0,
-        nextDueDate: undefined,
+        drawdownNumber: 'DD-002',
+        paymentReference: 'REF-002',
+        drawdownAmount: '45000',
+        drawdownPercentage: 50,
+        paymentDueDate: '2026-05-01',
+        lateFee: 1000,
+        nextDueDate: '2027-03-01',
 
         // KYC Documents
-        kycDocuments: {},
+        kycDocuments: [],
     };
+
+    // const defaultValues: Partial<InvestmentFlowSchemaType> = {
+    //     // Investment Details
+    //     productId: undefined,
+    //     amcId: undefined,
+    //     amcClientCode: undefined,
+    //     schemeId: undefined,
+    //     capitalCommitment: undefined,
+    //     currency: 'INR',
+    //     feeStructure: undefined,
+    //     inceptionDate: undefined,
+    //     remarks: undefined,
+
+    //     // Investor Status
+    //     investorMyaltCode: undefined,
+    //     investorResidentialStatus: undefined,
+    //     investorSubStatus: undefined,
+
+    //     // Internal Mapping
+    //     cpId: undefined,
+    //     creId: undefined,
+    //     rmId: undefined,
+    //     fmId: undefined,
+    //     branchCode: undefined,
+
+    //     // DP & Bank
+    //     dpType: undefined,
+    //     dpName: undefined,
+    //     dpId: undefined,
+    //     clientId: undefined,
+    //     bankId: null,
+    //     bankName: undefined,
+    //     accountNumber: undefined,
+    //     ifsc: undefined,
+    //     accountType: undefined,
+
+    //     // Holding Mode
+    //     holdingMode: HoldingMode.SINGLE,
+
+    //     // Primary Holder
+    //     holders: [{
+    //         pan: '',
+    //         name: '',
+    //         dob: '',
+    //         gender: '',
+    //         email: undefined,
+    //         mobile: undefined,
+    //         address: {
+    //             addressLine1: undefined,
+    //             addressLine2: undefined,
+    //             city: undefined,
+    //             state: undefined,
+    //             pincode: undefined,
+    //             country: undefined,
+    //         },
+    //         isMinor: false,
+    //     }],
+
+    //     // Nominees
+    //     nominees: [{
+    //         name: '',
+    //         idType: IdType.AADHAAR,
+    //         idNumber: '',
+    //         relationship: '',
+    //         percentage: 0,
+    //         isMinor: false,
+    //     }],
+
+    //     // Drawdown
+    //     drawdownNumber: undefined,
+    //     paymentReference: undefined,
+    //     drawdownAmount: undefined,
+    //     drawdownPercentage: 0,
+    //     paymentDueDate: undefined,
+    //     lateFee: 0,
+    //     nextDueDate: undefined,
+
+    //     // KYC Documents
+    //     kycDocuments: [],
+    // };
 
     
 
@@ -612,6 +612,8 @@ export const InvestmentStepper = () => {
                                 id: response.id,
                                 fileUrl: response.fileUrl,
                                 fileName: response.fileName,
+                                fileSize: response.fileSize,
+                                mimeType: response.mimeType,
                                 documentType: response.documentType,
                                 personPan: response.personPan,
                                 holderIndex: response.holderIndex,

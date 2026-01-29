@@ -114,40 +114,16 @@ export const InvestmentFlowSchema = z.object({
     clientId: z.string().optional(),
     
     // KYC Uploads - stores uploaded document details with file paths
-    kycDocuments: z.object({
-        pan: z.object({
-            id: z.string().optional(),
-            fileUrl: z.string(),
-            fileName: z.string(),
-            documentType: z.string(),
-            personPan: z.string(),
-            holderIndex: z.number(),
-        }).optional(),
-        addressProof: z.object({
-            id: z.string().optional(),
-            fileUrl: z.string(),
-            fileName: z.string(),
-            documentType: z.string(),
-            personPan: z.string(),
-            holderIndex: z.number(),
-        }).optional(),
-        bankProof: z.object({
-            id: z.string().optional(),
-            fileUrl: z.string(),
-            fileName: z.string(),
-            documentType: z.string(),
-            personPan: z.string(),
-            holderIndex: z.number(),
-        }).optional(),
-        others: z.object({
-            id: z.string().optional(),
-            fileUrl: z.string(),
-            fileName: z.string(),
-            documentType: z.string(),
-            personPan: z.string(),
-            holderIndex: z.number(),
-        }).optional(),
-    }).optional(),
+    kycDocuments: z.array(z.object({
+        id: z.string().optional(),
+        documentType: z.string(),
+        fileName: z.string(),
+        fileUrl: z.string(),
+        fileSize: z.coerce.string().optional(),
+        mimeType: z.string().optional(),
+        personPan: z.string().optional(),
+        holderIndex: z.number(),
+    })).optional(),
 });
 
 export type InvestmentFlowSchemaType = z.infer<typeof InvestmentFlowSchema>;
