@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Control, UseFormRegister, UseFormSetValue, UseFormWatch } from 'react-hook-form';
 import DynamicFormField from '@/shared/components/form/FormField/DynamicFormField';
 import { InvestmentFlowSchemaType } from '../../schema/investmentFlowSchema';
@@ -50,6 +50,15 @@ export const InvestmentDetailsStep: React.FC<InvestmentDetailsStepProps> = ({
             />
             
             <DynamicFormField control={control} label="Fee Structure" error={getFieldError("feeStructure")} {...register('feeStructure')} />
+            <DynamicFormField control={control} label="Fixed Fee" error={getFieldError("fixedFee")} {...register('fixedFee')} />
+            <DynamicFormField control={control} label="Variable Fee" error={getFieldError("variableFee")} {...register('variableFee')} />
+            <DynamicFormField control={control} label="Performance Fee" error={getFieldError("performanceFee")} {...register('performanceFee')} />
+            <DynamicFormField control={control} label="Hurdle Fee" error={getFieldError("hurdleFee")} {...register('hurdleFee')} />
+
+            {(selectedProduct?.code === 'AIF' || selectedProduct?.code === 'GIFT_IFSC') && (
+                <DynamicFormField control={control} label="Number of Drawdowns" type="number" error={getFieldError("drawdownNo")} {...register('drawdownNo')} />
+            )}
+
             <DynamicFormField control={control} label="Remarks" type="textarea" error={getFieldError("remarks")} {...register('remarks')} />
         </div>
     );

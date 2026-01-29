@@ -583,19 +583,19 @@ const DynamicFormField = forwardRef<HTMLSelectElement, DynamicFormFieldProps>(
 						name={name}
 						control={props.control}
 						render={({ field }) => (
-							<ReactSelectComponent
-								label={label}
-								options={options}
-								value={
-									field.value
-										? options.find(o => o.value === field.value) ?? null
-										: null
-								}
-								onChange={(opt: any) => field.onChange(opt?.value ?? null)}
-								onBlur={field.onBlur}
-								isDisabled={disabled}
-								placeholder={getPlaceholder()}
-							/>
+              <ReactSelectComponent
+                label={label}
+                options={options}
+                value={
+                  field.value
+                    ? options.find(o => o.value === field.value) ?? null
+                    : null
+                }
+                onChange={(opt: any) => field.onChange(opt?.value ?? null)}
+                onBlur={field.onBlur}
+                isDisabled={disabled}
+                placeholder={getPlaceholder()}
+              />
 						)}
 					/>
 				);

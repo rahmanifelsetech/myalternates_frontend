@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import FetchDataButton from './FetchDataButton';
-import ConfirmationModal from './ConfirmationModal';
+import {ConfirmationModal} from './ConfirmationModal';
 import Button from '../ui/button/Button';
 import { SyncIcon } from '@/shared/icons';
 
@@ -36,8 +36,7 @@ const FetchDataWithConfirm: React.FC<FetchDataWithConfirmProps> = ({
         onClose={() => setIsModalOpen(false)}
         onConfirm={handleConfirm}
         title={modalTitle}
-        description={modalDescription}
-        isLoading={isLoading}
+        message={modalDescription}
       />
     </>
   );

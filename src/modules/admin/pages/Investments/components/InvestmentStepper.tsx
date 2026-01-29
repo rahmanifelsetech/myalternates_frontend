@@ -296,7 +296,7 @@ export const InvestmentStepper = () => {
     
 
     // Options
-    const productOptions = productList?.data?.map((p: any) => ({ label: p.name, value: p.id, code: p.name })) || [];
+    const productOptions = productList?.data?.map((p: any) => ({ label: p.name, value: p.id, code: p.code })) || [];
     const amcOptions = amcList?.data?.map((a: any) => ({ label: `${a.name} (${a.amcCode})`, value: a.id })) || [];
     const schemeOptions = schemeList?.data?.map((s: any) => ({ label: `${s.schemeName} (${s.schemeCode})`, value: s.id })) || [];
     const cpOptions = distributorList?.data?.map((d: any) => ({ label: `${d.name} - ${d.distributorCode}`, value: d.id })) || [];
@@ -309,10 +309,10 @@ export const InvestmentStepper = () => {
 
     // Clear dependent fields when product changes
     useEffect(() => {
-        if (watchProduct) {
-            setValue('amcId', '');
-            setValue('schemeId', '');
+        setValue('amcId', '');
+        setValue('schemeId', '');
 
+        if (watchProduct) {
             const selectedProduct = productList?.data?.find((p: any) => p.id === watchProduct);
             if (selectedProduct) {
                 if (selectedProduct.code) {
@@ -327,9 +327,7 @@ export const InvestmentStepper = () => {
 
     // Clear scheme when AMC changes
     useEffect(() => {
-        if (watchAmc) {
-            setValue('schemeId', '');
-        }
+        setValue('schemeId', '');
     }, [watchAmc, setValue]);
 
     // Auto-fill bank details when bank is selected
@@ -368,6 +366,11 @@ export const InvestmentStepper = () => {
                     capitalCommitment: data.capitalCommitment,
                     currency: data.currency,
                     feeStructure: data.feeStructure,
+                    fixedFee: data.fixedFee,
+                    variableFee: data.variableFee,
+                    performanceFee: data.performanceFee,
+                    hurdleFee: data.hurdleFee,
+                    drawdownNo: data.drawdownNo,
                     inceptionDate: data.inceptionDate,
                     remarks: data.remarks,
                 },
@@ -566,19 +569,19 @@ export const InvestmentStepper = () => {
                 />
             )
         },
-        {
-            label: 'Drawdowns',
-            hasError: hasTabError(tabFields["Drawdowns"]),
-            content: (
-                <DrawdownsStep 
-                    control={control}
-                    register={register}
-                    getFieldError={getFieldError}
-                    setValue={setValue}
-                    watch={watch}
-                />
-            )
-        },
+        // {
+        //     label: 'Drawdowns',
+        //     hasError: hasTabError(tabFields["Drawdowns"]),
+        //     content: (
+        //         <DrawdownsStep 
+        //             control={control}
+        //             register={register}
+        //             getFieldError={getFieldError}
+        //             setValue={setValue}
+        //             watch={watch}
+        //         />
+        //     )
+        // },
     ];
 
     // Filter out null tabs

@@ -236,7 +236,7 @@ export const ReactSelectComponent = forwardRef<
         isClearable={isClearable}
         isSearchable={isSearchable}
         placeholder={placeholder}
-        {...(value !== undefined && value !== null ? { value } : {})}
+        value={value || null}
         classNamePrefix="react-select"
         required={required}
         {...props}
@@ -361,7 +361,7 @@ export const ReactAsyncSelectComponent = forwardRef<
         isClearable={isClearable}
         isSearchable={isSearchable}
         placeholder={placeholder}
-        {...(value !== undefined && value !== null ? { value } : {})}
+        {...(value !== undefined ? { value } : {})}
         classNamePrefix="react-select"
         cacheOptions
         {...props}
@@ -438,7 +438,7 @@ export const ReactAsyncCreatableSelectComponent = forwardRef<
         isClearable={isClearable}
         isSearchable={isSearchable}
         placeholder={placeholder}
-        {...(value !== undefined && value !== null ? { value } : {})}
+        {...(value !== undefined ? { value } : {})}
         classNamePrefix="react-select"
         cacheOptions
         {...props}

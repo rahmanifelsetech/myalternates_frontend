@@ -48,7 +48,7 @@ export const HoldersStep: React.FC<HoldersStepProps> = ({
                 <DynamicFormField control={control} label="Holding Mode" type="select" options={holdingModeOptions} error={getFieldError("holdingMode")} {...register(`holdingMode`)} />
             </div>
             
-            <div className="mb-4 p-4 border-1 border-brand-400 rounded-2xl">
+            <div className="mb-4 p-4 border-1 border-brand-400 rounded-lg">
                 <h4 className="font-semibold mb-3">Primary Holder</h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     <DynamicFormField 
