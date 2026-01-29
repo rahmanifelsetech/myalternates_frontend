@@ -28,7 +28,7 @@ const emptyValues: BankSchemaType = {
 export const BankForm: React.FC<BankFormProps> = ({ bank, onSubmit, isLoading, investorId }) => {
     
     const { data: investorsData } = useGetInvestorsQuery({ limit: 1000 }); // Fetch all investors for dropdown
-    const investorOptions = investorsData?.data.map(inv => ({ label: inv.name, value: inv.id })) || [];
+    const investorOptions = investorsData?.data.map(inv => ({ label: inv?.primaryPerson?.fullName, value: inv.id })) || [];
 
     const {
         control,

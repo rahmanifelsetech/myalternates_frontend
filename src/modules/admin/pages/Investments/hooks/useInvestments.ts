@@ -1,4 +1,4 @@
-import { useCreateInvestmentMutation, useUpdateInvestmentMutation, useDeleteInvestmentMutation } from '../api/investmentApi';
+import { useCreateInvestmentMutation, useUpdateInvestmentMutation, useDeleteInvestmentMutation, useCreateInvestmentOnboardMutation } from '../api/investmentApi';
 import { useAsyncMutation } from '@shared/hooks/useAsyncMutation';
 import { CreateInvestmentPayload, UpdateInvestmentPayload } from '../types/investment';
 import { useCallback } from 'react';
@@ -8,10 +8,12 @@ export const useInvestments = () => {
     const [createInvestment, { isLoading: isCreating }] = useCreateInvestmentMutation();
     const [updateInvestment, { isLoading: isUpdating }] = useUpdateInvestmentMutation();
     const [deleteInvestment, { isLoading: isDeleting }] = useDeleteInvestmentMutation();
+    const [createInvestmentOnboard, { isLoading: isOnboarding }] = useCreateInvestmentOnboardMutation();
 
     const { execute: create } = useAsyncMutation();
     const { execute: update } = useAsyncMutation();
     const { execute: remove } = useAsyncMutation();
+    const { execute: onboard } = useAsyncMutation();
 
     const handleCreate = useCallback(async (data: CreateInvestmentPayload) => {
         // const formData = objectToFormData(data);
@@ -37,12 +39,21 @@ export const useInvestments = () => {
         });
     }, [remove, deleteInvestment]);
 
+    const handleOnboard = useCallback(async (payload: any) => {
+        return onboard(createInvestmentOnboard, payload, {
+            successMessage: 'Investment onboarded successfully!',
+            errorMessage: 'Failed to onboard investment.',
+        });
+    }, [onboard, createInvestmentOnboard]);
+
     return {
         handleCreate,
         handleUpdate,
         handleDelete,
+        handleOnboard,
         isCreating,
         isUpdating,
         isDeleting,
+        isOnboarding,
     };
 };

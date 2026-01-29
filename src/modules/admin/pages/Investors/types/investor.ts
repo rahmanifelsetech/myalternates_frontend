@@ -4,29 +4,40 @@ import { Bank } from "./bank";
 import { Holder } from "./holder";
 import { Nominee } from "./nominee";
 
-export interface Investor {
+export interface Person {
     id: string;
-    myaltCode?: string;
-    name: string;
+    fullName: string;
     pan: string;
-    dateOfBirth: string | null;
+    dob: string | null;
     gender: string | null;
     mobile: string | null;
     email: string | null;
-    address1: string | null;
-    address2: string | null;
-    city: string | null;
-    state: string | null;
-    country: string | null;
-    pincode: string | null;
-    residentialStatus: string;
-    subStatus: string | null;
+    isMinor: boolean;
     guardianName: string | null;
     guardianIdType: string | null;
     guardianIdNumber: string | null;
+    guardianRelationship: string | null;
+    createdAt: string;
+    addresses: {
+        address1: string | null;
+        address2: string | null;
+        city: string | null;
+        state: string | null;
+        country: string | null;
+        pincode: string | null;
+    }[];
+}
+
+export interface Investor {
+    id: string;
+    myaltCode?: string;
+    residentialStatus: string;
+    subStatus: string | null;
+    inceptionDate: string | null;
     isActive: boolean;
     createdAt: string;
     updatedAt: string;
+    primaryPerson: Person;
     documents: InvestorDocument[];
     banks: Bank[];
     holders: Holder[];
@@ -68,6 +79,30 @@ export interface UpdateInvestorPayload extends Partial<CreateInvestorPayload> {
     id: string;
     documentsToRemove?: string[];
 }
+
+export interface InvestorByPan {
+    id:string;
+    myaltCode: string;
+    primaryPersonId: string;
+    primaryPan: string;
+    residentialStatus: string;
+    subStatus: string | null;
+    inceptionDate: string | null;
+    isActive: boolean;
+    createdAt: string;
+    updatedAt: string;
+    primaryPerson: Person;
+}
+
+export interface HolderByPan {
+    id?: string;
+    holderOrder?: number;
+    person: Person;
+}
+
+export type InvestorByPanResponse = SingleResponse<InvestorByPan>;
+export type HolderByPanResponse = SingleResponse<HolderByPan>;
+export type PersonResponse = SingleResponse<Person>;
 
 export interface InvestorFilters {
     search?: string;

@@ -1,5 +1,5 @@
 import RtkQueryService from "@shared/services/rtkService";
-import { InvestorListResponse, InvestorResponse, InvestorFilters } from "../types/investor";
+import { InvestorListResponse, InvestorResponse, InvestorFilters, InvestorByPanResponse } from "../types/investor";
 
 const investorApiWithTags = RtkQueryService.enhanceEndpoints({
   addTagTypes: ["Investors", "Investor"],
@@ -22,12 +22,12 @@ const investorApi = investorApiWithTags.injectEndpoints({
       }),
       providesTags: (_result, _error, id) => [{ type: "Investor", id }],
     }),
-    getInvestorByPan: builder.query<InvestorResponse, string>({
-        query: (pan) => ({
-            url: `/customers/by-pan/${pan}`,
+    getInvestorByUniqueId: builder.query<InvestorByPanResponse, string>({
+        query: (uniqueId) => ({
+            url: `/investors/by-unique-id/${uniqueId}`,
             method: 'GET',
         }),
-        providesTags: (_result, _error, pan) => [{ type: "Investor", pan }],
+        providesTags: (_result, _error, uniqueId) => [{ type: "Investor", id: uniqueId }],
     }),
     createInvestor: builder.mutation<InvestorResponse, FormData>({
       query: (body) => ({
@@ -60,5 +60,5 @@ export const {
     useCreateInvestorMutation,
     useUpdateInvestorMutation,
     useDeleteInvestorMutation,
-    useLazyGetInvestorByPanQuery,
+    useLazyGetInvestorByUniqueIdQuery,
 } = investorApi;

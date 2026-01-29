@@ -8,6 +8,7 @@ export interface Scheme {
     product: { id: string, name: string } | null;
     schemeCode: string;
     schemeName: string;
+    amcCat: string | null;
     color: string | null;
     categoryId: string | null;
     subCategoryId: string | null;
@@ -94,6 +95,7 @@ export interface Scheme {
     top5Sectors: Array<{ name: string, value: string }> | null;
     fundManagers?: Array<SchemeFundManager>; // Added fundManagers
     performance?: Array<SchemePerformance>; // Added performance
+    overallPerformance?: SchemeOverallPerformance | null;
     tenureInMonths: number | null;
     riskLevel: string | null;
     isActive: boolean;
@@ -110,6 +112,7 @@ export interface CreateSchemePayload {
     productId?: string;
     schemeCode: string;
     schemeName: string;
+    amcCat?: string;
     color?: string;
     categoryId?: string;
     subCategoryId?: string;
@@ -225,4 +228,26 @@ export interface SchemePerformance {
     display?: string;
     schemePerformance?: number;
     benchmarkPerformance?: number;
+}
+
+
+export interface SchemeOverallPerformance {
+    schemeRet1m: string,
+    schemeRet3m: string,
+    schemeRet6m: string,
+    schemeRet1y: string,
+    schemeRet2y: string,
+    schemeRet3y: string,
+    schemeRet5y: string,
+    schemeRet10y: string,
+    schemeRetSinceInception: string,
+    bmRet1m: string,
+    bmRet3m: string,
+    bmRet6m: string,
+    bmRet1y: string,
+    bmRet2y: string,
+    bmRet3y: string,
+    bmRet5y: string,
+    bmRet10y: string,
+    bmRetSinceInception: string,
 }

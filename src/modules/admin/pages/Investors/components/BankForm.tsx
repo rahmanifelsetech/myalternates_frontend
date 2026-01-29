@@ -42,7 +42,7 @@ export const BankForm: React.FC<BankFormProps> = ({ bank, onSubmit, isLoading, i
         investorId: bank.investorId ?? '',
         bankName: bank.bankName ?? '',
         accountNumber: bank.accountNumber ?? '',
-        ifscCode: bank.ifscCode ?? '',
+        ifscCode: bank.ifsc ?? '',
         accountType: bank.accountType ?? '',
         isActive: bank.isActive ?? true,
     } : { ...emptyValues, investorId: investorId || '' }});
@@ -54,7 +54,7 @@ export const BankForm: React.FC<BankFormProps> = ({ bank, onSubmit, isLoading, i
                 investorId: bank.investorId ?? '',
                 bankName: bank.bankName ?? '',
                 accountNumber: bank.accountNumber ?? '',
-                ifscCode: bank.ifscCode ?? '',
+                ifscCode: bank.ifsc ?? '',
                 accountType: bank.accountType ?? '',
                 isActive: bank.isActive ?? true,
             });

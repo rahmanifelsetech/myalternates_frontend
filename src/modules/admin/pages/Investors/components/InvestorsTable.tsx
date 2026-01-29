@@ -51,31 +51,28 @@ export const InvestorsTable: React.FC<InvestorsTableProps> = ({ investors, isLoa
               <TableCell isHeader className={`px-5 py-3 text-start ${typographyClasses.colors.text.muted} ${typographyClasses.body.caption}`}>
                 Status
               </TableCell>
-              <TableCell isHeader className={`px-5 py-3 text-start ${typographyClasses.colors.text.muted} ${typographyClasses.body.caption}`}>
-                Related
-              </TableCell>
-              <TableCell isHeader className={`px-5 py-3 text-start ${typographyClasses.colors.text.muted} ${typographyClasses.body.caption}`}>
+              {/* <TableCell isHeader className={`px-5 py-3 text-start ${typographyClasses.colors.text.muted} ${typographyClasses.body.caption}`}>
                 Actions
-              </TableCell>
+              </TableCell> */}
             </TableRow>
           </TableHeader>
           <TableBody className="divide-y divide-gray-100 dark:divide-white/[0.05]">
             {investors.length === 0 ? (
-              <NoDataRow colSpan={7} message="No Investors found." />
+              <NoDataRow colSpan={6} message="No Investors found." />
             ) : (
               investors.map((investor) => (
                 <TableRow key={investor.id}>
                   <TableCell className={`px-5 py-4 sm:px-6 text-start ${typographyClasses.body.small} ${typographyClasses.colors.text.secondary}`}>
-                    {investor.name}
+                    {investor.primaryPerson?.fullName}
                   </TableCell>
                   <TableCell className={`px-5 py-4 sm:px-6 text-start ${typographyClasses.body.small} ${typographyClasses.colors.text.secondary}`}>
-                    {investor.email}
+                    {investor.primaryPerson?.email}
                   </TableCell>
                   <TableCell className={`px-5 py-4 sm:px-6 text-start ${typographyClasses.body.small} ${typographyClasses.colors.text.secondary}`}>
-                    {investor.mobile}
+                    {investor.primaryPerson?.mobile}
                   </TableCell>
                   <TableCell className={`px-5 py-4 sm:px-6 text-start ${typographyClasses.body.small} ${typographyClasses.colors.text.secondary}`}>
-                    {investor.pan}
+                    {investor.primaryPerson?.pan}
                   </TableCell>
                   <TableCell className={`px-5 py-4 ${typographyClasses.body.small} ${typographyClasses.colors.text.secondary}`}>
                     <span className={`inline-block px-2 py-1 rounded ${typographyClasses.body.caption} ${
@@ -86,25 +83,7 @@ export const InvestorsTable: React.FC<InvestorsTableProps> = ({ investors, isLoa
                       {investor.isActive ? "Active" : 'Inactive'}
                     </span>
                   </TableCell>
-                  <TableCell className={`px-5 py-4 ${typographyClasses.body.small} ${typographyClasses.colors.text.secondary}`}>
-                    <div className="flex gap-2">
-                        <Button 
-                            variant="outline" 
-                            size="sm" 
-                            onClick={() => navigate(`/admin/banks?investorId=${investor.id}`)}
-                        >
-                            Banks
-                        </Button>
-                        <Button 
-                            variant="outline" 
-                            size="sm" 
-                            onClick={() => navigate(`/admin/holders?investorId=${investor.id}`)}
-                        >
-                            Holders
-                        </Button>
-                    </div>
-                  </TableCell>
-                  <TableCell className={`px-4 py-3 text-start ${typographyClasses.body.small} ${typographyClasses.colors.text.secondary}`}>
+                  {/* <TableCell className={`px-4 py-3 text-start ${typographyClasses.body.small} ${typographyClasses.colors.text.secondary}`}>
                     <div className="flex items-center space-x-3.5">
                       <CanAccess any={[PERMISSIONS.INVESTORS.UPDATE]}>
                         <IconButton
@@ -121,7 +100,7 @@ export const InvestorsTable: React.FC<InvestorsTableProps> = ({ investors, isLoa
                         />
                       </CanAccess>
                     </div>
-                  </TableCell>
+                  </TableCell> */}
                 </TableRow>
               ))
             )}

@@ -111,7 +111,7 @@ POST /api/investments/onboard
 
 | Rule             | Behavior            |
 | ---------------- | ------------------- |
-| Tab incomplete   | Disable Next        |
+| Tab incomplete   | Prevent Submit        |
 | PAN conflict     | Show blocking modal |
 | Nominee mismatch | Prevent submit      |
 

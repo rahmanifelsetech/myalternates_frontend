@@ -45,6 +45,14 @@ const investmentApi = investmentApiWithTags.injectEndpoints({
       }),
       invalidatesTags: ["Investments"],
     }),
+    createInvestmentOnboard: builder.mutation<InvestmentResponse, any>({
+      query: (payload) => ({
+        url: '/investments/onboard',
+        method: 'POST',
+        data: payload,
+      }),
+      invalidatesTags: ["Investments"],
+    }),
   }),
 });
 export const {
@@ -53,4 +61,5 @@ export const {
     useCreateInvestmentMutation,
     useUpdateInvestmentMutation,
     useDeleteInvestmentMutation,
+    useCreateInvestmentOnboardMutation,
 } = investmentApi;

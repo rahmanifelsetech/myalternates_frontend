@@ -40,7 +40,7 @@ const emptyValues: HolderSchemaType = {
 export const HolderForm: React.FC<HolderFormProps> = ({ holder, onSubmit, isLoading, investorId }) => {
     
     const { data: investorsData } = useGetInvestorsQuery({ limit: 1000 }); 
-    const investorOptions = investorsData?.data.map(inv => ({ label: inv.name, value: inv.id })) || [];
+    const investorOptions = investorsData?.data.map(inv => ({ label: inv?.primaryPerson?.fullName, value: inv.id })) || [];
 
     const {
         control,

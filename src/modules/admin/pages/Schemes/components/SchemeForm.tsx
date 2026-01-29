@@ -26,6 +26,9 @@ import {
     SCHEME_TYPES,
     FUND_APPROACHES,
     PERFORMANCE_TYPES,
+    REPORTING_STRUCTURES,
+    IA_STRUCTURES,
+    FEE_STRUCTURES,
 } from '@/modules/admin/pages/Schemes/scheme.constants';
 
 interface SchemeFormProps {
@@ -126,6 +129,26 @@ const emptyValues: SchemeSchemaType = {
     top5Sectors: [],
     fundManagers: [],
     performance: [],
+    overallPerformance: {
+        schemeRet1m: null,
+        schemeRet3m: null,
+        schemeRet6m: null,
+        schemeRet1y: null,
+        schemeRet2y: null,
+        schemeRet3y: null,
+        schemeRet5y: null,
+        schemeRet10y: null,
+        schemeRetSinceInception: null,
+        bmRet1m: null,
+        bmRet3m: null,
+        bmRet6m: null,
+        bmRet1y: null,
+        bmRet2y: null,
+        bmRet3y: null,
+        bmRet5y: null,
+        bmRet10y: null,
+        bmRetSinceInception: null,
+    },
 };
 
 export const SchemeForm: React.FC<SchemeFormProps> = ({ scheme, onSubmit, onCancel, isLoading }) => {
@@ -239,8 +262,22 @@ export const SchemeForm: React.FC<SchemeFormProps> = ({ scheme, onSubmit, onCanc
     const { data: benchmarkIndexList } = useGetBenchmarkIndexListQuery();
     const { data: fundManagerList } = useGetFundManagerListQuery();
 
+    const selectedProduct = productList?.data?.find((p: any) => p.id === productId);
+
+    const amcCategoryOptions = React.useMemo(() => {
+        if (selectedProduct?.code === 'AIF') {
+            return ["CAT1", "CAT2", "CAT3"].map(c => ({ label: c, value: c }));
+        }
+        if (selectedProduct?.code === 'GIFT_IFSC') {
+            return ["GIFT_CAT1", "GIFT_CAT2", "GIFT_CAT3"].map(c => ({ label: c, value: c }));
+        }
+        return [];
+    }, [selectedProduct]);
+
+    const isAmcCategoryDisabled = !['AIF', 'GIFT_IFSC'].includes(selectedProduct?.code);
+
     const amcOptions = amcList?.data?.map((amc: any) => ({ label: amc.name, value: amc.id })) || [];
-    const productOptions = productList?.data?.map((product: any) => ({ label: product.name, value: product.id })) || [];
+    const productOptions = productList?.data?.map((product: any) => ({ label: product.name, value: product.id, code: product.code })) || [];
     const categoryOptions = categoryList?.data?.map((category: any) => ({ label: category.name, value: category.id })) || [];
     const assetClassOptions = assetClassList?.data?.map((assetClass: any) => ({ label: assetClass.name, value: assetClass.id })) || [];
     const benchmarkOptions = benchmarkIndexList?.data?.map((benchmark: any) => ({ label: benchmark.name, value: benchmark.id })) || [];
@@ -253,6 +290,7 @@ export const SchemeForm: React.FC<SchemeFormProps> = ({ scheme, onSubmit, onCanc
     } = useFieldArray({
         control,
         name: 'fundManagers',
+        shouldUnregister: true
     });
 
     const {
@@ -262,6 +300,7 @@ export const SchemeForm: React.FC<SchemeFormProps> = ({ scheme, onSubmit, onCanc
     } = useFieldArray({
         control,
         name: 'top5Holdings',
+        shouldUnregister: true
     });
 
     const {
@@ -271,6 +310,7 @@ export const SchemeForm: React.FC<SchemeFormProps> = ({ scheme, onSubmit, onCanc
     } = useFieldArray({
         control,
         name: 'top5Sectors',
+        shouldUnregister: true
     });
 
     const {
@@ -280,10 +320,13 @@ export const SchemeForm: React.FC<SchemeFormProps> = ({ scheme, onSubmit, onCanc
     } = useFieldArray({
         control,
         name: 'performance',
+        shouldUnregister: true
     });
 
     useEffect(() => {
-        reset(initialValues);
+        setTimeout(() => {
+            reset(initialValues);
+        }, 100);
     }, [initialValues, reset]);
 
     const handleFormSubmit = async (data: SchemeSchemaType) => {
@@ -306,69 +349,22 @@ export const SchemeForm: React.FC<SchemeFormProps> = ({ scheme, onSubmit, onCanc
             await onSubmit(payload as any);
         } catch (error: any) {
             console.error('Submission form API error:', error);
+            const errorFields = Object.keys(error.errors);
+            if (errorFields.length > 0) {
+                const firstErrorField = errorFields[0] as keyof SchemeSchemaType;
+                const tabIndex = Object.values(tabFields).findIndex(fields => fields.includes(firstErrorField));
+                if (tabIndex !== -1) {
+                    setActiveTab(tabIndex);
+                }
+            }
             setFormErrors(error, setError);
         }
     };
 
-    const iaStructures = [
-        { label: "Open Ended", value: "Open Ended" },
-        { label: "Close Ended", value: "Close Ended" },
-    ];
-
-    const reportingStructures = [
-        { label: "AGGREGATE PORTFOLIO", value: "AGGREGATE PORTFOLIO" },
-        { label: "MODEL PORTFOLIO", value: "MODEL PORTFOLIO" },
-        { label: "INITIAL CLIENT PORTFOLIO", value: "INITIAL CLIENT PORTFOLIO" },
-        { label: "INDEX", value: "INDEX" },
-        { label: "TWRR (Pooled Portfolio Basis)", value: "TWRR (Pooled Portfolio Basis)" },
-        { label: "TWRR (Model Portfolio Basis)", value: "TWRR (Model Portfolio Basis)" },
-        { label: "OTHERS", value: "OTHERS" },
-        { label: "XIRR Aggregated", value: "XIRR Aggregated" },
-        { label: "TWRR Pooled", value: "TWRR Pooled" },
-    ];
-
-    const feeStructures = [
-        { label: "Post Fees Reporting", value: "Post Fees Reporting" },
-        { label: "Pre Fees Reporting", value: "Pre Fees Reporting" },
-    ];
-
-    const investorTypes = INVESTOR_TYPES;
-    const fundTypes = FUND_TYPES;
-    const schemeTypes = SCHEME_TYPES;
-    const fundApproaches = FUND_APPROACHES;
-    const performanceTypes = PERFORMANCE_TYPES;
-
-    // const investorTypes = [
-    //     { label: "All", value: "All" },
-    //     { label: "Indian & Non - US", value: "Indian& Non - US" },
-    //     { label: "ALL NRI", value: "ALL NRI" },
-    //     { label: "Non US", value: "Non US" },
-    // ];
-
-    // const fundTypes = [
-    //     { label: "India Focused Fund", value: "India Focused Fund" },
-    //     { label: "Global Focused Fund", value: "Global Focused Fund" },
-    // ];
-
-    // const schemeTypes = [
-    //     { label: "Restricted Scheme (Non-retail)", value: "Restricted Scheme(Non-retail)" },
-    // ];
-
-    // const fundApproaches = [
-    //     { label: "Feeder Fund", value: "Feeder Fund" },
-    //     { label: "Active Fund", value: "Active Fund" },
-    // ];
-
-    // const performanceTypes = [
-    //     { label: "Financial Year Performance", value: "Financial Year" },
-    //     { label: "Calendar Year Performance", value: "Calendar Year" },
-    // ];
-
-
     const [activeTab, setActiveTab] = useState(0);
 
     const tabFields: Record<string, (keyof SchemeSchemaType)[]> = {
-        "Basic Details": ['productId', 'amcId', 'schemeCode', 'schemeName', 'color', 'categoryId', 'subCategoryId', 'assetClassId', 'benchmarkIndexId', 'benchmarkShortIndexId'],
+        "Basic Details": ['productId', 'amcId', 'schemeCode', 'schemeName', 'color', 'amcCat', 'categoryId', 'subCategoryId', 'assetClassId', 'benchmarkIndexId', 'benchmarkShortIndexId'],
         "Details": ['iaStructure', 'iaShortName', 'about', 'investmentObjective', 'investmentApproach', 'iaTheme', 'keyStrength', 'schemeInceptionDate'],
         "Financials": ['aum', 'avgMarketCap', 'setupFees', 'largeCap', 'midCap', 'smallCap', 'cashEquivalent', 'others'],
         "Fees & Loads": ['feeProfitShare', 'feeStructure', 'feeFixedAmc', 'feeVariableAmc', 'feeHurdle', 'remarksForFeeStructure', 'exitLoad1Yr', 'exitLoad2Yr', 'exitLoad3Yr', 'exitLoad', 'exitOption'],
@@ -377,6 +373,7 @@ export const SchemeForm: React.FC<SchemeFormProps> = ({ scheme, onSubmit, onCanc
         "Advanced": ['fundApproach', 'fundApproachDescription', 'fundTenure', 'fundTenureDescription', 'fundTargetSize', 'fundTargetSizeDescription', 'minCommitment', 'minCommitmentDescription', 'drawdown', 'drawdownDescription', 'targettedGrossIrr', 'targettedGrossIrrDescription'],
         "Policy & Legal": ['whoCanInvest', 'whoCannotInvest', 'tentativeBalanceCommitmentCall', 'sponsorCommitment', 'tentativeFinalClosing', 'subscriptionAndRedemption', 'navFrequency', 'custody', 'registrarAndTransferAgent', 'trustee', 'assetStructure', 'legalAdvisor', 'taxAdvisor', 'taxation', 'performanceNote'],
         "Dynamic Fields": ['fundManagers', 'top5Holdings', 'top5Sectors', 'performance'],
+        "Overall Performance": ['overallPerformance'],
     };
 
     const tabs = [
@@ -389,6 +386,7 @@ export const SchemeForm: React.FC<SchemeFormProps> = ({ scheme, onSubmit, onCanc
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <DynamicFormField control={control} label="Product" type="select" options={productOptions} error={errors.productId} {...register('productId')} />
                         <DynamicFormField control={control} label="AMC" type="select" options={amcOptions} required error={errors.amcId} {...register('amcId')} />
+                        <DynamicFormField control={control} label="AMC Category" type="select" options={amcCategoryOptions} error={errors.amcCat} {...register('amcCat')} disabled={isAmcCategoryDisabled} />
                         <DynamicFormField control={control} label="Scheme Code" required error={errors.schemeCode} {...register('schemeCode')} />
                         <DynamicFormField control={control} label="Scheme Name" required error={errors.schemeName} {...register('schemeName')} />
                         <DynamicFormField control={control} label="Color" error={errors.color} {...register('color')} />
@@ -408,7 +406,7 @@ export const SchemeForm: React.FC<SchemeFormProps> = ({ scheme, onSubmit, onCanc
                 <div className="space-y-6">
                     <h3 className={`${typographyClasses.heading.h4} ${typographyClasses.colors.text.primary} border-b pb-2 mb-4 mt-6`}>Investment Approach</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <DynamicFormField control={control} label="IA Structure" type="select" options={iaStructures} error={errors.iaStructure} {...register('iaStructure')} />
+                        <DynamicFormField control={control} label="IA Structure" type="select" options={IA_STRUCTURES} error={errors.iaStructure} {...register('iaStructure')} />
                         <DynamicFormField control={control} label="IA Short Name" error={errors.iaShortName} {...register('iaShortName')} />
                     </div>
 
@@ -454,7 +452,7 @@ export const SchemeForm: React.FC<SchemeFormProps> = ({ scheme, onSubmit, onCanc
                     <h3 className={`${typographyClasses.heading.h4} ${typographyClasses.colors.text.primary} border-b pb-2 mb-4 mt-6`}>Fee Structure</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <DynamicFormField control={control} label="Fee Profit Share" type="text" error={errors.feeProfitShare} {...register('feeProfitShare')} />
-                        <DynamicFormField control={control} label="Fee Structure" type="select" options={feeStructures} error={errors.feeStructure} {...register('feeStructure')} />
+                        <DynamicFormField control={control} label="Fee Structure" type="select" options={FEE_STRUCTURES} error={errors.feeStructure} {...register('feeStructure')} />
                         <DynamicFormField control={control} label="Fee Fixed AMC" type="text" error={errors.feeFixedAmc} {...register('feeFixedAmc')} />
                         <DynamicFormField control={control} label="Fee Variable AMC" type="text" error={errors.feeVariableAmc} {...register('feeVariableAmc')} />
                         <DynamicFormField control={control} label="Fee Hurdle" type="text" error={errors.feeHurdle} {...register('feeHurdle')} />
@@ -493,8 +491,8 @@ export const SchemeForm: React.FC<SchemeFormProps> = ({ scheme, onSubmit, onCanc
                 <div className="space-y-6">
                     <h3 className={`${typographyClasses.heading.h4} ${typographyClasses.colors.text.primary} border-b pb-2 mb-4 mt-6`}>Reporting Structure</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <DynamicFormField control={control} label="Reporting Structure" type="select" options={reportingStructures} error={errors.reportingStructure} {...register('reportingStructure')} />
-                        <DynamicFormField control={control} label="Comparison Reporting Structure" type="select" options={reportingStructures} error={errors.comparisonReportingStructure} {...register('comparisonReportingStructure')} />
+                        <DynamicFormField control={control} label="Reporting Structure" type="select" options={REPORTING_STRUCTURES} error={errors.reportingStructure} {...register('reportingStructure')} />
+                        <DynamicFormField control={control} label="Comparison Reporting Structure" type="select" options={REPORTING_STRUCTURES} error={errors.comparisonReportingStructure} {...register('comparisonReportingStructure')} />
                     </div>
                     <h3 className={`${typographyClasses.heading.h4} ${typographyClasses.colors.text.primary} border-b pb-2 mb-4 mt-6`}>Options</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -531,7 +529,6 @@ export const SchemeForm: React.FC<SchemeFormProps> = ({ scheme, onSubmit, onCanc
                     <h3 className={`${typographyClasses.heading.h4} ${typographyClasses.colors.text.primary} border-b pb-2 mb-4 mt-6`}>Fund Approach & Tenure</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <DynamicFormField control={control} label="Fund Approach" type="select" options={FUND_APPROACHES} error={errors.fundApproach} {...register('fundApproach')} />
-                        <DynamicFormField control={control} label="Performance Type" type="select" options={PERFORMANCE_TYPES} error={errors.performanceType} {...register('performanceType')} />
                         <DynamicFormField control={control} label="Fund Approach Description" type="textarea" error={errors.fundApproachDescription} {...register('fundApproachDescription')} />
                         <DynamicFormField control={control} label="Fund Tenure" error={errors.fundTenure} {...register('fundTenure')} />
                         <DynamicFormField control={control} label="Fund Tenure Description" type="textarea" error={errors.fundTenureDescription} {...register('fundTenureDescription')} />
@@ -772,7 +769,7 @@ export const SchemeForm: React.FC<SchemeFormProps> = ({ scheme, onSubmit, onCanc
                                         control={control}
                                         label="Performance Type"
                                         type="select"
-                                        options={performanceTypes}
+                                        options={PERFORMANCE_TYPES}
                                         required
                                         error={(errors.performance as any)?.[index]?.performanceType}
                                         {...register(`performance.${index}.performanceType`)}
@@ -795,6 +792,8 @@ export const SchemeForm: React.FC<SchemeFormProps> = ({ scheme, onSubmit, onCanc
                                         control={control}
                                         label="Scheme Performance"
                                         type="number"
+                                        step={0.01}
+                                        min={-100}
                                         error={(errors.performance as any)?.[index]?.schemePerformance}
                                         {...register(`performance.${index}.schemePerformance`)}
                                     />
@@ -802,12 +801,39 @@ export const SchemeForm: React.FC<SchemeFormProps> = ({ scheme, onSubmit, onCanc
                                         control={control}
                                         label="Benchmark Performance"
                                         type="number"
+                                        step={0.01}
+                                        min={-100}
                                         error={(errors.performance as any)?.[index]?.benchmarkPerformance}
                                         {...register(`performance.${index}.benchmarkPerformance`)}
                                     />
                                 </div>
                             </div>
                         ))}
+                    </div>
+                </div>
+            )
+        },
+        {
+            label: "Overall Performance",
+            hasError: tabFields["Overall Performance"].some(field => errors[field]),
+            content: (
+                <div className="space-y-6">
+                    <h3 className={`${typographyClasses.heading.h4} ${typographyClasses.colors.text.primary} border-b pb-2 mb-4`}>Overall Performance</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {Object.keys(scheme?.overallPerformance || emptyValues.overallPerformance || {})
+                            .filter(key => !['id', 'schemeId', 'createdAt', 'updatedAt'].includes(key))
+                            .map(key => (
+                                <DynamicFormField
+                                    key={key}
+                                    control={control}
+                                    label={key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
+                                    type="number"
+                                    step={0.000000001}
+                                    min={-100}
+                                    error={errors.overallPerformance?.[key as keyof SchemeSchemaType['overallPerformance']]}
+                                    {...register(`overallPerformance.${key}`)}
+                                />
+                            ))}
                     </div>
                 </div>
             )

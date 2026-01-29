@@ -21,7 +21,28 @@ export const FUND_APPROACHES = [
 ];
 
 export const PERFORMANCE_TYPES = [
-  { label: 'Financial Year Performance', value: 'Financial Year Performance' },
-  { label: 'Calender Year Performance', value: 'Calender Year Performance' },
-  { label: 'Performance', value: 'Performance' },
+  { label: 'Financial Year Performance', value: 'Financial Year' },
+  { label: 'Calender Year Performance', value: 'Calender Year' },
+];
+
+export const IA_STRUCTURES = [
+    { label: "Open Ended", value: "Open Ended" },
+    { label: "Close Ended", value: "Close Ended" },
+];
+
+export const REPORTING_STRUCTURES = [
+    { label: "AGGREGATE PORTFOLIO", value: "AGGREGATE PORTFOLIO" },
+    { label: "MODEL PORTFOLIO", value: "MODEL PORTFOLIO" },
+    { label: "INITIAL CLIENT PORTFOLIO", value: "INITIAL CLIENT PORTFOLIO" },
+    { label: "INDEX", value: "INDEX" },
+    { label: "TWRR (Pooled Portfolio Basis)", value: "TWRR (Pooled Portfolio Basis)" },
+    { label: "TWRR (Model Portfolio Basis)", value: "TWRR (Model Portfolio Basis)" },
+    { label: "OTHERS", value: "OTHERS" },
+    { label: "XIRR Aggregated", value: "XIRR Aggregated" },
+    { label: "TWRR Pooled", value: "TWRR Pooled" },
+];
+
+export const FEE_STRUCTURES = [
+    { label: "Post Fees Reporting", value: "Post Fees Reporting" },
+    { label: "Pre Fees Reporting", value: "Pre Fees Reporting" },
 ];

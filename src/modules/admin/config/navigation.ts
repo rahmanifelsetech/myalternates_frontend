@@ -68,12 +68,12 @@ export const adminNavigation: NavigationItem[] = [
     //   },
     // ],
   },
-  {
-    title: 'Investments',
-    path: '/admin/investments',
-    icon: 'dollarLine',
-    permissions: [PERMISSIONS.INVESTMENTS.READ],
-  },
+  // {
+  //   title: 'Investments',
+  //   path: '/admin/investments',
+  //   icon: 'dollarLine',
+  //   permissions: [PERMISSIONS.INVESTMENTS.READ],
+  // },
   {
     title: 'Masters',
     path: '/admin/masters/fund-managers',

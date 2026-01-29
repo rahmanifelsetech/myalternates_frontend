@@ -1,12 +1,20 @@
 import { PaginatedResponse, SingleResponse } from "@shared/types/api";
 
+// Account Type
+export enum AccountType {
+  SAVINGS = 'Savings',
+  CURRENT = 'Current',
+  NRE = 'NRE',
+  NRO = 'NRO',
+}
+
 export interface Bank {
     id: string;
     investorId: string;
     bankName: string;
     accountNumber: string;
-    ifscCode: string;
-    accountType: string;
+    ifsc: string;
+    accountType: AccountType;
     isActive: boolean;
     createdAt: string;
     updatedAt: string;

@@ -15,9 +15,30 @@ const SchemeFundManagerSchema = z.object({
 const SchemePerformanceSchema = z.object({
     performanceType: z.string().min(1, "Performance Type is required"),
     year: z.string().min(1, "Year is required"),
-    displayOrder: z.coerce.number().optional(),
+    display: z.string().optional(),
     schemePerformance: z.coerce.number().optional(),
     benchmarkPerformance: z.coerce.number().optional(),
+});
+
+const OverallPerformanceSchema = z.object({
+    schemeRet1m: z.coerce.number().optional().nullable(),
+    schemeRet3m: z.coerce.number().optional().nullable(),
+    schemeRet6m: z.coerce.number().optional().nullable(),
+    schemeRet1y: z.coerce.number().optional().nullable(),
+    schemeRet2y: z.coerce.number().optional().nullable(),
+    schemeRet3y: z.coerce.number().optional().nullable(),
+    schemeRet5y: z.coerce.number().optional().nullable(),
+    schemeRet10y: z.coerce.number().optional().nullable(),
+    schemeRetSinceInception: z.coerce.number().optional().nullable(),
+    bmRet1m: z.coerce.number().optional().nullable(),
+    bmRet3m: z.coerce.number().optional().nullable(),
+    bmRet6m: z.coerce.number().optional().nullable(),
+    bmRet1y: z.coerce.number().optional().nullable(),
+    bmRet2y: z.coerce.number().optional().nullable(),
+    bmRet3y: z.coerce.number().optional().nullable(),
+    bmRet5y: z.coerce.number().optional().nullable(),
+    bmRet10y: z.coerce.number().optional().nullable(),
+    bmRetSinceInception: z.coerce.number().optional().nullable(),
 });
 
 export const SchemeSchema = z.object({
@@ -25,58 +46,49 @@ export const SchemeSchema = z.object({
     productId: z.string().uuid("Product is required").optional().nullable(),
     schemeCode: z.string().min(1, 'Scheme Code is required'),
     schemeName: z.string().min(1, 'Scheme Name is required'),
-    color: z.string().optional().nullable(), // Hex color code
+    amcCat: z.string().optional().nullable(),
+    color: z.string().optional().nullable(),
     categoryId: z.string().uuid("Category is required").optional().nullable(),
     subCategoryId: z.string().uuid("Sub Category is required").optional().nullable(),
     assetClassId: z.string().uuid("Asset Class is required").optional().nullable(),
     benchmarkIndexId: z.string().uuid("Benchmark Index is required").optional().nullable(),
     benchmarkShortIndexId: z.string().uuid("Benchmark Short Index is required").optional().nullable(),
-
     iaStructure: z.string().optional().nullable(),
     iaShortName: z.string().optional().nullable(),
-
     aum: z.coerce.number().optional().nullable(),
     avgMarketCap: z.coerce.number().optional().nullable(),
-
     reportingStructure: z.string().optional().nullable(),
     comparisonReportingStructure: z.string().optional().nullable(),
-
     about: z.string().optional().nullable(),
     investmentObjective: z.string().optional().nullable(),
     investmentApproach: z.string().optional().nullable(),
     iaTheme: z.string().optional().nullable(),
     keyStrength: z.string().optional().nullable(),
     schemeInceptionDate: z.string().optional().nullable(),
-
     setupFees: z.coerce.number().optional().nullable(),
     largeCap: z.coerce.number().optional().nullable(),
     midCap: z.coerce.number().optional().nullable(),
     smallCap: z.coerce.number().optional().nullable(),
     cashEquivalent: z.coerce.number().optional().nullable(),
     others: z.coerce.number().optional().nullable(),
-
     sipOption: z.boolean().optional().nullable(),
     stpOption: z.boolean().optional().nullable(),
     topupOption: z.boolean().optional().nullable(),
-
     feeProfitShare: z.string().optional().nullable(),
     feeStructure: z.string().optional().nullable(),
     feeFixedAmc: z.string().optional().nullable(),
     feeVariableAmc: z.string().optional().nullable(),
     feeHurdle: z.string().optional().nullable(),
     remarksForFeeStructure: z.string().optional().nullable(),
-
     exitLoad1Yr: z.string().optional().nullable(),
     exitLoad2Yr: z.string().optional().nullable(),
     exitLoad3Yr: z.string().optional().nullable(),
     exitLoad: z.string().optional().nullable(),
     exitOption: z.string().optional().nullable(),
-
     idealStocksInPortfolio: z.coerce.number().optional().nullable(),
     minInvestment: z.coerce.number().optional().nullable(),
     minTopupAmount: z.coerce.number().optional().nullable(),
     initialDrawdown: z.coerce.number().optional().nullable(),
-
     isDistributable: z.boolean().optional().nullable(),
     showInDashboard: z.boolean().optional().nullable(),
     isFeatured: z.boolean().default(false),
@@ -84,12 +96,10 @@ export const SchemeSchema = z.object({
     isOpenForSubscription: z.boolean().optional().nullable(),
     priorityOrder: z.coerce.number().optional().nullable(),
     isActive: z.boolean().default(true),
-
     investorType: z.string().optional().nullable(),
     fundType: z.string().optional().nullable(),
     schemeType: z.string().optional().nullable(),
     currency: z.string().optional().nullable(),
-
     fundApproach: z.string().optional().nullable(),
     fundApproachDescription: z.string().optional().nullable(),
     fundTenure: z.string().optional().nullable(),
@@ -102,14 +112,12 @@ export const SchemeSchema = z.object({
     drawdownDescription: z.string().optional().nullable(),
     targettedGrossIrr: z.coerce.number().optional().nullable(),
     targettedGrossIrrDescription: z.string().optional().nullable(),
-
     whoCanInvest: z.string().optional().nullable(),
     whoCannotInvest: z.string().optional().nullable(),
     tentativeBalanceCommitmentCall: z.string().optional().nullable(),
     sponsorCommitment: z.string().optional().nullable(),
     tentativeFinalClosing: z.string().optional().nullable(),
     subscriptionAndRedemption: z.string().optional().nullable(),
-
     navFrequency: z.string().optional().nullable(),
     custody: z.string().optional().nullable(),
     registrarAndTransferAgent: z.string().optional().nullable(),
@@ -119,12 +127,11 @@ export const SchemeSchema = z.object({
     taxAdvisor: z.string().optional().nullable(),
     taxation: z.string().optional().nullable(),
     performanceNote: z.string().optional().nullable(),
-
     top5Holdings: z.array(Top5ItemSchema).optional().nullable(),
     top5Sectors: z.array(Top5ItemSchema).optional().nullable(),
-
     fundManagers: z.array(SchemeFundManagerSchema).optional(),
     performance: z.array(SchemePerformanceSchema).optional(),
+    overallPerformance: OverallPerformanceSchema.optional().nullable(),
 });
 
 export type SchemeSchemaType = z.infer<typeof SchemeSchema>;

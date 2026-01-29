@@ -1,5 +1,6 @@
 import RtkQueryService from "@shared/services/rtkService";
 import { HolderListResponse, HolderResponse, HolderFilters } from "../types/holder";
+import { HolderByPanResponse, PersonResponse } from "../types/investor";
 
 const holderApiWithTags = RtkQueryService.enhanceEndpoints({
   addTagTypes: ["Holders", "Holder"],
@@ -22,9 +23,9 @@ const holderApi = holderApiWithTags.injectEndpoints({
       }),
       providesTags: (_result, _error, { id }) => [{ type: "Holder", id }],
     }),
-    getHolderByPan: builder.query<HolderResponse, string>({
+    getHolderByPan: builder.query<PersonResponse, string>({
         query: (pan) => ({
-            url: `/holders/by-pan/${pan}`,
+            url: `/persons/by-pan/${pan}`,
             method: 'GET',
         }),
     }),

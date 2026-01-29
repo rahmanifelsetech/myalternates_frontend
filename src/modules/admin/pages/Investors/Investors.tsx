@@ -41,9 +41,14 @@ const Investors: React.FC = () => {
                 </p>
             </div>
             <div className="flex gap-2">
-              <CanAccess any={[PERMISSIONS.INVESTORS.CREATE]}>
+              {/* <CanAccess any={[PERMISSIONS.INVESTORS.CREATE]}>
                 <Button onClick={() => navigate('create')} startIcon={<PlusIcon fontSize={20} className="text-white" />}>
                   Add Investor
+                </Button>
+              </CanAccess> */}
+              <CanAccess any={[PERMISSIONS.INVESTMENTS.CREATE]}>
+                <Button onClick={() => navigate('/admin/investments/create')} startIcon={<PlusIcon fontSize={20} className="text-white" />}>
+                  Add Investment
                 </Button>
               </CanAccess>
             </div>
