@@ -43,7 +43,7 @@ const Banks: React.FC = () => {
                     Manage Banks
                 </p>
             </div>
-            <div className="flex gap-2">
+            {/* <div className="flex gap-2">
               <CanAccess any={[PERMISSIONS.BANKS.CREATE]}>
                 <Button 
                     onClick={() => navigate(investorId ? `create?investorId=${investorId}` : 'create')} 
@@ -52,7 +52,7 @@ const Banks: React.FC = () => {
                   Add Bank
                 </Button>
               </CanAccess>
-            </div>
+            </div> */}
         </div>
     );
 

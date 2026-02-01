@@ -1,5 +1,5 @@
 import RtkQueryService from "@shared/services/rtkService";
-import { objectToFormData } from "@shared/utils/objectToFormData";
+import { objectToFormData } from "@shared/utils/formUtils";
 import { DocumentType } from "../types/investmentEnums";
 
 export interface KycDocumentUploadPayload {

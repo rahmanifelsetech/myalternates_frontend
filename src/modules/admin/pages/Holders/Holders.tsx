@@ -43,7 +43,7 @@ const Holders: React.FC = () => {
                     Manage Holders
                 </p>
             </div>
-            <div className="flex gap-2">
+            {/* <div className="flex gap-2">
               <CanAccess any={[PERMISSIONS.HOLDERS.CREATE]}>
                 <Button 
                     onClick={() => navigate(investorId ? `create?investorId=${investorId}` : 'create')} 
@@ -52,7 +52,7 @@ const Holders: React.FC = () => {
                   Add Holder
                 </Button>
               </CanAccess>
-            </div>
+            </div> */}
         </div>
     );
 

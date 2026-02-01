@@ -1,6 +1,6 @@
 import RtkQueryService from "@shared/services/rtkService";
 import { InvestorDocumentListResponse, InvestorDocumentResponse, InvestorDocumentFilters, CreateInvestorDocumentPayload, UpdateInvestorDocumentPayload } from "../types/document";
-import { objectToFormData } from "@shared/utils/objectToFormData";
+import { objectToFormData } from "@shared/utils/formUtils";
 
 const documentApiWithTags = RtkQueryService.enhanceEndpoints({
   addTagTypes: ["InvestorDocuments", "InvestorDocument"],

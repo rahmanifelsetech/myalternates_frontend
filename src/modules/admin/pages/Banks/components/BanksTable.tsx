@@ -82,7 +82,7 @@ export const BanksTable: React.FC<BanksTableProps> = ({ banks, isLoading, onEdit
                   </TableCell>
                   <TableCell className={`px-4 py-3 text-start ${typographyClasses.body.small} ${typographyClasses.colors.text.secondary}`}>
                     <div className="flex items-center space-x-3.5">
-                      <CanAccess any={[PERMISSIONS.BANKS.UPDATE]}>
+                      {/* <CanAccess any={[PERMISSIONS.BANKS.UPDATE]}>
                         <IconButton
                           onClick={() => onEdit(bank)}
                           className="hover:text-primary"
@@ -95,7 +95,7 @@ export const BanksTable: React.FC<BanksTableProps> = ({ banks, isLoading, onEdit
                           className="hover:text-error-500"
                           icon={<TrashBinIcon className="size-5" />}
                         />
-                      </CanAccess>
+                      </CanAccess> */}
                     </div>
                   </TableCell>
                 </TableRow>

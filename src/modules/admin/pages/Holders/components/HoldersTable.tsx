@@ -88,7 +88,7 @@ export const HoldersTable: React.FC<HoldersTableProps> = ({ holders, isLoading, 
                   </TableCell>
                   <TableCell className={`px-4 py-3 text-start ${typographyClasses.body.small} ${typographyClasses.colors.text.secondary}`}>
                     <div className="flex items-center space-x-3.5">
-                      <CanAccess any={[PERMISSIONS.HOLDERS.UPDATE]}>
+                      {/* <CanAccess any={[PERMISSIONS.HOLDERS.UPDATE]}>
                         <IconButton
                           onClick={() => onEdit(holder)}
                           className="hover:text-primary"
@@ -101,7 +101,7 @@ export const HoldersTable: React.FC<HoldersTableProps> = ({ holders, isLoading, 
                           className="hover:text-error-500"
                           icon={<TrashBinIcon className="size-5" />}
                         />
-                      </CanAccess>
+                      </CanAccess> */}
                     </div>
                   </TableCell>
                 </TableRow>

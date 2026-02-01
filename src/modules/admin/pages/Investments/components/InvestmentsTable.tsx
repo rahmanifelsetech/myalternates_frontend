@@ -82,7 +82,7 @@ export const InvestmentsTable: React.FC<InvestmentsTableProps> = ({ investments,
                   </TableCell> */}
                   <TableCell className={`px-4 py-3 text-start ${typographyClasses.body.small} ${typographyClasses.colors.text.secondary}`}>
                     <div className="flex items-center space-x-3.5">
-                      <CanAccess any={[PERMISSIONS.INVESTMENTS.UPDATE]}>
+                      {/* <CanAccess any={[PERMISSIONS.INVESTMENTS.UPDATE]}>
                         <IconButton
                           onClick={() => onEdit(investment)}
                           className="hover:text-primary"
@@ -95,7 +95,7 @@ export const InvestmentsTable: React.FC<InvestmentsTableProps> = ({ investments,
                           className="hover:text-error-500"
                           icon={<TrashBinIcon className="size-5" />}
                         />
-                      </CanAccess>
+                      </CanAccess> */}
                     </div>
                   </TableCell>
                 </TableRow>

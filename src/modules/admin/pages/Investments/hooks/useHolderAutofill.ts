@@ -23,7 +23,7 @@ export const useHolderAutofill = (setValue: UseFormSetValue<InvestmentFlowSchema
                     setInvestorId(data.data.id || null);
                     
                     const person = data.data.primaryPerson;
-                    const address = person?.addresses[0]
+                    const address = person?.addresses?.[0];
                     
                     // Set holder personal information from primaryPerson
                     setValue(`holders.${index}.name`, person?.fullName || '');
@@ -62,7 +62,7 @@ export const useHolderAutofill = (setValue: UseFormSetValue<InvestmentFlowSchema
 
                 if (data) {
                     const person = data?.data;
-                    const address = person?.addresses[0];
+                    const address = person?.addresses?.[0];
                     
                     setValue(`holders.${index}.name`, person?.fullName || '');
                     setValue(`holders.${index}.dob`, person?.dob || '');
