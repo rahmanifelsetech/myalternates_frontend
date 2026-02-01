@@ -2,7 +2,7 @@ import { useCreateAmcMutation, useUpdateAmcMutation, useDeleteAmcMutation, usePo
 import { useAsyncMutation } from '@shared/hooks/useAsyncMutation';
 import { CreateAmcPayload, UpdateAmcPayload } from '../types/amc';
 // import { setFormErrors } from '@shared/utils/setFormErrors';
-import { objectToFormData } from '@shared/utils/objectToFormData';
+import { objectToFormData } from '@shared/utils/formUtils';
 import { useCallback } from 'react';
 
 export const useAmcs = () => {

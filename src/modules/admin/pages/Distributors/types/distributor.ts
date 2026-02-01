@@ -1,3 +1,5 @@
+import { Person } from "@/shared/types/person";
+import { User } from "@/shared/types/user";
 import { PaginatedResponse, SingleResponse } from "@shared/types/api";
 
 export interface Distributor {
@@ -21,7 +23,7 @@ export interface Distributor {
     pincode: string;
     totalAum?: number;
     commission?: number;
-    dateOfAgreement?: string;
+    agreementDate?: string;
     bankName: string;
     bankAccountName: string;
     bankAccountNo: string;
@@ -33,6 +35,23 @@ export interface Distributor {
     amfiRegNo?: string;
     amfiEuinNo?: string;
     isActive: boolean;
+    createdAt: string;
+    updatedAt: string;
+    person: Person
+    relationshipManager?: User
+    banks: DistributorBank[];
+}
+
+export interface DistributorBank {
+    id: string;
+    distributorId: string;
+    bankName: string;
+    accountName: string;
+    accountType: string;
+    accountNumber: string;
+    ifsc: string;
+    micr?: string;
+    isPrimary: boolean;
     createdAt: string;
     updatedAt: string;
 }

@@ -16,7 +16,14 @@ import { Pagination } from '@/shared/components/common/Pagination';
 const Investors: React.FC = () => {
     const [search, setSearch] = useState('');
     const [page, setPage] = useState(1);
-    const { data, isLoading } = useGetInvestorsQuery({ search, page, limit: 10 });
+    const [filters, setFilters] = useState<any>({});
+    const { data, isLoading } = useGetInvestorsQuery({ 
+    search, 
+    page, 
+    limit: 10, 
+    ...filters,
+    ...(filters.isActive !== undefined && { isActive: filters.isActive })
+});
     const { handleDelete } = useInvestors();
     const navigate = useNavigate();
 
@@ -30,11 +37,17 @@ const Investors: React.FC = () => {
         }
     };
 
+    const handleFilterChange = (newFilters: any) => {
+        // console.log('Applied Filters:', newFilters);
+        setFilters(newFilters);
+        setPage(1); // Reset to first page when filters change
+    };
+
     const header = (
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between mb-5">
             <div>
                 <h2 className={`${typographyClasses.heading.h2} ${typographyClasses.colors.text.primary}`}>
-                  Investors
+                    Investors
                 </h2>
                 <p className={`${typographyClasses.body.small} ${typographyClasses.colors.text.muted}`}>
                     Manage Investors
@@ -58,7 +71,11 @@ const Investors: React.FC = () => {
     return (
         <div className="space-y-6">
             <ComponentCard header={header} headerPosition="outside">
-                <InvestorsFilter search={search} onSearchChange={setSearch} />
+                <InvestorsFilter 
+                    search={search} 
+                    onSearchChange={setSearch} 
+                    onFilterChange={handleFilterChange}
+                />
                 <InvestorsTable
                     key={data?.metaData.total}
                     investors={data?.data || []}

@@ -343,10 +343,12 @@ export const InvestmentStepper = () => {
         }
     }, [watchBankId, bankList, setValue]);
 
+    const isSubmitSuccess = React.useRef(false);
+
     // React Router Blocker (In-app navigation)
     const blocker = useBlocker(
         ({ currentLocation, nextLocation }) =>
-            isDirty && currentLocation.pathname !== nextLocation.pathname
+            !isSubmitSuccess.current && isDirty && currentLocation.pathname !== nextLocation.pathname
     );
 
 
@@ -423,6 +425,13 @@ export const InvestmentStepper = () => {
             
             // Call API endpoint via hook
             await handleOnboard(finalPayload);
+            
+            // Set success flag to bypass blocker
+            isSubmitSuccess.current = true;
+
+            // Reset form to clear isDirty state so blocker doesn't trigger
+            reset(data);
+            
             navigate('/admin/investors');
         } catch (error: any) {
             console.error("Submission Error", error);
@@ -444,7 +453,7 @@ export const InvestmentStepper = () => {
         for (const part of parts) {
             current = current?.[part];
         }
-        if (current?.message) return current;
+        if (current) return current;
 
         let parentPath = parts.slice(0, -1);
         while (parentPath.length > 0) {

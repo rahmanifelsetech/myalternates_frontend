@@ -3,30 +3,7 @@ import { InvestorDocument } from "./document";
 import { Bank } from "./bank";
 import { Holder } from "./holder";
 import { Nominee } from "./nominee";
-
-export interface Person {
-    id: string;
-    fullName: string;
-    pan: string;
-    dob: string | null;
-    gender: string | null;
-    mobile: string | null;
-    email: string | null;
-    isMinor: boolean;
-    guardianName: string | null;
-    guardianIdType: string | null;
-    guardianIdNumber: string | null;
-    guardianRelationship: string | null;
-    createdAt: string;
-    addresses: {
-        address1: string | null;
-        address2: string | null;
-        city: string | null;
-        state: string | null;
-        country: string | null;
-        pincode: string | null;
-    }[];
-}
+import { Person } from "@/shared/types/person";
 
 export interface Investor {
     id: string;
@@ -108,4 +85,10 @@ export interface InvestorFilters {
     search?: string;
     page?: number;
     limit?: number;
+    residentialStatus?: string;
+    isActive?: boolean;
+    pan?: string;
+    myaltCode?: string;
+    email?: string;
+    mobile?: string;
 }

@@ -15,6 +15,7 @@ import { IconButton } from '@shared/components/ui/button/IconButton';
 import Button from '@shared/components/ui/button/Button';
 import { PencilIcon, TrashBinIcon, EyeIcon } from '@shared/icons';
 import NoDataRow from '@/shared/components/common/NoDataRow';
+import { formatDate } from '@/shared/utils/dateUtils';
 
 interface InvestorsTableProps {
   investors: Investor[];
@@ -37,16 +38,19 @@ export const InvestorsTable: React.FC<InvestorsTableProps> = ({ investors, isLoa
           <TableHeader className="border-b border-gray-100 dark:border-white/[0.05]">
             <TableRow>
               <TableCell isHeader className={`px-5 py-3 text-start ${typographyClasses.colors.text.muted} ${typographyClasses.body.caption}`}>
-                Name
+                Investor
               </TableCell>
               <TableCell isHeader className={`px-5 py-3 text-start ${typographyClasses.colors.text.muted} ${typographyClasses.body.caption}`}>
-                Email
+                Contact
               </TableCell>
               <TableCell isHeader className={`px-5 py-3 text-start ${typographyClasses.colors.text.muted} ${typographyClasses.body.caption}`}>
-                Mobile
+                Identifiers
               </TableCell>
               <TableCell isHeader className={`px-5 py-3 text-start ${typographyClasses.colors.text.muted} ${typographyClasses.body.caption}`}>
-                PAN
+                Res. Status
+              </TableCell>
+              <TableCell isHeader className={`px-5 py-3 text-start ${typographyClasses.colors.text.muted} ${typographyClasses.body.caption}`}>
+                Inception
               </TableCell>
               <TableCell isHeader className={`px-5 py-3 text-start ${typographyClasses.colors.text.muted} ${typographyClasses.body.caption}`}>
                 Status
@@ -63,25 +67,43 @@ export const InvestorsTable: React.FC<InvestorsTableProps> = ({ investors, isLoa
               investors.map((investor) => (
                 <TableRow key={investor.id}>
                   <TableCell className={`px-5 py-4 sm:px-6 text-start ${typographyClasses.body.small} ${typographyClasses.colors.text.secondary}`}>
-                    {investor.primaryPerson?.fullName}
+                    <div className="flex flex-col">
+                      <span className={`${typographyClasses.component.button} ${typographyClasses.colors.text.primary}`}>
+                        {investor.primaryPerson?.fullName}
+                      </span>
+                      <span className="text-xs text-gray-500">{investor.myaltCode || '-'}</span>
+                    </div>
                   </TableCell>
                   <TableCell className={`px-5 py-4 sm:px-6 text-start ${typographyClasses.body.small} ${typographyClasses.colors.text.secondary}`}>
-                    {investor.primaryPerson?.email}
+                    <div className="flex flex-col">
+                      <span>{investor.primaryPerson?.email}</span>
+                      <span className="text-xs text-gray-500">{investor.primaryPerson?.mobile}</span>
+                    </div>
                   </TableCell>
                   <TableCell className={`px-5 py-4 sm:px-6 text-start ${typographyClasses.body.small} ${typographyClasses.colors.text.secondary}`}>
-                    {investor.primaryPerson?.mobile}
+                    <span className="font-medium">{investor.primaryPerson?.pan}</span>
                   </TableCell>
                   <TableCell className={`px-5 py-4 sm:px-6 text-start ${typographyClasses.body.small} ${typographyClasses.colors.text.secondary}`}>
-                    {investor.primaryPerson?.pan}
+                    <div className="flex flex-col">
+                      <span>{investor.residentialStatus}</span>
+                      {investor.subStatus && <span className="text-xs text-gray-500">{investor.subStatus}</span>}
+                    </div>
+                  </TableCell>
+                  <TableCell className={`px-5 py-4 sm:px-6 text-start ${typographyClasses.body.small} ${typographyClasses.colors.text.secondary} ${
+                        !investor.inceptionDate && 'text-red-800'}`}>
+                    {investor.inceptionDate ? formatDate(investor.inceptionDate) : 'Not Disclosed'}
                   </TableCell>
                   <TableCell className={`px-5 py-4 ${typographyClasses.body.small} ${typographyClasses.colors.text.secondary}`}>
-                    <span className={`inline-block px-2 py-1 rounded ${typographyClasses.body.caption} ${
-                      investor.isActive
-                        ? 'bg-success-100 text-success-800 dark:bg-success-900 dark:text-success-100'
-                        : 'bg-error-100 text-error-800 dark:bg-error-700 dark:text-error-100'
-                    }`}>
-                      {investor.isActive ? "Active" : 'Inactive'}
-                    </span>
+                    <div className="flex flex-col gap-1">
+                      <span className={`inline-block px-2 py-1 rounded w-fit ${typographyClasses.body.caption} ${
+                        investor.isActive
+                          ? 'bg-success-100 text-success-800 dark:bg-success-900 dark:text-success-100'
+                          : 'bg-error-100 text-error-800 dark:bg-error-700 dark:text-error-100'
+                      }`}>
+                        {investor.isActive ? "Active" : 'Inactive'}
+                      </span>
+                      <span className="text-xs text-gray-500">Created: {investor.createdAt ? formatDate(investor.createdAt) : '-'}</span>
+                    </div>
                   </TableCell>
                   {/* <TableCell className={`px-4 py-3 text-start ${typographyClasses.body.small} ${typographyClasses.colors.text.secondary}`}>
                     <div className="flex items-center space-x-3.5">

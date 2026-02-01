@@ -22,7 +22,7 @@ const distributorApi = distributorApiWithTags.injectEndpoints({
       }),
       providesTags: (_result, _error, id) => [{ type: "Distributor", id }],
     }),
-    createDistributor: builder.mutation<DistributorResponse, any>({
+    createDistributor: builder.mutation<DistributorResponse, FormData>({
       query: (body) => ({
         url: '/distributors',
         method: 'POST',
@@ -30,7 +30,7 @@ const distributorApi = distributorApiWithTags.injectEndpoints({
       }),
       invalidatesTags: ["Distributors"],
     }),
-    updateDistributor: builder.mutation<DistributorResponse, { id: string; data: any }>({
+    updateDistributor: builder.mutation<DistributorResponse, { id: string; data: FormData }>({
         query: ({ id, data }) => ({
             url: `/distributors/${id}`,
             method: 'PUT',

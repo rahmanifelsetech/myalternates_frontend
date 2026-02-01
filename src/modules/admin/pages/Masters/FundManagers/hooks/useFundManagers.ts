@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import { useCreateFundManagerMutation, useUpdateFundManagerMutation, useDeleteFundManagerMutation, usePopulateFundManagersMutation } from '../api/fundManagerApi';
 import { useAsyncMutation } from '@shared/hooks/useAsyncMutation';
 import { CreateFundManagerPayload, UpdateFundManagerPayload } from '../types/fundManager';
-import { objectToFormData } from '@shared/utils/objectToFormData';
+import { objectToFormData } from '@shared/utils/formUtils';
 
 export const useFundManagers = () => {
   const [createFundManager, { isLoading: isCreating }] = useCreateFundManagerMutation();

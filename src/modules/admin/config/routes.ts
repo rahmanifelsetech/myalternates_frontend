@@ -27,6 +27,9 @@ const EditBank = lazy(() => import('@modules/admin/pages/Banks/EditBank'));
 const Holders = lazy(() => import('@modules/admin/pages/Holders/Holders'));
 const CreateHolder = lazy(() => import('@modules/admin/pages/Holders/CreateHolder'));
 const EditHolder = lazy(() => import('@modules/admin/pages/Holders/EditHolder'));
+const Distributors = lazy(() => import('@modules/admin/pages/Distributors/Distributors'));
+const CreateDistributor = lazy(() => import('@modules/admin/pages/Distributors/CreateDistributor'));
+const EditDistributor = lazy(() => import('@modules/admin/pages/Distributors/EditDistributor'));
 
 export const adminRoutes: AppRouteConfig[] = [
   {
@@ -35,12 +38,24 @@ export const adminRoutes: AppRouteConfig[] = [
     component: Dashboard,
     authority: ['ADMIN'],
   },
-  // {
-  //   key: 'distributors',
-  //   path: 'distributors',
-  //   component: Dashboard,
-  //   authority: ['ADMIN'],
-  // },
+  {
+    key: 'distributors',
+    path: 'distributors',
+    component: Distributors,
+    authority: ['ADMIN'],
+  },
+  {
+    key: 'distributors-create',
+    path: 'distributors/create',
+    component: CreateDistributor,
+    authority: ['ADMIN'],
+  },
+  {
+    key: 'distributors-edit',
+    path: 'distributors/edit/:id',
+    component: EditDistributor,
+    authority: ['ADMIN'],
+  },
   // {
   //   key: 'investors',
   //   path: 'investors',

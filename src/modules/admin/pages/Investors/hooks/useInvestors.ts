@@ -2,7 +2,7 @@ import { useCreateInvestorMutation, useUpdateInvestorMutation, useDeleteInvestor
 import { useAsyncMutation } from '@shared/hooks/useAsyncMutation';
 import { CreateInvestorPayload, UpdateInvestorPayload } from '../types/investor';
 import { useCallback } from 'react';
-import { objectToFormData } from '@shared/utils/objectToFormData';
+import { objectToFormData } from '@shared/utils/formUtils';
 
 export const useInvestors = () => {
     const [createInvestor, { isLoading: isCreating }] = useCreateInvestorMutation();
