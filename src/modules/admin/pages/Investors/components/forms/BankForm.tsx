@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
 import { useForm } from '@shared/hooks/useForm';
-import { BankSchema, BankSchemaType } from '../schema/bankSchema';
-import { Bank } from '../types/bank';
+import { BankSchema, BankSchemaType } from '../../schema/bankSchema';
+import { Bank } from '../../types/bank';
 import DynamicFormField from '@shared/components/form/FormField/DynamicFormField';
 import Button from '@shared/components/ui/button/Button';
 import Form from '@shared/components/form/Form';
 import ComponentCard from '@shared/components/common/ComponentCard';
 import { setFormErrors } from '@/shared/utils/formUtils';
-import { useGetInvestorsQuery } from '../api/investorApi';
+import { useGetInvestorsQuery } from '../../api/investorApi';
 
 interface BankFormProps {
     bank?: Bank | null;

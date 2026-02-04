@@ -8,7 +8,7 @@ import { useHolderAutofill } from '../hooks/useHolderAutofill';
 import { useInvestments } from '../hooks/useInvestments';
 import { KycUploadModal } from './KycUploadModal';
 import { useForm } from '@/shared/hooks/useForm';
-import { useGetAmcListQuery, useGetProductListQuery, useGetSchemeListQuery, useGetFundManagerListQuery } from '@/shared/services/api/masterDataApi';
+import { useGetAmcListQuery, useGetProductListQuery, useGetSchemeListQuery, useGetFundManagerListQuery, useGetDistributorListQuery } from '@/shared/services/api/masterDataApi';
 import { useGetDistributorsQuery } from '../../Distributors/api/distributorApi';
 import { useGetUsersQuery } from '../../Users/api/userApi';
 import { useGetBanksQuery } from '../../Investors/api/bankApi';
@@ -49,7 +49,6 @@ export const InvestmentStepper = () => {
     //     schemeId: '',
     //     capitalCommitment: '100000',
     //     currency: 'INR',
-    //     feeStructure: '4% management fee',
     //     inceptionDate: '2025-01-01',
     //     remarks: 'Test investment 2 for onboarding',
 
@@ -166,7 +165,6 @@ export const InvestmentStepper = () => {
         schemeId: undefined,
         capitalCommitment: undefined,
         currency: 'INR',
-        feeStructure: undefined,
         inceptionDate: undefined,
         remarks: undefined,
 
@@ -284,7 +282,7 @@ export const InvestmentStepper = () => {
         { skip: !watchAmc }
     );
     
-    const { data: distributorList } = useGetDistributorsQuery({ limit: 1000 });
+    const { data: distributorList } = useGetDistributorListQuery();
     const { data: userList } = useGetUsersQuery({ limit: 1000 });
     const { data: fmList } = useGetFundManagerListQuery();
     
@@ -297,9 +295,9 @@ export const InvestmentStepper = () => {
 
     // Options
     const productOptions = productList?.data?.map((p: any) => ({ label: p.name, value: p.id, code: p.code })) || [];
-    const amcOptions = amcList?.data?.map((a: any) => ({ label: `${a.name} (${a.amcCode})`, value: a.id })) || [];
-    const schemeOptions = schemeList?.data?.map((s: any) => ({ label: `${s.schemeName} (${s.schemeCode})`, value: s.id })) || [];
-    const cpOptions = distributorList?.data?.map((d: any) => ({ label: `${d.name} - ${d.distributorCode}`, value: d.id })) || [];
+    const amcOptions = amcList?.data?.map((a: any) => ({ label: `${a.name} (${a.code})`, value: a.id })) || [];
+    const schemeOptions = schemeList?.data?.map((s: any) => ({ label: `${s.name} (${s.code})`, value: s.id })) || [];
+    const cpOptions = distributorList?.data?.map((d: any) => ({ label: `${d.name} - ${d.code}`, value: d.id })) || [];
     const fmOptions = fmList?.data?.map((f: any) => ({ label: `${f.name} - ${f.code}`, value: f.id, code: f.code })) || [];
     const bankOptions = bankList?.data?.map((b: any) => ({ label: `${b.bankName} - ${b.accountNumber}`, value: b.id })) || [];
 
@@ -367,7 +365,6 @@ export const InvestmentStepper = () => {
                     amcClientCode: data.amcClientCode,
                     capitalCommitment: data.capitalCommitment,
                     currency: data.currency,
-                    feeStructure: data.feeStructure,
                     fixedFee: data.fixedFee,
                     variableFee: data.variableFee,
                     performanceFee: data.performanceFee,
@@ -475,7 +472,7 @@ export const InvestmentStepper = () => {
     };
 
     const tabFields = {
-        "Investment Details": ['productId', 'amcId', 'schemeId', 'capitalCommitment', 'currency', 'amcClientCode', 'inceptionDate', 'feeStructure', 'remarks'],
+        "Investment Details": ['productId', 'amcId', 'schemeId', 'capitalCommitment', 'currency', 'amcClientCode', 'inceptionDate', 'remarks'],
         "Holders": ['holdingMode', 'holders', 'investorResidentialStatus', 'investorSubStatus', 'investorMyaltCode'],
         "Internal Mapping": ['cpId', 'creId', 'rmId', 'fmId', 'branchCode'],
         "DP & Bank": ['dpType', 'dpName', 'dpId', 'clientId', 'bankId', 'bankName', 'accountNumber', 'ifsc', 'accountType'],

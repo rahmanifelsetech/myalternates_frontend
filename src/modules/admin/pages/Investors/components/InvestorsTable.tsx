@@ -55,9 +55,9 @@ export const InvestorsTable: React.FC<InvestorsTableProps> = ({ investors, isLoa
               <TableCell isHeader className={`px-5 py-3 text-start ${typographyClasses.colors.text.muted} ${typographyClasses.body.caption}`}>
                 Status
               </TableCell>
-              {/* <TableCell isHeader className={`px-5 py-3 text-start ${typographyClasses.colors.text.muted} ${typographyClasses.body.caption}`}>
+              <TableCell isHeader className={`px-5 py-3 text-start ${typographyClasses.colors.text.muted} ${typographyClasses.body.caption}`}>
                 Actions
-              </TableCell> */}
+              </TableCell>
             </TableRow>
           </TableHeader>
           <TableBody className="divide-y divide-gray-100 dark:divide-white/[0.05]">
@@ -105,9 +105,15 @@ export const InvestorsTable: React.FC<InvestorsTableProps> = ({ investors, isLoa
                       <span className="text-xs text-gray-500">Created: {investor.createdAt ? formatDate(investor.createdAt) : '-'}</span>
                     </div>
                   </TableCell>
-                  {/* <TableCell className={`px-4 py-3 text-start ${typographyClasses.body.small} ${typographyClasses.colors.text.secondary}`}>
-                    <div className="flex items-center space-x-3.5">
-                      <CanAccess any={[PERMISSIONS.INVESTORS.UPDATE]}>
+                  <TableCell className={`px-5 py-4 ${typographyClasses.body.small} ${typographyClasses.colors.text.secondary}`}>
+                    <div className="flex items-center space-x-2">
+                      <IconButton
+                        onClick={() => navigate(`/admin/investors/${investor.id}`)}
+                        className="hover:text-brand-600"
+                        icon={<EyeIcon className="size-5" />}
+                        title="View Details"
+                      />
+                      {/* <CanAccess any={[PERMISSIONS.INVESTORS.UPDATE]}>
                         <IconButton
                           onClick={() => onEdit(investor)}
                           className="hover:text-primary"
@@ -120,9 +126,9 @@ export const InvestorsTable: React.FC<InvestorsTableProps> = ({ investors, isLoa
                           className="hover:text-error-500"
                           icon={<TrashBinIcon className="size-5" />}
                         />
-                      </CanAccess>
+                      </CanAccess> */}
                     </div>
-                  </TableCell> */}
+                  </TableCell>
                 </TableRow>
               ))
             )}

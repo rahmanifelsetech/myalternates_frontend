@@ -11,6 +11,7 @@ import { setFormErrors } from '@shared/utils/formUtils';
 import { typographyClasses } from '@shared/utils/typographyUtils';
 import { PlusIcon, TrashBinIcon } from '@shared/icons';
 import { useGetUsersQuery } from '../../Users/api/userApi';
+import { useGetDistributorListQuery } from '@/shared/services/api/masterDataApi';
 
 interface DistributorFormProps {
     distributor?: Distributor | null;
@@ -60,14 +61,14 @@ const emptyValues: DistributorSchemaType = {
 };
 
 const DISTRIBUTOR_TYPES = [
-    { label: 'Individual', value: 'Individual' },
-    { label: 'Non-Individual', value: 'Non-Individual' },
+    { label: 'Distributor', value: 'Distributor' },
+    { label: 'Sub-Distributor', value: 'Sub-Distributor' },
 ];
 
 const DISTRIBUTOR_CATEGORIES = [
-    { label: 'Distributor', value: 'Distributor' },
-    { label: 'RIA', value: 'RIA' },
-    { label: 'Sub-Distributor', value: 'Sub-Distributor' },
+    { label: 'Silver', value: 'Silver' },
+    { label: 'Gold', value: 'Gold' },
+    { label: 'Platinum', value: 'Platinum' },
 ];
 
 const GST_TYPES = [
@@ -80,6 +81,9 @@ export const DistributorForm: React.FC<DistributorFormProps> = ({ distributor, o
     const [filesToRemove, setFilesToRemove] = useState<string[]>([]);
     const [documentUrls, setDocumentUrls] = useState<Record<string, string>>({});
     const [documentIds, setDocumentIds] = useState<Record<string, string>>({});
+
+    const { data: distributorList, isLoading: isDistributorsLoading } =  useGetDistributorListQuery();
+    const distributorOptions = distributorList?.data?.map((dist: any) => ({ label: dist.name + ' - ' + dist.code, value: dist.id })) || [];
 
     const initialValues = React.useMemo(() => {
         if (distributor) {
@@ -177,7 +181,7 @@ export const DistributorForm: React.FC<DistributorFormProps> = ({ distributor, o
     };
 
     const tabFields: Record<string, (keyof DistributorSchemaType)[]> = {
-        "Basic Details": ['name', 'code', 'type', 'category', 'relationshipManagerId', 'email', 'contactNo', 'isActive'],
+        "Basic Details": ['name', 'code', 'type', 'category', 'relationshipManagerId', 'parentDistributorId', 'email', 'contactNo', 'isActive'],
         "Tax Details": ['panNo', 'tanNo', 'gstType', 'gstNo'],
         "Address": ['address', 'city', 'state', 'country', 'pincode'],
         "Bank Details": ['bankName', 'bankAccountName', 'bankAccountNo', 'ifscCode', 'micrCode'],
@@ -197,6 +201,11 @@ export const DistributorForm: React.FC<DistributorFormProps> = ({ distributor, o
                         <DynamicFormField control={control} label="Distributor Code" required error={errors.code} {...register('code')} />
                         <DynamicFormField control={control} label="Type" type="select" options={DISTRIBUTOR_TYPES} required error={errors.type} {...register('type')} />
                         <DynamicFormField control={control} label="Category" type="select" options={DISTRIBUTOR_CATEGORIES} required error={errors.category} {...register('category')} />
+                        {
+                            watch('type') === 'Sub-Distributor' && (
+                                <DynamicFormField type='select' control={control} label="Parent Distributor" options={distributorOptions} required error={errors.parentDistributorId} {...register('parentDistributorId')} />
+                            )
+                        }
                         <DynamicFormField control={control} label="Relationship Manager" type="select" options={rmOptions} required error={errors.relationshipManagerId} {...register('relationshipManagerId')} />
                         <DynamicFormField control={control} label="Is Active?" type="checkbox" error={errors.isActive} {...register('isActive')} />
                     </div>

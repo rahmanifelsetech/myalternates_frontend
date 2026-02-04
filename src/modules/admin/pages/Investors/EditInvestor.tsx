@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { useInvestors } from './hooks/useInvestors';
 import { InvestorSchemaType } from './schema/investorSchema';
-import { InvestorForm } from './components/InvestorForm';
+import { InvestorForm } from './components/forms/InvestorForm';
 import { useGetInvestorByIdQuery } from './api/investorApi';
 import ComponentCard from '@shared/components/common/ComponentCard';
 import Loading from '@shared/components/common/Loading';

@@ -1,8 +1,8 @@
 import React from 'react';
 import { Modal } from '@shared/components/ui/modal/Modal';
-import { HolderForm } from '../../Holders/components/HolderForm';
-import { Holder } from '../../Holders/types/holder';
-import { HolderSchemaType } from '../../Holders/schema/holderSchema';
+import { HolderForm } from '../forms/HolderForm';
+import { Holder } from '../../types/holder';
+import { HolderSchemaType } from '../../schema/holderSchema';
 
 interface HolderModalProps {
     isOpen: boolean;

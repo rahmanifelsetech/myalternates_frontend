@@ -77,6 +77,10 @@ export const PERMISSIONS = {
     CATEGORY_READ: 'masters.category.read',
     CATEGORY_UPDATE: 'masters.category.update',
     CATEGORY_DELETE: 'masters.category.delete',
+    MARKET_LIST_CREATE: 'masters.market_list.create',
+    MARKET_LIST_READ: 'masters.market_list.read',
+    MARKET_LIST_UPDATE: 'masters.market_list.update',
+    MARKET_LIST_DELETE: 'masters.market_list.delete',
   },
   SCHEMES: {
     CREATE: 'schemes.create',

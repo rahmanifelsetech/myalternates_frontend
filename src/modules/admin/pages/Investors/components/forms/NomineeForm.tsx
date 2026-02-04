@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useForm } from '@shared/hooks/useForm';
-import { NomineeSchema, NomineeSchemaType } from '../schema/nomineeSchema';
-import { Nominee } from '../types/nominee';
+import { NomineeSchema, NomineeSchemaType } from '../../schema/nomineeSchema';
+import { Nominee } from '../../types/nominee';
 import DynamicFormField from '@shared/components/form/FormField/DynamicFormField';
 import Button from '@shared/components/ui/button/Button';
 import Form from '@shared/components/form/Form';

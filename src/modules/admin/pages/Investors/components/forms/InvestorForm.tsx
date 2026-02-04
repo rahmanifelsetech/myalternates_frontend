@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from '@shared/hooks/useForm';
-import { InvestorSchema, InvestorSchemaType } from '../schema/investorSchema';
-import { Investor } from '../types/investor';
+import { InvestorSchema, InvestorSchemaType } from '../../schema/investorSchema';
+import { Investor } from '../../types/investor';
 import DynamicFormField from '@shared/components/form/FormField/DynamicFormField';
 import Button from '@shared/components/ui/button/Button';
 import Form from '@shared/components/form/Form';
@@ -9,9 +9,9 @@ import ComponentCard from '@shared/components/common/ComponentCard';
 import { setFormErrors } from '@/shared/utils/formUtils';
 import { formatDate } from '@/shared/utils/dateUtils';
 import { Tabs } from '@shared/components/common/Tabs';
-import { InvestorDocumentType } from '../types/document';
+import { InvestorDocumentType } from '../../types/document';
 import { TrashBinIcon, PlusIcon, PencilIcon } from '@shared/icons';
-import { BankModal } from './BankModal';
+import { BankModal } from '../modals/BankModal';
 
 
 

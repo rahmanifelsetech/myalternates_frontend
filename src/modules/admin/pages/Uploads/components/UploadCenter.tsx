@@ -18,7 +18,7 @@ import { ReactSelectComponent, SelectOption } from '@shared/components/form/sele
 type MainTabType = 'bulk-upload' | 'external-api';
 
 const MAIN_TABS: { label: string; type: MainTabType }[] = [
-  // { label: 'Bulk Data Upload', type: 'bulk-upload' },
+  { label: 'Bulk Data Upload', type: 'bulk-upload' },
   { label: 'External API Upload', type: 'external-api' },
 ];
 
@@ -27,7 +27,7 @@ const BULK_UPLOAD_OPTIONS = [
   { label: 'Holdings', value: 'HOLDINGS' },
   { label: 'Market List', value: 'MARKET_LIST' },
   { label: 'Transactions', value: 'TRANSACTION' },
-  { label: 'Index History', value: 'INDEX' },
+  // { label: 'Index History', value: 'INDEX' },
 ];
 
 const EXTERNAL_API_OPTIONS = [

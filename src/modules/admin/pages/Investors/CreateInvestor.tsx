@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router';
 import { useInvestors } from './hooks/useInvestors';
 import { InvestorSchemaType } from './schema/investorSchema';
-import { InvestorForm } from './components/InvestorForm';
+import { InvestorForm } from './components/forms/InvestorForm';
 import ComponentCard from '@shared/components/common/ComponentCard';
 import { typographyClasses } from '@shared/utils/typographyUtils';
 

@@ -24,7 +24,7 @@ export const InternalMappingStep: React.FC<InternalMappingStepProps> = ({
 }) => {
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            <DynamicFormField control={control} label="CP Name" type="select" options={cpOptions} error={getFieldError("cpId")} {...register('cpId')} />
+            <DynamicFormField control={control} label="Distributor Name" type="select" options={cpOptions} error={getFieldError("cpId")} {...register('cpId')} />
             {/* <DynamicFormField control={control} label="CP Code" disabled={true} error={getFieldError("cpCode")} {...register('cpCode')} /> */}
             <DynamicFormField control={control} label="CRE Name" type="select" options={creOptions} error={getFieldError("creId")} {...register('creId')} />
             {/* <DynamicFormField control={control} label="CRE Code" disabled={true} error={getFieldError("creCode")} {...register('creCode')} /> */}

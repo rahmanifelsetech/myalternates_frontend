@@ -6,44 +6,50 @@ const masterDataApi = RtkQueryService.enhanceEndpoints({
     endpoints: (builder) => ({
         getAmcList: builder.query<any, { productId?: string } | void>({
             query: (params) => ({
-                url: '/amcs?limit=1000&isActive=true',
+                url: '/amcs/code/all',
                 method: 'GET',
                 params: params || {},
             }),
-            providesTags: [{ type: "Amcs", id: "LIST" }],
+            providesTags: [{ type: "Amcs", id: "AMCSLIST" }],
         }),
         getProductList: builder.query<any, void>({
-            query: () => ({ url: '/products?limit=1000&isActive=true', method: 'GET' }),
-            providesTags: [{ type: "Products", id: "LIST" }],
+            query: () => ({ url: '/products/code/all', method: 'GET' }),
+            providesTags: [{ type: "Products", id: "PRODUCTSLIST" }],
         }),
         getSchemeList: builder.query<any, { amcId?: string } | void>({
             query: (params) => ({
-                url: '/schemes?limit=1000&isActive=true',
+                url: '/schemes/code/all',
                 method: 'GET',
                 params: params || {},
             }),
-            providesTags: [{ type: "Schemes", id: "LIST" }],
+            providesTags: [{ type: "Schemes", id: "SCHEMESLIST" }],
         }),
         getDistributorList: builder.query<any, void>({
-            query: () => ({ url: '/distributors?limit=1000&isActive=true', method: 'GET' }),
-            providesTags: [{ type: "Distributors", id: "LIST" }],
+            query: () => ({ url: '/distributors/code/all', method: 'GET' }),
+            providesTags: [{ type: "Distributors", id: "DISTRIBUTORSLIST" }],
         }),
         getUserList: builder.query<any, void>({
-            query: () => ({ url: '/users?limit=1000&isActive=true', method: 'GET' }),
-            providesTags: [{ type: "Users", id: "LIST" }],
+            query: () => ({ url: '/users/code/all', method: 'GET' }),
+            providesTags: [{ type: "Users", id: "USERSLIST" }],
         }),
         getFundManagerList: builder.query<any, void>({
-            query: () => ({ url: '/masters/fund-managers?limit=1000&isActive=true', method: 'GET' }),
-            providesTags: [{ type: "FundManagers", id: "LIST" }],
+            query: () => ({ url: '/masters/fund-managers/code/all', method: 'GET' }),
+            providesTags: [{ type: "FundManagers", id: "FUNDMANAGERSLIST" }],
         }),
     }),
 });
 
 export const {
     useGetAmcListQuery,
+    useLazyGetAmcListQuery,
     useGetProductListQuery,
+    useLazyGetProductListQuery,
     useGetSchemeListQuery,
+    useLazyGetSchemeListQuery,
     useGetDistributorListQuery,
+    useLazyGetDistributorListQuery,
     useGetUserListQuery,
+    useLazyGetUserListQuery,
     useGetFundManagerListQuery,
+    useLazyGetFundManagerListQuery,
 } = masterDataApi;

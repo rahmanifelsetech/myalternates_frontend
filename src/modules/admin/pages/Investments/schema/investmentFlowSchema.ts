@@ -54,7 +54,6 @@ export const InvestmentFlowSchema = z.object({
     schemeId: z.string().optional(),
     capitalCommitment: z.string().optional(),
     currency: z.string().optional(),
-    feeStructure: z.string().optional(),
     fixedFee: z.string().optional(),
     variableFee: z.string().optional(),
     performanceFee: z.string().optional(),

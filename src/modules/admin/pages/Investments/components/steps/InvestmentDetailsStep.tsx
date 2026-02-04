@@ -49,7 +49,6 @@ export const InvestmentDetailsStep: React.FC<InvestmentDetailsStepProps> = ({
                 error={getFieldError("inceptionDate")}
             />
             
-            <DynamicFormField control={control} label="Fee Structure" error={getFieldError("feeStructure")} {...register('feeStructure')} />
             <DynamicFormField control={control} label="Fixed Fee" error={getFieldError("fixedFee")} {...register('fixedFee')} />
             <DynamicFormField control={control} label="Variable Fee" error={getFieldError("variableFee")} {...register('variableFee')} />
             <DynamicFormField control={control} label="Performance Fee" error={getFieldError("performanceFee")} {...register('performanceFee')} />

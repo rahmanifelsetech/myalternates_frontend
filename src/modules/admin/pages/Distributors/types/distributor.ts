@@ -1,6 +1,6 @@
 import { Person } from "@/shared/types/person";
 import { User } from "@/shared/types/user";
-import { PaginatedResponse, SingleResponse } from "@shared/types/api";
+import { PaginatedResponse, PaginationParams, SingleResponse } from "@shared/types/api";
 
 export interface Distributor {
     id: string;
@@ -72,8 +72,7 @@ export interface UpdateDistributorPayload extends Partial<CreateDistributorPaylo
     documentsToRemove?: string[];
 }
 
-export interface DistributorFilters {
+export interface DistributorFilters extends PaginationParams {
     search?: string;
-    page?: number;
-    limit?: number;
+    isActive?: boolean;
 }

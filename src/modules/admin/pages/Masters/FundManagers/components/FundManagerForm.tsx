@@ -7,6 +7,7 @@ import Button from '@shared/components/ui/button/Button';
 import Form from '@shared/components/form/Form';
 import { setFormErrors } from '@/shared/utils/formUtils';
 import { useGetAmcsQuery } from '@/modules/admin/pages/Amcs/api/amcApi';
+import { useGetAmcListQuery } from '@/shared/services/api/masterDataApi';
 
 interface FundManagerFormProps {
   fundManager?: FundManager | null;
@@ -38,7 +39,7 @@ export const FundManagerForm: React.FC<FundManagerFormProps> = ({
   onCancel,
 }) => {
   const [filesToRemove, setFilesToRemove] = useState<string[]>([]);
-  const { data: amcsData } = useGetAmcsQuery({ page: 1, limit: 100 }); // Fetch AMCs for dropdown
+  const { data: amcsData } = useGetAmcListQuery(); // Fetch AMCs for dropdown
 
   const {
     control,
@@ -101,7 +102,7 @@ export const FundManagerForm: React.FC<FundManagerFormProps> = ({
     }
   };
 
-  const amcOptions = amcsData?.data?.map((amc) => ({
+  const amcOptions = amcsData?.data?.map((amc: any) => ({
     label: amc.name || '',
     value: amc.id,
   })) || [];

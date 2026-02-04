@@ -1,8 +1,8 @@
 import React from 'react';
 import { Modal } from '@shared/components/ui/modal/Modal';
-import { BankForm } from '../../Banks/components/BankForm';
-import { Bank } from '../../Banks/types/bank';
-import { BankSchemaType } from '../../Banks/schema/bankSchema';
+import { BankForm } from '../forms/BankForm';
+import { Bank } from '../../types/bank';
+import { BankSchemaType } from '../../schema/bankSchema';
 
 interface BankModalProps {
     isOpen: boolean;

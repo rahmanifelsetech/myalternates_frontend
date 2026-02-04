@@ -1,8 +1,8 @@
 import React from 'react';
 import { Modal } from '@shared/components/ui/modal/Modal';
-import { NomineeForm } from '../components/NomineeForm';
-import { Nominee } from '../types/nominee';
-import { NomineeSchemaType } from '../schema/nomineeSchema';
+import { NomineeForm } from '../forms/NomineeForm';
+import { Nominee } from '../../types/nominee';
+import { NomineeSchemaType } from '../../schema/nomineeSchema';
 
 interface NomineeModalProps {
     isOpen: boolean;

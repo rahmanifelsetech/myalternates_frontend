@@ -10,6 +10,7 @@ const Categories = lazy(() => import('@modules/admin/pages/Categories/Categories
 const AssetClasses = lazy(() => import('@modules/admin/pages/Masters/AssetClasses/AssetClasses'));
 const BenchmarkIndices = lazy(() => import('@modules/admin/pages/Masters/BenchmarkIndices/BenchmarkIndices'));
 const FundManagers = lazy(() => import('@modules/admin/pages/Masters/FundManagers/FundManagers'));
+const MarketLists = lazy(() => import('@modules/admin/pages/Masters/MarketList/MarketList'));
 const SchemeList = lazy(() => import('@modules/admin/pages/Schemes/SchemeList'));
 const CreateScheme = lazy(() => import('@modules/admin/pages/Schemes/CreateScheme'));
 const EditScheme = lazy(() => import('@modules/admin/pages/Schemes/EditScheme'));
@@ -19,6 +20,7 @@ const Amcs = lazy(() => import('@modules/admin/pages/Amcs/Amcs'));
 const CreateAmc = lazy(() => import('@modules/admin/pages/Amcs/CreateAmc'));
 const EditAmc = lazy(() => import('@modules/admin/pages/Amcs/EditAmc'));
 const Investors = lazy(() => import('@modules/admin/pages/Investors/Investors'));
+const InvestorDetail = lazy(() => import('@modules/admin/pages/Investors/InvestorDetail'));
 const CreateInvestor = lazy(() => import('@modules/admin/pages/Investors/CreateInvestor'));
 const EditInvestor = lazy(() => import('@modules/admin/pages/Investors/EditInvestor'));
 const Banks = lazy(() => import('@modules/admin/pages/Banks/Banks'));
@@ -99,6 +101,12 @@ export const adminRoutes: AppRouteConfig[] = [
     authority: ['ADMIN'],
   },
   {
+    key: 'investors-detail',
+    path: 'investors/:id',
+    component: InvestorDetail,
+    authority: ['ADMIN'],
+  },
+  {
     key: 'banks',
     path: 'banks',
     component: Banks,
@@ -174,6 +182,12 @@ export const adminRoutes: AppRouteConfig[] = [
     key: 'fund-managers',
     path: 'masters/fund-managers',
     component: FundManagers,
+    authority: ['ADMIN'],
+  },
+  {
+    key: 'market-list',
+    path: 'masters/market-list',
+    component: MarketLists,
     authority: ['ADMIN'],
   },
   {
