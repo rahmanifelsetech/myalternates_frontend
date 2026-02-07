@@ -10,8 +10,11 @@ interface InvestmentAccount {
   modeOfHolding: 'SINGLE' | 'JOINT';
   holderOrderSignature: string | null;
   isActive: boolean;
-  totalInvested: string;
+  totalNetInvested: string;
   currentPortfolioValue: string;
+  totalCapitalCalled: string;
+  totalInflows: string;
+  totalOutflows: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -134,11 +137,11 @@ const investorApi = investorApiWithTags.injectEndpoints({
       }),
       invalidatesTags: (_result, _error, { investmentId }) => [{ type: "Holdings", id: investmentId }],
     }),
-    createHolding: builder.mutation<{ message: string; data: Holding[] }, { investmentId: string; holdings: Partial<Holding>[] }>({
-      query: ({ investmentId, holdings }) => ({
+    createHolding: builder.mutation<{ message: string; data: Holding[] }, { investmentId: string; holdingsAsOnDate: string; holdings: Partial<Holding>[] }>({
+      query: ({ investmentId, holdingsAsOnDate, holdings }) => ({
         url: `/investors/investments/${investmentId}/holdings/bulk`,
         method: 'POST',
-        data: { investmentId, holdings },
+        data: { investmentId, holdingsAsOnDate, holdings },
       }),
       invalidatesTags: (_result, _error, { investmentId }) => [{ type: "Holdings", id: investmentId }],
     }),

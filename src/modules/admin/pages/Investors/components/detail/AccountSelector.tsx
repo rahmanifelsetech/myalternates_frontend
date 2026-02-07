@@ -2,12 +2,17 @@ import React from 'react';
 import { typographyClasses } from '@shared/utils/typographyUtils';
 import Badge from '@shared/components/ui/badge/Badge';
 
-interface InvestmentAccount {
+export interface InvestmentAccount {
   id: string;
   modeOfHolding: 'SINGLE' | 'JOINT';
   holderOrderSignature: string | null;
-  totalInvested: string;
+  totalNetInvested: string;
   currentPortfolioValue: string;
+  totalCapitalCalled: string;
+  totalInflows: string;
+  totalOutflows: string;
+  totalInvestments?: number;
+  isActive?: boolean;
 }
 
 interface AccountSelectorProps {
@@ -16,6 +21,16 @@ interface AccountSelectorProps {
   onAccountChange: (accountId: string) => void;
   isLoading?: boolean;
 }
+
+const formatCurrency = (value: string) => {
+  const num = parseFloat(value);
+  if (num >= 1000000) {
+    return `₹${(num / 1000000).toFixed(2)}M`;
+  } else if (num >= 1000) {
+    return `₹${(num / 1000).toFixed(1)}k`;
+  }
+  return `₹${num.toFixed(0)}`;
+};
 
 export const AccountSelector: React.FC<AccountSelectorProps> = ({
   accounts,
@@ -35,55 +50,80 @@ export const AccountSelector: React.FC<AccountSelectorProps> = ({
 
   return (
     <div className="space-y-3">
-      {/* <h3 className={`${typographyClasses.heading.h5} ${typographyClasses.colors.text.primary}`}>
-        Investment Accounts ({accounts.length})
-      </h3> */}
-      <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {accounts.map((account) => (
           <button
             key={account.id}
             onClick={() => onAccountChange(account.id)}
             disabled={isLoading}
-            className={`rounded-lg border-2 p-4 text-left transition-all ${
+            className={`relative rounded-lg border-2 p-4 text-left transition-all ${
               selectedAccountId === account.id
                 ? 'border-brand-500 bg-brand-50 dark:border-brand-400 dark:bg-brand-500/10'
                 : 'border-gray-200 bg-white hover:border-brand-300 dark:border-gray-700 dark:bg-gray-800/50 dark:hover:border-brand-400'
             } ${isLoading ? 'opacity-50' : ''}`}
           >
-            <div className="flex items-start justify-between">
-              <div className="flex-1">
-                <div className="mb-2 flex items-center gap-2">
-                  <Badge color="info" variant="light" size="sm">
-                    {account.modeOfHolding === 'JOINT' ? '👥 Joint' : '👤 Single'}
-                  </Badge>
-                  {selectedAccountId === account.id && (
-                    <svg className="h-4 w-4 text-brand-600 dark:text-brand-400" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                    </svg>
-                  )}
-                </div>
-                <p className={`${typographyClasses.body.small} ${typographyClasses.colors.text.muted}`}>
-                  {account.holderOrderSignature || 'Account'}
+            {/* Header: Mode and Investments */}
+            <div className="flex items-center gap-2">
+              <Badge
+                color={account.modeOfHolding === 'JOINT' ? 'info' : 'primary'}
+                variant="light"
+                size="sm"
+              >
+                {(account.modeOfHolding === 'JOINT' ? '👤👤 Joint' : '👤 Single') + ' Account'}
+              </Badge>
+              <span className={`${typographyClasses.body.small} ${typographyClasses.colors.text.muted}`}>
+                ({account.totalInvestments ?? 0} investment's)
+              </span>
+              {account.isActive === false && (
+                <Badge color="error" variant="light" size="sm">
+                  Inactive
+                </Badge>
+              )}
+              {selectedAccountId === account.id && (
+                <svg className="ml-auto h-4 w-4 text-brand-600 dark:text-brand-400" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                </svg>
+              )}
+            </div>
+
+            {/* Holder Order Signature */}
+            <p className={`${typographyClasses.body.caption} font-mono ${typographyClasses.colors.text.primary} mt-2 truncate`}>
+              holders: {account.holderOrderSignature || 'N/A'}
+            </p>
+
+            {/* Financial Summary - Net Invested & Current Value */}
+            <div className="mt-3 grid grid-cols-2 gap-2 border-t border-gray-100 pt-3 dark:border-gray-700">
+              <div>
+                <p className="text-[10px] uppercase tracking-wide text-gray-500 dark:text-gray-400">
+                  Net Invested
+                </p>
+                <p className={`${typographyClasses.body.small} font-bold ${typographyClasses.colors.text.primary}`}>
+                  {formatCurrency(account.totalNetInvested)}
+                </p>
+              </div>
+              <div>
+                <p className="text-[10px] uppercase tracking-wide text-gray-500 dark:text-gray-400">
+                  Current Value
+                </p>
+                <p className={`${typographyClasses.body.small} font-bold ${typographyClasses.colors.text.primary}`}>
+                  {formatCurrency(account.currentPortfolioValue)}
                 </p>
               </div>
             </div>
 
-            <div className="mt-3 grid grid-cols-2 gap-2 border-t border-gray-100 pt-3 dark:border-gray-700">
-              <div>
-                <p className={`${typographyClasses.body.caption} ${typographyClasses.colors.text.muted} mb-1`}>
-                  Invested
-                </p>
-                <p className={`${typographyClasses.body.small} font-medium ${typographyClasses.colors.text.primary}`}>
-                  ₹{parseFloat(account.totalInvested).toLocaleString('en-IN', { maximumFractionDigits: 2 })}
-                </p>
+            {/* Additional Details - Inflows, Outflows, Called */}
+            <div className="mt-2 grid grid-cols-3 gap-1 text-xs">
+              <div className="truncate">
+                <span className="text-gray-400">In: </span>
+                <span className="text-gray-600 dark:text-gray-300">{formatCurrency(account.totalInflows)}</span>
               </div>
-              <div>
-                <p className={`${typographyClasses.body.caption} ${typographyClasses.colors.text.muted} mb-1`}>
-                  Current Value
-                </p>
-                <p className={`${typographyClasses.body.small} font-medium ${typographyClasses.colors.text.primary}`}>
-                  ₹{parseFloat(account.currentPortfolioValue).toLocaleString('en-IN', { maximumFractionDigits: 2 })}
-                </p>
+              <div className="truncate">
+                <span className="text-gray-400">Out: </span>
+                <span className="text-gray-600 dark:text-gray-300">{formatCurrency(account.totalOutflows)}</span>
+              </div>
+              <div className="truncate">
+                <span className="text-gray-400">Called: </span>
+                <span className="text-gray-600 dark:text-gray-300">{formatCurrency(account.totalCapitalCalled)}</span>
               </div>
             </div>
           </button>

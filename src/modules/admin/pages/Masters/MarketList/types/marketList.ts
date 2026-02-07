@@ -4,7 +4,7 @@ export interface MarketList {
   id: string;
   companyName: string;
   isinCode: string;
-  categoryId: string;
+  categoryId?: string;
   category?: {
     id: string;
     name: string;
@@ -18,7 +18,7 @@ export interface MarketList {
 export interface CreateMarketListPayload {
   companyName: string;
   isinCode: string;
-  categoryId: string;
+  categoryId?: string;
   sector: string;
   asOnDate: string;
 }
@@ -38,8 +38,11 @@ export interface BulkUploadResult {
   id: string;
   companyName: string;
   isinCode: string;
-  categorization?: string;
   categoryId?: string;
+  category?: {
+    id: string;
+    name: string;
+  };
   sector?: string;
   asOnDate: string;
   createdAt: string;

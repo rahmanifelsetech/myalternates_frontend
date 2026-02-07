@@ -4,7 +4,6 @@ export interface Holding {
   amcClientCode?: string;
   isinCode?: string;
   companyName?: string;
-  categorization?: string;
   categoryId?: string;
   category?: {
     id: string;
@@ -21,6 +20,7 @@ export interface Holding {
   holdingsAsOnDate?: string | null;
   sector?: string;
   securityName?: string;
+  marketListId?: string;
   portfolioWeightage: string;
   valuationDate?: string;
   createdAt?: string;

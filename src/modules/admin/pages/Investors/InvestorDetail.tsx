@@ -11,7 +11,7 @@ import {
 import { useInvestors } from './hooks/useInvestors';
 import { InvestorProfile } from './components/detail/InvestorProfile';
 import { DetailTabs } from './components/detail/DetailTabs';
-import { AccountSelector } from './components/detail/AccountSelector';
+import { AccountSelector, InvestmentAccount } from './components/detail/AccountSelector';
 import { InvestmentsTab } from './components/tabs/InvestmentsTab';
 import { HoldingsTab } from './components/tabs/HoldingsTab';
 import { TransactionsTab } from './components/tabs/TransactionsTab';
@@ -62,7 +62,7 @@ const InvestorDetail: React.FC = () => {
   }, [accountsData, selectedAccountId]);
 
   // Fetch holdings for selected account
-  const { data: holdingsData, isLoading: isFetchingHoldings } = useGetAccountHoldingsQuery(
+  const { data: holdingsData, isLoading: isFetchingHoldings, refetch: refetchHoldings } = useGetAccountHoldingsQuery(
     {
       investorId: id!,
       accountId: selectedAccountId!,
@@ -134,6 +134,7 @@ const InvestorDetail: React.FC = () => {
 
   // Tab configuration
   const tabs = [
+    { id: 'info', label: 'Info' },
     { id: 'investments', label: 'Investments', badge: investments.length },
     // { id: 'holdings', label: 'Holdings', badge: holdings.length },
     { id: 'transactions', label: 'Transactions', badge: transactions.length },
@@ -173,12 +174,7 @@ const InvestorDetail: React.FC = () => {
         </p>
       </div> */}
 
-      {/* Profile Section */}
-      <InvestorProfile
-        investor={investor}
-        onEdit={handleEditClick}
-        onDelete={handleDeleteClick}
-      />
+      
 
       {/* Account Selector - Show if accounts exist */}
       {accounts && accounts.length > 0 && (
@@ -196,6 +192,13 @@ const InvestorDetail: React.FC = () => {
       {selectedAccountId && (
         <CanAccess any={[PERMISSIONS.INVESTORS.READ]}>
           <DetailTabs tabs={tabs} activeTabId={activeTab} onTabChange={setActiveTab}>
+            {activeTab === 'info' && (
+              <InvestorProfile
+                investor={investor}
+                onEdit={handleEditClick}
+                onDelete={handleDeleteClick}
+              />
+            )}
             {activeTab === 'investments' && (
               <InvestmentsTab
                 investorId={id!}
@@ -203,6 +206,7 @@ const InvestorDetail: React.FC = () => {
                 investments={investments}
                 holdings={holdings}
                 isLoading={isFetchingInvestments}
+                onRefetchHoldings={refetchHoldings}
               />
             )}
             {activeTab === 'holdings' && (

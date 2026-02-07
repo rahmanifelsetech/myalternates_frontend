@@ -24,6 +24,14 @@ const marketListApi = marketListApiWithTags.injectEndpoints({
       providesTags: (_result, _error, id) => [{ type: 'MarketList', id }],
     }),
 
+    getMarketListByIsin: builder.query<CreateMarketListResponse, string>({
+      query: (isinCode) => ({
+        url: `/masters/market-list/by-isin/${isinCode}`,
+        method: 'GET',
+      }),
+      providesTags: (_result, _error, isinCode) => [{ type: 'MarketList', id: isinCode }],
+    }),
+
     createMarketList: builder.mutation<CreateMarketListResponse, CreateMarketListPayload>({
       query: (data) => ({
         url: '/masters/market-list',
@@ -75,6 +83,8 @@ const marketListApi = marketListApiWithTags.injectEndpoints({
 export const {
   useGetMarketListsQuery,
   useGetMarketListByIdQuery,
+  useGetMarketListByIsinQuery,
+  useLazyGetMarketListByIsinQuery,
   useCreateMarketListMutation,
   useUpdateMarketListMutation,
   useDeleteMarketListMutation,

@@ -20,9 +20,11 @@ interface Transaction {
   investment: {
     scheme: {
       schemeName: string;
+      schemeCode?: string;
     };
     product: {
       name: string;
+      code?: string;
     };
     amc: {
       name: string;
@@ -30,7 +32,7 @@ interface Transaction {
   }
   orderDate: string;
   valuationDate: string | null;
-  transactionType: 'Withdrawn' | 'Addition';
+  transactionType: 'Withdrawn' | 'Addition' | 'Initial Purchase' | 'Drawdown';
   amount: string;
   capitalCommitment: string | null;
   capitalCalled: string | null;
@@ -38,6 +40,7 @@ interface Transaction {
   remarks: string | null;
   createdAt: string;
   updatedAt: string;
+  isActive?: boolean;
 }
 
 interface TransactionsTabProps {
@@ -59,19 +62,35 @@ export const TransactionsTab: React.FC<TransactionsTabProps> = ({
   }
 
   if (!transactions || transactions.length === 0) {
-    return <NoDataRow colSpan={7} message="No transactions found for this account." />;
+    return <NoDataRow colSpan={6} message="No transactions found for this account." />;
   }
 
-  const totalAmount = transactions.reduce((sum, t) => sum + (parseFloat(t.amount || '0') || 0), 0);
-  const additionTransactions = transactions.filter(t => t.transactionType === 'Addition').length;
-  const withdrawalTransactions = transactions.filter(t => t.transactionType === 'Withdrawn').length;
+  // Inflows: Addition + Initial Purchase
+  const inflowTransactions = transactions.filter(t => 
+    t.transactionType === 'Addition' || t.transactionType === 'Initial Purchase'
+  );
+  const inflowCount = inflowTransactions.length;
+  const totalInflows = inflowTransactions.reduce((sum, t) => sum + (parseFloat(t.amount || '0') || 0), 0);
+
+  // Outflows: Withdrawn
+  const outflowTransactions = transactions.filter(t => t.transactionType === 'Withdrawn');
+  const outflowCount = outflowTransactions.length;
+  const totalOutflows = outflowTransactions.reduce((sum, t) => sum + (parseFloat(t.amount || '0') || 0), 0);
+
+  // Drawdowns: For AIF/GIFT products
+  const drawdownTransactions = transactions.filter(t => t.transactionType === 'Drawdown');
+  const drawdownCount = drawdownTransactions.length;
+  const totalDrawdowns = drawdownTransactions.reduce((sum, t) => sum + (parseFloat(t.amount || '0') || 0), 0);
 
   const getTypeColor = (type: string): 'success' | 'warning' | 'error' | 'info' | 'primary' => {
     switch (type) {
       case 'Addition':
+      case 'Initial Purchase':
         return 'success';
       case 'Withdrawn':
         return 'error';
+      case 'Drawdown':
+        return 'warning';
       default:
         return 'primary';
     }
@@ -80,11 +99,25 @@ export const TransactionsTab: React.FC<TransactionsTabProps> = ({
   return (
     <div className="space-y-4">
       {/* Summary Cards */}
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
-        <SummaryCard label="Total Transactions" value={transactions.length.toString()} />
-        <SummaryCard label="Additions" value={additionTransactions.toString()} />
-        <SummaryCard label="Withdrawals" value={withdrawalTransactions.toString()} />
-        <SummaryCard label="Total Amount" value={`₹${totalAmount?.toLocaleString('en-IN', { maximumFractionDigits: 2 }) || 0}`} />
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+        <FlowSummaryCard 
+          label="Total Inflows"
+          count={inflowCount}
+          amount={totalInflows}
+          type="inflow"
+        />
+        <FlowSummaryCard 
+          label="Total Outflows"
+          count={outflowCount}
+          amount={totalOutflows}
+          type="outflow"
+        />
+        <FlowSummaryCard 
+          label="Total Drawdowns"
+          count={drawdownCount}
+          amount={totalDrawdowns}
+          type="drawdown"
+        />
       </div>
 
       {/* Transactions Table */}
@@ -150,20 +183,52 @@ export const TransactionsTab: React.FC<TransactionsTabProps> = ({
   );
 };
 
-interface SummaryCardProps {
+interface FlowSummaryCardProps {
   label: string;
-  value: string | number;
+  count: number;
+  amount: number;
+  type: 'inflow' | 'outflow' | 'drawdown';
 }
 
-const SummaryCard: React.FC<SummaryCardProps> = ({ label, value }) => (
-  <div className="rounded-lg border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-800/50">
-    <p className={`${typographyClasses.body.small} ${typographyClasses.colors.text.muted} mb-2`}>
-      {label}
-    </p>
-    <p className={`${typographyClasses.heading.h4} ${typographyClasses.colors.text.primary}`}>
-      {value}
-    </p>
-  </div>
-);
+const FlowSummaryCard: React.FC<FlowSummaryCardProps> = ({ label, count, amount, type }) => {
+  const getTypeColor = () => {
+    switch (type) {
+      case 'inflow':
+        return 'text-green-600 dark:text-green-400';
+      case 'outflow':
+        return 'text-red-600 dark:text-red-400';
+      case 'drawdown':
+        return 'text-amber-600 dark:text-amber-400';
+      default:
+        return 'text-gray-900 dark:text-white';
+    }
+  };
+
+  return (
+    <div className="rounded-lg border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-800/50">
+      <p className={`${typographyClasses.body.small} ${typographyClasses.colors.text.muted} mb-3`}>
+        {label}
+      </p>
+      <div className="flex items-end justify-between">
+        <div>
+          <p className={`${typographyClasses.heading.h4} ${typographyClasses.colors.text.primary}`}>
+            {count}
+          </p>
+          <p className={`${typographyClasses.body.caption} ${typographyClasses.colors.text.muted}`}>
+            Transactions
+          </p>
+        </div>
+        <div className="text-right">
+          <p className={`${typographyClasses.heading.h4} ${getTypeColor()}`}>
+            ₹{amount?.toLocaleString('en-IN', { maximumFractionDigits: 2 }) || 0}
+          </p>
+          <p className={`${typographyClasses.body.caption} ${typographyClasses.colors.text.muted}`}>
+            Total Amount
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export default TransactionsTab;

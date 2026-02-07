@@ -1,6 +1,5 @@
 import { lazy } from 'react';
 import { AppRouteConfig } from '@shared/types/route';
-
 const Dashboard = lazy(() => import('@modules/admin/pages/Dashboard/Dashboard'));
 const Roles = lazy(() => import('@modules/admin/pages/Roles/Roles'));
 const Users = lazy(() => import('@modules/admin/pages/Users/Users'));
@@ -11,6 +10,7 @@ const AssetClasses = lazy(() => import('@modules/admin/pages/Masters/AssetClasse
 const BenchmarkIndices = lazy(() => import('@modules/admin/pages/Masters/BenchmarkIndices/BenchmarkIndices'));
 const FundManagers = lazy(() => import('@modules/admin/pages/Masters/FundManagers/FundManagers'));
 const MarketLists = lazy(() => import('@modules/admin/pages/Masters/MarketList/MarketList'));
+const IndexHistories = lazy(() => import('@modules/admin/pages/Masters/IndexHistories/IndexHistories'))
 const SchemeList = lazy(() => import('@modules/admin/pages/Schemes/SchemeList'));
 const CreateScheme = lazy(() => import('@modules/admin/pages/Schemes/CreateScheme'));
 const EditScheme = lazy(() => import('@modules/admin/pages/Schemes/EditScheme'));
@@ -188,6 +188,12 @@ export const adminRoutes: AppRouteConfig[] = [
     key: 'market-list',
     path: 'masters/market-list',
     component: MarketLists,
+    authority: ['ADMIN'],
+  },
+  {
+    key: 'index-history',
+    path: 'masters/index-history',
+    component: IndexHistories,
     authority: ['ADMIN'],
   },
   {

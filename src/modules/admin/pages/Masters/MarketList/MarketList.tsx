@@ -6,7 +6,6 @@ import {ConfirmationModal} from '@shared/components/common/ConfirmationModal';
 import { PlusIcon } from '@shared/icons';
 import { useGetMarketListsQuery, useDeleteMarketListMutation } from './api/marketListApi';
 import { downloadMarketListTemplate } from './services/marketListService';
-import { useGetCategoriesQuery } from '../../Categories/api/categoryApi';
 import { useMarketList } from './hooks/useMarketList';
 import { MarketListModal } from './components/MarketListModal';
 import { MarketListTable } from './components/MarketListTable';
@@ -35,26 +34,9 @@ const MarketList: React.FC = () => {
     search: search || undefined,
   });
 
-  const { data: categoryData } = useGetCategoriesQuery({ limit: 1000 });
-  const [deleteMutation, { isLoading: isDeleting }] = useDeleteMarketListMutation();
   
   // Custom hooks
-  // const { handleBulkUpload } = useMarketList();
-
-  // Category options
-  const categoryOptions = useMemo(
-    () =>
-      categoryData?.data?.map((cat: any) => ({
-        label: cat.name,
-        value: cat.id,
-      })) || [],
-    [categoryData?.data]
-  );
-
-  const handleCreate = useCallback(() => {
-    setSelectedItem(undefined);
-    setShowModal(true);
-  }, []);
+  const { handleCreate, handleUpdate, handleDelete, isDeleting } = useMarketList();
 
   // Handlers
   const handleEdit = useCallback((item: MarketList) => {
@@ -80,14 +62,14 @@ const MarketList: React.FC = () => {
     if (deletingId) {
       try {
         if(isDeleting) return;
-        await deleteMutation(deletingId).unwrap();
+        await handleDelete(deletingId)
         setShowDeleteConfirm(false);
         setDeletingId(null);
       } catch (error) {
         console.error('Delete error:', error);
       }
     }
-  }, [deletingId, deleteMutation, isDeleting]);
+  }, [deletingId, handleDelete, isDeleting]);
 
   /* Commented out - Bulk upload moved to Upload Center
   const handleBulkUploadFile = useCallback(
@@ -184,7 +166,8 @@ const MarketList: React.FC = () => {
         onClose={handleCloseModal}
         initialData={selectedItem}
         onSuccess={handleModalSuccess}
-        categoryOptions={categoryOptions}
+        handleCreate={handleCreate}
+        handleUpdate={handleUpdate}
       />
 
       <ConfirmationModal

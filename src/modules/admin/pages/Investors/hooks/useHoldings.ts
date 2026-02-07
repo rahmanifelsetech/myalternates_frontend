@@ -9,6 +9,7 @@ interface UpdateHoldingsPayload {
 }
 
 interface CreateHoldingsPayload {
+  holdingsAsOnDate: string;
   holdings: Partial<Holding>[];
 }
 
@@ -39,7 +40,7 @@ export const useHoldings = () => {
   ) => {
     return await create(
       createHoldingMutation,
-      { investmentId, holdings: data.holdings },
+      { investmentId, holdingsAsOnDate: data.holdingsAsOnDate, holdings: data.holdings },
       {
         successMessage: 'Holdings created successfully!',
         errorMessage: 'Failed to create holdings.',

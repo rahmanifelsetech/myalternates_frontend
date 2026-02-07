@@ -35,7 +35,7 @@ export const InvestmentDetailsStep: React.FC<InvestmentDetailsStepProps> = ({
             
             <DynamicFormField control={control} label="Strategy Name / Scheme" type="select" options={schemeOptions} error={getFieldError("schemeId")} {...register('schemeId')} />
             
-            {(selectedProduct?.code === 'AIF' || selectedProduct?.code === 'GIFT_IFSC') && (
+            {(selectedProduct?.code === 'GIFT_IFSC') && (
                 <DynamicFormField control={control} label={`Capital Commitment${selectedProduct?.code === 'GIFT_IFSC' ? ' (USD)' : '(INR)'}`} type="number" error={getFieldError("capitalCommitment")} {...register('capitalCommitment')} />
             )}
             

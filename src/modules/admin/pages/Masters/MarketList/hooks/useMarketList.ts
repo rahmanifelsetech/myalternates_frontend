@@ -13,7 +13,7 @@ export const useMarketList = () => {
 
   const [createMutation] = useCreateMarketListMutation();
   const [updateMutation] = useUpdateMarketListMutation();
-  const [deleteMutation] = useDeleteMarketListMutation();
+  const [deleteMutation, {isLoading: isDeleting}] = useDeleteMarketListMutation();
   const [bulkUploadMutation] = useBulkUploadMarketListMutation();
 
   const handleCreate = useCallback(
@@ -56,6 +56,8 @@ export const useMarketList = () => {
     handleCreate,
     handleUpdate,
     handleDelete,
+    isDeleting,
     handleBulkUpload,
+
   };
 };

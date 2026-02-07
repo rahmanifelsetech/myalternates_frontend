@@ -27,7 +27,7 @@ const BULK_UPLOAD_OPTIONS = [
   { label: 'Holdings', value: 'HOLDINGS' },
   { label: 'Market List', value: 'MARKET_LIST' },
   { label: 'Transactions', value: 'TRANSACTION' },
-  // { label: 'Index History', value: 'INDEX' },
+  { label: 'Index History', value: 'INDEX' },
 ];
 
 const EXTERNAL_API_OPTIONS = [

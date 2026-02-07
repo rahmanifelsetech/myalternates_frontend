@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { useForm } from '@/shared/hooks/useForm';
 import { marketListSchema, type MarketListSchemaType } from '../schema/marketListSchema';
 import { MarketList } from '../types/marketList';
@@ -7,25 +7,36 @@ import Button from '@shared/components/ui/button/Button';
 import Form from '@shared/components/form/Form';
 import {Modal} from '@shared/components/ui/modal/Modal';
 import { setFormErrors } from '@shared/utils/formUtils';
-import { useMarketList } from '../hooks/useMarketList';
 import typographyClasses from '@/shared/utils/typographyUtils';
+import { formatDate } from '@/shared/utils/dateUtils';
+import { SingleResponse } from '@/shared/types/api';
+import { useGetCategoriesQuery } from '@modules/admin/pages/Categories/api/categoryApi';
+import { Category } from '@modules/admin/pages/Categories/types/category';
 
 interface MarketListModalProps {
   isOpen: boolean;
   onClose: () => void;
   initialData?: MarketList;
-  onSuccess?: () => void;
-  categoryOptions: Array<{ label: string; value: string }>;
+  handleCreate: (data: any) => Promise<any>;
+  handleUpdate: (data: any) => Promise<any>;
+  onSuccess?: (marketList: MarketList) => void;
 }
 
 export const MarketListModal: React.FC<MarketListModalProps> = ({
   isOpen,
   onClose,
   initialData,
+  handleCreate,
+  handleUpdate,
   onSuccess,
-  categoryOptions,
 }) => {
-  const { handleCreate, handleUpdate } = useMarketList();
+  const { data: categoriesData } = useGetCategoriesQuery({limit: 1000});
+  const categories = useMemo(() => categoriesData?.data || [], [categoriesData]);
+  const categoryOptions = useMemo(() => 
+    categories.map((category: Category) => ({ label: category.name, value: category.id })), 
+    [categories]
+  );
+
   const {
     control,
     handleSubmit,
@@ -34,47 +45,62 @@ export const MarketListModal: React.FC<MarketListModalProps> = ({
     reset,
     setValue,
     watch,
-  } = useForm(marketListSchema);
+  } = useForm(marketListSchema, {
+    defaultValues: {
+      companyName: '',
+      isinCode: '',
+      categoryId: '',
+      sector: '',
+      asOnDate: initialData?.asOnDate ?? '',
+    },
+  });
 
   // Handle form prefilling when modal opens or initialData changes
   useEffect(() => {
     if (isOpen) {
-      if (initialData) {
-        reset({
-          companyName: initialData.companyName,
-          isinCode: initialData.isinCode,
-          categoryId: initialData.categoryId,
-          sector: initialData.sector,
-          asOnDate: initialData.asOnDate,
-        });
-      } else {
-        reset({
-          companyName: '',
-          isinCode: '',
-          categoryId: '',
-          sector: '',
-          asOnDate: '',
-        });
-      }
+      setTimeout(() => {
+        if (initialData) {
+          console.log('Prefilling form with initial data:', initialData, formatDate(initialData.asOnDate));
+          reset({
+            companyName: initialData.companyName,
+            isinCode: initialData.isinCode,
+            categoryId: initialData.categoryId || '',
+            sector: initialData.sector,
+            asOnDate: initialData.asOnDate ? formatDate(initialData.asOnDate) : undefined,
+          });
+        } else {
+          reset({
+            companyName: '',
+            isinCode: '',
+            categoryId: '',
+            sector: '',
+            asOnDate: '',
+          });
+        }
+      }, 0);
     }
   }, [isOpen, initialData, reset]);
 
   const onSubmit = useCallback(
     async (data: MarketListSchemaType) => {
       try {
-        if (initialData) {
-          await handleUpdate({ id: initialData.id, ...data });
+        console.log('Submitting form with data:', data);
+        let result: SingleResponse<MarketList>;
+        if (initialData?.id) {
+          result = await handleUpdate({ id: initialData.id, ...data });
         } else {
-          await handleCreate(data);
+          result = await handleCreate(data);
         }
-        onSuccess?.();
         reset();
         onClose();
+        if (onSuccess && result?.data) {
+          onSuccess(result.data);
+        }
       } catch (error: any) {
         setFormErrors(error, setError);
       }
     },
-    [initialData, handleCreate, handleUpdate, onSuccess, reset, onClose, setError]
+    [initialData, handleCreate, handleUpdate, reset, onClose, onSuccess, setError]
   );
 
   return (
@@ -104,10 +130,9 @@ export const MarketListModal: React.FC<MarketListModalProps> = ({
 
           <DynamicFormField
             control={control}
-            label="Categorization"
+            label="Category"
             type="select"
             options={categoryOptions}
-            required
             error={errors.categoryId}
             {...control.register('categoryId')}
           />
@@ -120,12 +145,11 @@ export const MarketListModal: React.FC<MarketListModalProps> = ({
             error={errors.sector}
             {...control.register('sector')}
           />
-
           <DynamicFormField
             control={control}
+            name="asOnDate"
             label="As On Date"
             type="date-picker"
-            required
             error={errors.asOnDate}
             setValue={setValue}
             value={watch('asOnDate')}
@@ -144,3 +168,5 @@ export const MarketListModal: React.FC<MarketListModalProps> = ({
     </Modal>
   );
 };
+
+export default MarketListModal;

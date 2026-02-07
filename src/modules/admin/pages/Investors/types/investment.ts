@@ -1,5 +1,5 @@
 export interface Investment {
-  investmentId: string;
+  id: string;
   amcClientCode: string;
   product: {
     id: string;
@@ -11,9 +11,18 @@ export interface Investment {
     schemeName: string;
     schemeCode: string;
   };
+  amc?: {
+    id: string;
+    name: string;
+    amcCode: string;
+  };
   status: string;
-  capitalCommitment: string;
-  commitmentCurrency: string;
+  capitalCalled?: string | null;
+  pendingCapital?: string | null;
+  capitalCommitment?: string | null;
+  commitmentCurrency?: string | null;
+  netInvestment?: string | null;
+  currentValue?: string | null;
   createdAt: string;
 }
 

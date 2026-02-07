@@ -12,13 +12,18 @@ import { CanAccess } from '@/shared/components/common/CanAccess';
 import { PERMISSIONS } from '@/shared/constants/permissions';
 import { PencilIcon, TrashBinIcon } from '@shared/icons';
 import { typographyClasses } from '@shared/utils/typographyUtils';
+import { formatDate } from '@/shared/utils/dateUtils';
 
 interface MarketListTableProps {
   data: Array<{
     id: string;
     companyName: string;
     isinCode: string;
-    category?: { name: string };
+    categoryId?: string;
+    category?: {
+      id: string;
+      name: string;
+    } | null;
     sector: string;
     asOnDate: string;
   }>;
@@ -98,7 +103,7 @@ export const MarketListTable: React.FC<MarketListTableProps> = ({
                   {item.sector}
                 </TableCell>
                 <TableCell className={`px-5 py-4 text-start ${typographyClasses.body.small} ${typographyClasses.colors.text.secondary}`}>
-                  {new Date(item.asOnDate).toLocaleDateString()}
+                  {item.asOnDate ? formatDate(item.asOnDate) : "N/A"}
                 </TableCell>
                 <TableCell className={`px-4 py-3 text-start ${typographyClasses.body.small} ${typographyClasses.colors.text.secondary}`}>
                   <div className="flex items-center space-x-3.5">

@@ -83,6 +83,7 @@ export const adminNavigation: NavigationItem[] = [
       { title: 'Asset Classes', path: '/admin/masters/asset-classes', icon: 'grid', permissions: [PERMISSIONS.MASTERS.ASSET_CLASS_READ] },
       { title: 'Benchmarks', path: '/admin/masters/benchmarks', icon: 'grid', permissions: [PERMISSIONS.MASTERS.BENCHMARK_READ] },
       { title: 'Market List', path: '/admin/masters/market-list', icon: 'list', permissions: [PERMISSIONS.MASTERS.MARKET_LIST_READ] },
+      { title: 'Index History', path: '/admin/masters/index-history', icon: 'list', permissions: [PERMISSIONS.DATA_UPLOAD.INDEX_HISTORY_READ] },
     ]
   },
   {
