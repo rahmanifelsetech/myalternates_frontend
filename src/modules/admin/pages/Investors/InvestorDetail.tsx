@@ -27,7 +27,7 @@ const InvestorDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
-  const [activeTab, setActiveTab] = useState('investments');
+  const [activeTab, setActiveTab] = useState('info');
   const [selectedAccountId, setSelectedAccountId] = useState<string | null>(null);
 
   // API Calls - Investor Profile

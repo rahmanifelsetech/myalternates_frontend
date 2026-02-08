@@ -16,7 +16,7 @@ export interface Holding {
     updatedAt: string;
   };
   securityType?: string;
-  cashEquivalent: string;
+  totalWeightage?: string;
   holdingsAsOnDate?: string | null;
   sector?: string;
   securityName?: string;

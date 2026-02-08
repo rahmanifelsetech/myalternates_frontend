@@ -21,16 +21,30 @@ interface AccountSelectorProps {
   onAccountChange: (accountId: string) => void;
   isLoading?: boolean;
 }
+const formatCurrency = (value: number | string) => {
+  if (value === null || value === undefined || value === '') return 'N/A';
 
-const formatCurrency = (value: string) => {
-  const num = parseFloat(value);
-  if (num >= 1000000) {
-    return `₹${(num / 1000000).toFixed(2)}M`;
-  } else if (num >= 1000) {
-    return `₹${(num / 1000).toFixed(1)}k`;
+  const num = Number(value);
+  if (isNaN(num)) return 'N/A';
+
+  const abs = Math.abs(num);
+  const sign = num < 0 ? '-' : '';
+
+  if (abs >= 1e7) {
+    return `${sign}₹${(abs / 1e7).toFixed(2)}Cr`;
   }
-  return `₹${num.toFixed(0)}`;
+
+  if (abs >= 1e5) {
+    return `${sign}₹${(abs / 1e5).toFixed(2)}L`;
+  }
+
+  if (abs >= 1e3) {
+    return `${sign}₹${(abs / 1e3).toFixed(1)}k`;
+  }
+
+  return `${sign}₹${abs.toFixed(0)}`;
 };
+
 
 export const AccountSelector: React.FC<AccountSelectorProps> = ({
   accounts,

@@ -421,14 +421,14 @@ const DynamicFormField = forwardRef<HTMLSelectElement, DynamicFormFieldProps>(
             id={sanitizedId}
             value={stringValue}
             placeholder={getPlaceholder()}
-            onChange={(dates, currentDateString) => {
+            onChange={(dateString) => {
               if (onDateChange) {
-                onDateChange(dates, currentDateString);
+                onDateChange([], dateString);
               }
               if (setValue) {
-                setValue(fieldName, currentDateString);
+                setValue(fieldName, dateString);
               } else if (onChange) {
-                onChange(currentDateString);
+                onChange(dateString);
               }
             }}
             onClear={() => {

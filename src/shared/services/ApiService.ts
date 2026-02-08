@@ -87,6 +87,26 @@ export const ApiService = {
     delete ApiClient.defaults.headers.common['Authorization'];
     localStorage.removeItem('authToken');
   },
+
+  async downloadFile(url: string, filename: string): Promise<void> {
+    try {
+      const response = await ApiClient.get(url, {
+        responseType: 'blob',
+      });
+      
+      const blob = new Blob([response.data], { type: response.headers['content-type'] || 'application/octet-stream' });
+      const downloadUrl = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = downloadUrl;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(downloadUrl);
+    } catch (error) {
+      handleError(error as AxiosError);
+    }
+  },
 };
 
 

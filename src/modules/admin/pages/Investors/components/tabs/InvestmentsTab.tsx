@@ -15,6 +15,7 @@ import { Investment } from '../../types/investment';
 import { Holding } from '../../types/holding';
 import { HoldingsModal } from './HoldingsModal';
 import { InvestmentDetailsModal } from '../modals/InvestmentDetailsModal';
+import { DropdownPortal } from '@/shared/components/ui/dropdown/DropdownPortal';
 
 interface InvestmentsTabProps {
   investorId: string;
@@ -81,9 +82,9 @@ export const InvestmentsTab: React.FC<InvestmentsTabProps> = ({
 
   return (
     <div className="space-y-4">
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-1">
+      {/* <div className="grid grid-cols-1 gap-4 md:grid-cols-1">
         <SummaryCard label="Total Investments" value={investments.length.toString()} />
-      </div>
+      </div> */}
 
       <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
         <div className="max-w-full overflow-x-auto min-h-[300px]">
@@ -100,7 +101,7 @@ export const InvestmentsTab: React.FC<InvestmentsTabProps> = ({
                   AMC
                 </TableCell>
                 <TableCell isHeader className={`px-5 py-3 text-start ${typographyClasses.colors.text.muted} ${typographyClasses.body.caption}`}>
-                  AM Client Code
+                  AMC Client Code
                 </TableCell>
                 <TableCell isHeader className={`px-5 py-3 text-start ${typographyClasses.colors.text.muted} ${typographyClasses.body.caption}`}>
                   Status
@@ -148,15 +149,15 @@ export const InvestmentsTab: React.FC<InvestmentsTabProps> = ({
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
                           </svg>
                         </button>
-                        <Dropdown
+                        <DropdownPortal
                             isOpen={openDropdownId === investment.id}
                             onClose={() => setOpenDropdownId(null)}
                             anchorEl={anchorEl}
                         >
                             <DropdownItem key="view" onClick={() => handleViewDetails(investment)}>Details</DropdownItem>
                             <DropdownItem key="holdings" onClick={() => handleUpdateHoldings(investment.id)}>Holdings</DropdownItem>
-                            <DropdownItem key="toggle" onClick={() => handleToggleActive(investment)}>Toggle Active</DropdownItem>
-                        </Dropdown>
+                            {/* <DropdownItem key="toggle" onClick={() => handleToggleActive(investment)}>Toggle Active</DropdownItem> */}
+                        </DropdownPortal>
                       </div>
                     </div>
                   </TableCell>

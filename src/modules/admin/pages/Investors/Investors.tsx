@@ -24,7 +24,7 @@ const Investors: React.FC = () => {
     ...filters,
     ...(filters.isActive !== undefined && { isActive: filters.isActive })
 });
-    const { handleDelete } = useInvestors();
+    const { handleDelete, handleSendWelcomeMail, handleResetPassword } = useInvestors();
     const navigate = useNavigate();
 
     const handleEdit = (investor: Investor) => {
@@ -34,6 +34,18 @@ const Investors: React.FC = () => {
     const handleDeleteInvestor = async (id: string) => {
         if (window.confirm('Are you sure you want to delete this Investor?')) {
             await handleDelete(id);
+        }
+    };
+
+    const handleSendInvestorWelcomeMail = async (investor: Investor) => {
+        if (window.confirm(`Send welcome email to ${investor.primaryPerson?.email}?`)) {
+            await handleSendWelcomeMail(investor.id);
+        }
+    };
+
+    const handleInvestorResetPassword = async (investor: Investor) => {
+        if (window.confirm(`Reset password for ${investor.primaryPerson?.email}?`)) {
+            await handleResetPassword(investor.id);
         }
     };
 
@@ -82,6 +94,8 @@ const Investors: React.FC = () => {
                     isLoading={isLoading}
                     onEdit={handleEdit}
                     onDelete={handleDeleteInvestor}
+                    onSendWelcomeMail={handleSendInvestorWelcomeMail}
+                    onResetPassword={handleInvestorResetPassword}
                 />
                 {data?.metaData && (
                     <Pagination meta={data.metaData} onPageChange={setPage} />

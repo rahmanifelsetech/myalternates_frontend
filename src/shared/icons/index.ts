@@ -59,6 +59,7 @@ import { ReactComponent as Bar2Icon } from "./bar-2.svg?react";
 import { ReactComponent as SettingsIcon } from "./settings.svg?react";
 import { ReactComponent as LogOutIcon } from "./logout.svg?react";
 import { ReactComponent as SyncIcon } from "./sync.svg?react";
+import { ReactComponent as VerticalDotsIcon } from "./vertical-dots.svg?react";
 
 export {
   ErrorHexaIcon,
@@ -121,5 +122,6 @@ export {
   Bar2Icon,
   SettingsIcon,
   LogOutIcon,
-  SyncIcon
+  SyncIcon,
+  VerticalDotsIcon
 };

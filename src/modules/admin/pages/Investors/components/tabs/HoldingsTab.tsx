@@ -33,7 +33,8 @@ export const HoldingsTab: React.FC<HoldingsTabProps> = ({
     return <NoDataRow colSpan={7} message="No holdings found for this account." />;
   }
 
-  const totalWeightage = holdings.reduce((sum, h) => sum + (parseFloat(h.portfolioWeightage || '0') || 0), 0);
+  // Get totalWeightage from investment holdings (from API)
+  const totalWeightage = holdings.length > 0 ? parseFloat(holdings[0]?.totalWeightage || '0') || 0 : 0;
 
   return (
     <div className="space-y-4">

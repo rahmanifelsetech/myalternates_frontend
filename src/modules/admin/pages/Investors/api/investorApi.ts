@@ -19,17 +19,22 @@ interface InvestmentAccount {
   updatedAt: string;
 }
 
-interface Transaction {
+export interface Transaction {
   id: string;
   investmentId: string;
   investment: {
     scheme: {
+      schemeId: string;
       schemeName: string;
+      schemeCode?: string;
     };
     product: {
+      productId: string;
       name: string;
+      code?: string;
     };
     amc: {
+      amcId: string;
       name: string;
     };
   }
@@ -38,7 +43,7 @@ interface Transaction {
   schemeName?: string;
   orderDate: string;
   valuationDate: string | null;
-  transactionType: 'Withdrawn' | 'Addition';
+  transactionType: 'Withdrawn' | 'Addition' | 'Initial Purchase' | 'Drawdown';
   amount: string;
   capitalCommitment: string | null;
   capitalCalled: string | null;
@@ -191,6 +196,18 @@ const investorApi = investorApiWithTags.injectEndpoints({
       }),
       invalidatesTags: ["Investors"],
     }),
+    sendWelcomeMail: builder.mutation<{ message: string }, string>({
+      query: (investorId) => ({
+        url: `/investors/${investorId}/send-welcome-mail`,
+        method: 'POST',
+      }),
+    }),
+    resetPassword: builder.mutation<{ message: string }, string>({
+      query: (investorId) => ({
+        url: `/investors/${investorId}/reset-password`,
+        method: 'POST',
+      }),
+    }),
   }),
 });
 export const {
@@ -209,4 +226,6 @@ export const {
     useGetAccountInvestmentsQuery,
     useGetAccountDailyValuationsQuery,
     useGetAccountTransactionsQuery,
+    useSendWelcomeMailMutation,
+    useResetPasswordMutation,
 } = investorApi;

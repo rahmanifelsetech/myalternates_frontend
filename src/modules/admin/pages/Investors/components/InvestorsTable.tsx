@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Investor } from '../types/investor';
 import {
   Table,
@@ -13,19 +13,46 @@ import { CanAccess } from '@shared/components/common/CanAccess';
 import { PERMISSIONS } from '@shared/constants/permissions';
 import { IconButton } from '@shared/components/ui/button/IconButton';
 import Button from '@shared/components/ui/button/Button';
-import { PencilIcon, TrashBinIcon, EyeIcon } from '@shared/icons';
+import { PencilIcon, TrashBinIcon, EyeIcon, VerticalDotsIcon, MailIcon, LockIcon } from '@shared/icons';
 import NoDataRow from '@/shared/components/common/NoDataRow';
 import { formatDate } from '@/shared/utils/dateUtils';
+import { Dropdown } from '@/shared/components/ui/dropdown/Dropdown';
+import { DropdownItem } from '@/shared/components/ui/dropdown/DropdownItem';
 
 interface InvestorsTableProps {
   investors: Investor[];
   isLoading: boolean;
   onEdit: (investor: Investor) => void;
   onDelete: (id: string) => void;
+  onSendWelcomeMail?: (investor: Investor) => void;
+  onResetPassword?: (investor: Investor) => void;
 }
 
-export const InvestorsTable: React.FC<InvestorsTableProps> = ({ investors, isLoading, onEdit, onDelete }) => {
+export const InvestorsTable: React.FC<InvestorsTableProps> = ({ investors, isLoading, onEdit, onDelete, onSendWelcomeMail, onResetPassword }) => {
   const navigate = useNavigate();
+  const [openDropdownId, setOpenDropdownId] = useState<string | null>(null);
+
+  const toggleDropdown = (id: string) => {
+    setOpenDropdownId(openDropdownId === id ? null : id);
+  };
+
+  const closeDropdown = () => {
+    setOpenDropdownId(null);
+  };
+
+  const handleSendWelcomeMail = (investor: Investor) => {
+    if (onSendWelcomeMail) {
+      onSendWelcomeMail(investor);
+    }
+    closeDropdown();
+  };
+
+  const handleResetPassword = (investor: Investor) => {
+    if (onResetPassword) {
+      onResetPassword(investor);
+    }
+    closeDropdown();
+  };
 
   if (isLoading) {
     return <div className="p-4 text-center">Loading investors...</div>;
@@ -113,20 +140,44 @@ export const InvestorsTable: React.FC<InvestorsTableProps> = ({ investors, isLoa
                         icon={<EyeIcon className="size-5" />}
                         title="View Details"
                       />
-                      {/* <CanAccess any={[PERMISSIONS.INVESTORS.UPDATE]}>
+                      <div className="relative">
                         <IconButton
-                          onClick={() => onEdit(investor)}
-                          className="hover:text-primary"
-                          icon={<PencilIcon className="size-5" />}
+                          onClick={() => toggleDropdown(investor.id)}
+                          className={`hover:text-brand-600 ${openDropdownId === investor.id ? 'text-brand-600' : ''}`}
+                          icon={<VerticalDotsIcon className="size-5" />}
+                          title='Actions'
                         />
-                      </CanAccess>
-                      <CanAccess any={[PERMISSIONS.INVESTORS.DELETE]}>
-                        <IconButton
-                          onClick={() => onDelete(investor.id) }
-                          className="hover:text-error-500"
-                          icon={<TrashBinIcon className="size-5" />}
-                        />
-                      </CanAccess> */}
+                        <Dropdown
+                          isOpen={openDropdownId === investor.id}
+                          onClose={closeDropdown}
+                          className="absolute right-0 mt-1 w-48"
+                        >
+                          <ul className="py-1">
+                            {onSendWelcomeMail && (
+                              <li>
+                                <DropdownItem
+                                  onItemClick={() => handleSendWelcomeMail(investor)}
+                                  className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                >
+                                  <MailIcon className="size-4" />
+                                  Send Welcome Mail
+                                </DropdownItem>
+                              </li>
+                            )}
+                            {/* {onResetPassword && (
+                              <li>
+                                <DropdownItem
+                                  onItemClick={() => handleResetPassword(investor)}
+                                  className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                >
+                                  <LockIcon className="size-4" />
+                                  Reset Password
+                                </DropdownItem>
+                              </li>
+                            )} */}
+                          </ul>
+                        </Dropdown>
+                      </div>
                     </div>
                   </TableCell>
                 </TableRow>

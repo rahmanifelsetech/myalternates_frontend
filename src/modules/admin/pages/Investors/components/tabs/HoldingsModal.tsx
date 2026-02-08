@@ -173,12 +173,18 @@ export const HoldingsModal: React.FC<HoldingsModalProps> = ({
     onClose();
   };
 
-  // Calculate totals - Cash Equivalent auto-adjusts to maintain 100%
+  // Calculate totals - Get totalWeightage from investment holdings
   const stockWeightage = holdings.reduce((sum, h) => sum + (parseFloat(editedHoldings[h.holdingId]?.portfolioWeightage || h.portfolioWeightage || '0') || 0), 0);
   const newHoldingsWeightage = newHoldings.reduce((sum, h) => sum + (parseFloat(h.portfolioWeightage || '0') || 0), 0);
-  // Cash Equivalent auto-adjusts to maintain 100%
-  const calculatedCashEquivalent = Math.max(0, 100 - (stockWeightage + newHoldingsWeightage));
-  const totalWeightage = stockWeightage + newHoldingsWeightage + calculatedCashEquivalent;
+  
+  // Get totalWeightage from investment holdings (from API)
+  const totalWeightageFromHoldings = holdings.length > 0 ? parseFloat(holdings[0]?.totalWeightage || '0') || 0 : 0;
+  
+  // If new holdings exist, calculate based on stock + new holdings
+  // Otherwise, use totalWeightage from investment holdings
+  const hasNewHoldings = newHoldings.length > 0;
+  const cashEquivalent = Math.max(0, 100 - (hasNewHoldings ? stockWeightage + newHoldingsWeightage : stockWeightage));
+  const displayedTotalWeightage = stockWeightage + (hasNewHoldings ? newHoldingsWeightage : 0) + cashEquivalent;
 
   // Handle adding market list entry
   const handleAddMarketList = (isin: string, holdingId: string) => {
@@ -375,14 +381,6 @@ export const HoldingsModal: React.FC<HoldingsModalProps> = ({
           )}
 
           <div className="rounded-lg border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-800/50">
-            <div className="flex items-center justify-between">
-              <span className={`${typographyClasses.body.default} ${typographyClasses.colors.text.muted}`}>
-                Stock Weightage:
-              </span>
-              <span className={`${typographyClasses.heading.h5} ${typographyClasses.colors.text.primary}`}>
-                {stockWeightage.toFixed(2)}%
-              </span>
-            </div>
             {newHoldings.length > 0 && (
               <div className="mt-2 flex items-center justify-between">
                 <span className={`${typographyClasses.body.default} ${typographyClasses.colors.text.muted}`}>
@@ -395,18 +393,26 @@ export const HoldingsModal: React.FC<HoldingsModalProps> = ({
             )}
             <div className="mt-2 flex items-center justify-between">
               <span className={`${typographyClasses.body.default} ${typographyClasses.colors.text.muted}`}>
-                Cash Equivalent:
+                Stock Weightage:
               </span>
               <span className={`${typographyClasses.heading.h5} ${typographyClasses.colors.text.primary}`}>
-                {calculatedCashEquivalent.toFixed(2)}%
+                {stockWeightage.toFixed(2)}%
               </span>
             </div>
             <div className="mt-2 flex items-center justify-between">
               <span className={`${typographyClasses.body.default} ${typographyClasses.colors.text.muted}`}>
+                Cash Equivalent:
+              </span>
+              <span className={`${typographyClasses.heading.h5} ${typographyClasses.colors.text.primary}`}>
+                {cashEquivalent.toFixed(2)}%
+              </span>
+            </div>
+            <div className="mt-2 flex items-center justify-between border-t-2 border-gray-200 pt-2 dark:border-gray-700">
+              <span className={`${typographyClasses.body.default} ${typographyClasses.colors.text.muted}`}>
                 Total Weightage:
               </span>
-              <span className={`border-t-4 pt-2 ${typographyClasses.heading.h5} ${typographyClasses.colors.text.primary}`}>
-                {totalWeightage.toFixed(2)}%
+              <span className={`${typographyClasses.heading.h5} ${typographyClasses.colors.text.primary}`}>
+                {displayedTotalWeightage.toFixed(2)}%
               </span>
             </div>
           </div>
