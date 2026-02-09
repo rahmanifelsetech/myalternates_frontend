@@ -4,7 +4,7 @@ import { Valuation, ValuationsResponse } from "../types/valuation";
 import { Holding, HoldingsResponse } from "../types/holding";
 import { Investment, InvestmentsResponse } from "../types/investment";
 
-interface InvestmentAccount {
+export interface InvestmentAccount {
   id: string;
   investorId: string;
   modeOfHolding: 'SINGLE' | 'JOINT';
@@ -12,9 +12,13 @@ interface InvestmentAccount {
   isActive: boolean;
   totalNetInvested: string;
   currentPortfolioValue: string;
-  totalCapitalCalled: string;
+  totalCapitalCalledINR: string;
+  totalCapitalCalledUSD: string;
+  totalCapitalCommitmentINR: string;
+  totalCapitalCommitmentUSD: string;
   totalInflows: string;
   totalOutflows: string;
+  totalInvestments: number;
   createdAt: string;
   updatedAt: string;
 }

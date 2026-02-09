@@ -21,8 +21,9 @@ export interface Investment {
   pendingCapital?: string | null;
   capitalCommitment?: string | null;
   commitmentCurrency?: string | null;
-  netInvestment?: string | null;
   currentValue?: string | null;
+  totalInflows?: string | null;
+  totalOutflows?: string | null;
   createdAt: string;
 }
 

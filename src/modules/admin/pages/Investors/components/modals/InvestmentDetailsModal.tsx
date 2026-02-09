@@ -5,6 +5,7 @@ import Button from '@/shared/components/ui/button/Button';
 import { typographyClasses } from '@shared/utils/typographyUtils';
 import { Investment } from '../../types/investment';
 import { Holding } from '../../types/holding';
+import { formatDate } from '@shared/utils/dateUtils';
 
 interface InvestmentDetailsModalProps {
   isOpen: boolean;
@@ -92,20 +93,36 @@ export const InvestmentDetailsModal: React.FC<InvestmentDetailsModalProps> = ({
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <p className={`${typographyClasses.body.caption} ${typographyClasses.colors.text.muted} mb-1`}>
-                      Capital Called
+                      Capital Called ({investment.commitmentCurrency || 'N/A'})
                     </p>
                     <p className={`${typographyClasses.heading.h5} ${typographyClasses.colors.text.primary} font-bold`}>
                       {formatCurrency(investment.capitalCalled, investment.commitmentCurrency)}
                     </p>
                   </div>
+                  {/* <div>
+                    <p className={`${typographyClasses.body.caption} ${typographyClasses.colors.text.muted} mb-1`}>
+                      Capital Called (USD)
+                    </p>
+                    <p className={`${typographyClasses.heading.h5} ${typographyClasses.colors.text.primary} font-bold`}>
+                      {formatCurrency(investment.capitalCalledUSD)}
+                    </p>
+                  </div> */}
                   <div>
                     <p className={`${typographyClasses.body.caption} ${typographyClasses.colors.text.muted} mb-1`}>
-                      Capital Commitment
+                      Capital Commitment ({investment.commitmentCurrency || 'N/A'})
                     </p>
                     <p className={`${typographyClasses.heading.h5} ${typographyClasses.colors.text.primary} font-bold`}>
                       {formatCurrency(investment.capitalCommitment, investment.commitmentCurrency)}
                     </p>
                   </div>
+                  {/* <div>
+                    <p className={`${typographyClasses.body.caption} ${typographyClasses.colors.text.muted} mb-1`}>
+                      Capital Commitment (USD)
+                    </p>
+                    <p className={`${typographyClasses.heading.h5} ${typographyClasses.colors.text.primary} font-bold`}>
+                      {formatCurrency(investment.capitalCommitmentUSD)}
+                    </p>
+                  </div> */}
                   <div>
                     <p className={`${typographyClasses.body.caption} ${typographyClasses.colors.text.muted} mb-1`}>
                       Pending Capital
@@ -132,7 +149,7 @@ export const InvestmentDetailsModal: React.FC<InvestmentDetailsModalProps> = ({
                     Net Investment
                   </p>
                   <p className={`${typographyClasses.heading.h4} font-bold text-green-600`}>
-                    {formatCurrency(investment.netInvestment)}
+                    {formatCurrency((Number(investment.totalInflows) - Number(investment.totalOutflows)).toString(), investment.commitmentCurrency)}
                   </p>
                 </div>
                 <div className="rounded-xl bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800/50 p-4">

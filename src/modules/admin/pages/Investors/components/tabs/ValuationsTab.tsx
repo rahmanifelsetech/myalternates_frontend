@@ -216,7 +216,7 @@ export const ValuationsTab: React.FC<ValuationsTabProps> = ({
                 <DatePicker
                   id="startDate"
                   value={filters.startDate}
-                  onChange={(value) => handleFilterChange('startDate', value)}
+                  onChange={(_dates, dateStr) => handleFilterChange('startDate', dateStr)}
                   error={!!errors.startDate}
                   hint={errors.startDate}
                 />
@@ -226,7 +226,7 @@ export const ValuationsTab: React.FC<ValuationsTabProps> = ({
                  <DatePicker
                   id="endDate"
                   value={filters.endDate}
-                  onChange={(value) => handleFilterChange('endDate', value)}
+                  onChange={(_dates, dateStr) => handleFilterChange('endDate', dateStr)}
                   error={!!errors.endDate}
                   hint={errors.endDate}
                 />

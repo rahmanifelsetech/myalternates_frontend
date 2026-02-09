@@ -7,11 +7,12 @@ import {
   useGetAccountInvestmentsQuery,
   useGetAccountTransactionsQuery,
   useGetAccountDailyValuationsQuery,
+  InvestmentAccount,
 } from './api/investorApi';
 import { useInvestors } from './hooks/useInvestors';
 import { InvestorProfile } from './components/detail/InvestorProfile';
 import { DetailTabs } from './components/detail/DetailTabs';
-import { AccountSelector, InvestmentAccount } from './components/detail/AccountSelector';
+import { AccountSelector } from './components/detail/AccountSelector';
 import { InvestmentsTab } from './components/tabs/InvestmentsTab';
 import { HoldingsTab } from './components/tabs/HoldingsTab';
 import { TransactionsTab } from './components/tabs/TransactionsTab';
@@ -28,7 +29,7 @@ const InvestorDetail: React.FC = () => {
   const navigate = useNavigate();
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [activeTab, setActiveTab] = useState('info');
-  const [selectedAccountId, setSelectedAccountId] = useState<string | null>(null);
+  const [selectedAccount, setSelectedAccount] = useState<InvestmentAccount | null>(null);
 
   // API Calls - Investor Profile
   const { data: investorData, isLoading: isFetching } = useGetInvestorByIdQuery(id!, {
@@ -55,30 +56,30 @@ const InvestorDetail: React.FC = () => {
 
   // Set default account if not already set
   React.useEffect(() => {
-    if (accountsData?.data?.data && accountsData.data.data.length > 0 && !selectedAccountId) {
+    if (accountsData?.data?.data && accountsData.data.data.length > 0 && !selectedAccount) {
       console.log('✓ Auto-selecting first account:', accountsData.data.data[0].id);
-      setSelectedAccountId(accountsData.data.data[0].id);
+      setSelectedAccount(accountsData.data.data[0]);
     }
-  }, [accountsData, selectedAccountId]);
+  }, [accountsData, selectedAccount]);
 
   // Fetch holdings for selected account
   const { data: holdingsData, isLoading: isFetchingHoldings, refetch: refetchHoldings } = useGetAccountHoldingsQuery(
     {
       investorId: id!,
-      accountId: selectedAccountId!,
+      accountId: selectedAccount?.id!,
     },
     {
-      skip: !id || !selectedAccountId,
+      skip: !id || !selectedAccount?.id,
     }
   );
   // Fetch holdings for selected account
   const { data: valuationssData, isLoading: isFetchingValuations } = useGetAccountDailyValuationsQuery(
     {
       investorId: id!,
-      accountId: selectedAccountId!,
+      accountId: selectedAccount?.id!,
     },
     {
-      skip: !id || !selectedAccountId,
+      skip: !id || !selectedAccount?.id,
     }
   );
 
@@ -86,10 +87,10 @@ const InvestorDetail: React.FC = () => {
   const { data: investmentsData, isLoading: isFetchingInvestments } = useGetAccountInvestmentsQuery(
     {
       investorId: id!,
-      accountId: selectedAccountId!,
+      accountId: selectedAccount?.id!,
     },
     {
-      skip: !id || !selectedAccountId,
+      skip: !id || !selectedAccount?.id,
     }
   );
 
@@ -97,11 +98,11 @@ const InvestorDetail: React.FC = () => {
   const { data: transactionsData, isLoading: isFetchingTransactions } = useGetAccountTransactionsQuery(
     {
       investorId: id!,
-      accountId: selectedAccountId!,
+      accountId: selectedAccount?.id!,
       limit: 100,
     },
     {
-      skip: !id || !selectedAccountId,
+      skip: !id || !selectedAccount?.id,
     }
   );
 
@@ -181,15 +182,18 @@ const InvestorDetail: React.FC = () => {
         <ComponentCard title={`Investment Accounts (${accounts.length})`}>
           <AccountSelector
             accounts={accounts}
-            selectedAccountId={selectedAccountId || ''}
-            onAccountChange={setSelectedAccountId}
+            selectedAccountId={selectedAccount?.id || ''}
+            onAccountChange={(accountId) => {
+              const account = accounts.find(a => a.id === accountId);
+              if (account) setSelectedAccount(account);
+            }}
             isLoading={isFetchingAccounts}
           />
         </ComponentCard>
       )}
 
       {/* Tabs Section */}
-      {selectedAccountId && (
+      {selectedAccount && (
         <CanAccess any={[PERMISSIONS.INVESTORS.READ]}>
           <DetailTabs tabs={tabs} activeTabId={activeTab} onTabChange={setActiveTab}>
             {activeTab === 'info' && (
@@ -202,7 +206,7 @@ const InvestorDetail: React.FC = () => {
             {activeTab === 'investments' && (
               <InvestmentsTab
                 investorId={id!}
-                accountId={selectedAccountId}
+                accountId={selectedAccount?.id}
                 investments={investments}
                 holdings={holdings}
                 isLoading={isFetchingInvestments}
@@ -212,7 +216,7 @@ const InvestorDetail: React.FC = () => {
             {activeTab === 'holdings' && (
               <HoldingsTab
                 investorId={id!}
-                accountId={selectedAccountId}
+                accountId={selectedAccount?.id}
                 holdings={holdings}
                 isLoading={isFetchingHoldings}
               />
@@ -220,7 +224,8 @@ const InvestorDetail: React.FC = () => {
             {activeTab === 'transactions' && (
               <TransactionsTab
                 investorId={id!}
-                accountId={selectedAccountId}
+                accountId={selectedAccount?.id}
+                investmentAccount={selectedAccount}
                 transactions={transactions}
                 isLoading={isFetchingTransactions}
               />
@@ -228,7 +233,7 @@ const InvestorDetail: React.FC = () => {
             {activeTab === 'valuations' && (
               <ValuationsTab
                 investorId={id!}
-                accountId={selectedAccountId}
+                accountId={selectedAccount?.id}
                 valuations={valuations}
                 isLoading={isFetchingValuations}
               />

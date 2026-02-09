@@ -6,13 +6,16 @@ export interface InvestmentAccount {
   id: string;
   modeOfHolding: 'SINGLE' | 'JOINT';
   holderOrderSignature: string | null;
-  totalNetInvested: string;
   currentPortfolioValue: string;
-  totalCapitalCalled: string;
+  totalCapitalCalledINR: string;
+  totalCapitalCalledUSD: string;
+  totalCapitalCommitmentINR: string;
+  totalCapitalCommitmentUSD: string;
   totalInflows: string;
   totalOutflows: string;
   totalInvestments?: number;
   isActive?: boolean;
+  createdAt?: string;
 }
 
 interface AccountSelectorProps {
@@ -21,8 +24,10 @@ interface AccountSelectorProps {
   onAccountChange: (accountId: string) => void;
   isLoading?: boolean;
 }
-const formatCurrency = (value: number | string) => {
+const formatCurrency = (value: number | string, currency: 'INR' | 'USD' = 'INR') => {
   if (value === null || value === undefined || value === '') return 'N/A';
+
+  const currSymbol = currency === 'USD' ? '$' : '₹';
 
   const num = Number(value);
   if (isNaN(num)) return 'N/A';
@@ -31,18 +36,18 @@ const formatCurrency = (value: number | string) => {
   const sign = num < 0 ? '-' : '';
 
   if (abs >= 1e7) {
-    return `${sign}₹${(abs / 1e7).toFixed(2)}Cr`;
+    return `${sign}${currSymbol}${(abs / 1e7).toFixed(2)}Cr`;
   }
 
   if (abs >= 1e5) {
-    return `${sign}₹${(abs / 1e5).toFixed(2)}L`;
+    return `${sign}${currSymbol}${(abs / 1e5).toFixed(2)}L`;
   }
 
   if (abs >= 1e3) {
-    return `${sign}₹${(abs / 1e3).toFixed(1)}k`;
+    return `${sign}${currSymbol}${(abs / 1e3).toFixed(1)}k`;
   }
 
-  return `${sign}₹${abs.toFixed(0)}`;
+  return `${sign}${currSymbol}${abs.toFixed(0)}`;
 };
 
 
@@ -112,7 +117,7 @@ export const AccountSelector: React.FC<AccountSelectorProps> = ({
                   Net Invested
                 </p>
                 <p className={`${typographyClasses.body.small} font-bold ${typographyClasses.colors.text.primary}`}>
-                  {formatCurrency(account.totalNetInvested)}
+                  {formatCurrency(Number(account.totalInflows) - Number(account.totalOutflows))}
                 </p>
               </div>
               <div>
@@ -135,9 +140,11 @@ export const AccountSelector: React.FC<AccountSelectorProps> = ({
                 <span className="text-gray-400">Out: </span>
                 <span className="text-gray-600 dark:text-gray-300">{formatCurrency(account.totalOutflows)}</span>
               </div>
-              <div className="truncate">
+              <div className="">
                 <span className="text-gray-400">Called: </span>
-                <span className="text-gray-600 dark:text-gray-300">{formatCurrency(account.totalCapitalCalled)}</span>
+                <span className="text-gray-600 dark:text-gray-300">{formatCurrency(account.totalCapitalCalledINR, 'INR')}</span>
+                <span className="text-gray-400"> / </span>
+                <span className="text-gray-600 dark:text-gray-300">{formatCurrency(account.totalCapitalCalledUSD, 'USD')}</span>
               </div>
             </div>
           </button>

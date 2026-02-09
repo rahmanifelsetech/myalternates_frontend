@@ -16,7 +16,7 @@ import Input from '@shared/components/form/input/InputField';
 import Select from '@shared/components/form/Select';
 import Label from '@shared/components/form/Label';
 import { DownloadIcon } from '@shared/icons';
-import { Transaction } from '../../api/investorApi';
+import { Transaction, InvestmentAccount } from '../../api/investorApi';
 import { ApiService } from '@shared/services/ApiService';
 
 export interface TransactionDownloadFilters {
@@ -33,6 +33,7 @@ interface TransactionsTabProps {
   investorId: string;
   accountId?: string;
   investmentAccountId?: string;
+  investmentAccount?: InvestmentAccount;
   transactions?: Transaction[];
   isLoading?: boolean;
   onDownload?: (filters: TransactionDownloadFilters) => void;
@@ -43,6 +44,7 @@ export const TransactionsTab: React.FC<TransactionsTabProps> = ({
   investorId,
   accountId,
   investmentAccountId,
+  investmentAccount,
   transactions = [],
   isLoading = false,
   onDownload,
@@ -178,24 +180,28 @@ export const TransactionsTab: React.FC<TransactionsTabProps> = ({
       </div>
 
       {/* Summary Cards */}
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
         <FlowSummaryCard 
           label="Total Inflows"
-          count={inflowCount}
-          amount={totalInflows}
+          amount={parseFloat(investmentAccount?.totalInflows || '0')}
           type="inflow"
         />
         <FlowSummaryCard 
           label="Total Outflows"
-          count={outflowCount}
-          amount={totalOutflows}
+          amount={parseFloat(investmentAccount?.totalOutflows || '0')}
           type="outflow"
         />
         <FlowSummaryCard 
-          label="Total Drawdowns"
-          count={drawdownCount}
-          amount={totalDrawdowns}
-          type="drawdown"
+          label="Total Capital Commitment"
+          amount={parseFloat(investmentAccount?.totalCapitalCommitmentINR || '0')}
+          secondaryAmount={parseFloat(investmentAccount?.totalCapitalCommitmentUSD || '0')}
+          type="commitment"
+        />
+        <FlowSummaryCard 
+          label="Total Capital Called"
+          amount={parseFloat(investmentAccount?.totalCapitalCalledINR || '0')}
+          secondaryAmount={parseFloat(investmentAccount?.totalCapitalCalledUSD || '0')}
+          type="called"
         />
       </div>
 
@@ -378,12 +384,12 @@ export const TransactionsTab: React.FC<TransactionsTabProps> = ({
 
 interface FlowSummaryCardProps {
   label: string;
-  count: number;
   amount: number;
-  type: 'inflow' | 'outflow' | 'drawdown';
+  secondaryAmount?: number;
+  type: 'inflow' | 'outflow' | 'drawdown' | 'commitment' | 'called';
 }
 
-const FlowSummaryCard: React.FC<FlowSummaryCardProps> = ({ label, count, amount, type }) => {
+const FlowSummaryCard: React.FC<FlowSummaryCardProps> = ({ label, amount, secondaryAmount, type }) => {
   const getTypeColor = () => {
     switch (type) {
       case 'inflow':
@@ -392,6 +398,10 @@ const FlowSummaryCard: React.FC<FlowSummaryCardProps> = ({ label, count, amount,
         return 'text-red-600 dark:text-red-400';
       case 'drawdown':
         return 'text-amber-600 dark:text-amber-400';
+      case 'commitment':
+        return 'text-blue-600 dark:text-blue-400';
+      case 'called':
+        return 'text-purple-600 dark:text-purple-400';
       default:
         return 'text-gray-900 dark:text-white';
     }
@@ -402,23 +412,19 @@ const FlowSummaryCard: React.FC<FlowSummaryCardProps> = ({ label, count, amount,
       <p className={`${typographyClasses.body.small} ${typographyClasses.colors.text.muted} mb-3`}>
         {label}
       </p>
-      <div className="flex items-end justify-between">
+      <div className="flex items-center justify-between">
         <div>
-          <p className={`${typographyClasses.heading.h4} ${typographyClasses.colors.text.primary}`}>
-            {count}
-          </p>
-          <p className={`${typographyClasses.body.caption} ${typographyClasses.colors.text.muted}`}>
-            Transactions
-          </p>
-        </div>
-        <div className="text-right">
           <p className={`${typographyClasses.heading.h4} ${getTypeColor()}`}>
             ₹{amount?.toLocaleString('en-IN', { maximumFractionDigits: 2 }) || 0}
           </p>
-          <p className={`${typographyClasses.body.caption} ${typographyClasses.colors.text.muted}`}>
-            Total Amount
-          </p>
         </div>
+        {secondaryAmount !== undefined && (
+          <div>
+            <p className={`${typographyClasses.heading.h4} ${getTypeColor()}`}>
+              ${secondaryAmount?.toLocaleString('en-IN', { maximumFractionDigits: 2 }) || 0}
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );
