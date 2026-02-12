@@ -1,7 +1,7 @@
 import { typographyClasses } from '@shared/utils/typographyUtils';
 
 type BadgeVariant = "light" | "solid";
-type BadgeSize = "sm" | "md";
+type BadgeSize = "xs" | "sm" | "md";
 type BadgeColor =
   | "primary"
   | "success"
@@ -33,6 +33,7 @@ const Badge: React.FC<BadgeProps> = ({
 
   // Define size styles - using standardized typography
   const sizeStyles = {
+    xs: `text-[10px] ${typographyClasses.body.xsmall}`,
     sm: `text-[12px] ${typographyClasses.component.badge}`,
     md: typographyClasses.component.badge,
   };

@@ -4,9 +4,19 @@ import { useAuth } from '@/modules/open/auth/hooks/useAuth';
 import appConfig from '@shared/config/app.config';
 
 export const RoleRedirector = () => {
-  const { user, isAuthenticated, loading } = useAuth();
+  const { user, isAuthenticated, loading, fetchUserDetails } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+
+
+  useEffect(() => {
+    console.log('RoleRedirector - user:', user);
+
+    if(isAuthenticated && user && !loading) {
+      // Fetch user details if authenticated but user details are not loaded yet
+      fetchUserDetails(user);
+    }
+  }, [isAuthenticated, loading, user]);
 
   useEffect(() => {
     if (loading) return;
@@ -15,8 +25,6 @@ export const RoleRedirector = () => {
       navigate(appConfig.unAuthenticatedEntryPath, { state: { from: location } });
       return;
     }
-
-    console.log('RoleRedirector - user:', user);
 
     if (user) {
       // Check 'appType' field first (Admin | Investor | Distributor)

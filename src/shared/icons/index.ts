@@ -60,6 +60,11 @@ import { ReactComponent as SettingsIcon } from "./settings.svg?react";
 import { ReactComponent as LogOutIcon } from "./logout.svg?react";
 import { ReactComponent as SyncIcon } from "./sync.svg?react";
 import { ReactComponent as VerticalDotsIcon } from "./vertical-dots.svg?react";
+import { ReactComponent as ModIcon } from "./mod.svg?react";
+import { ReactComponent as GrowthArrowIcon } from "./growthArrow.svg?react";
+import { ReactComponent as WalletIcon } from "./wallet.svg?react";
+import { ReactComponent as ArrowUpCircleIcon } from "./arrow-up-circle.svg?react";
+import { ReactComponent as ArrowDownCircleIcon } from "./arrow-down-circle.svg?react";
 
 export {
   ErrorHexaIcon,
@@ -123,5 +128,10 @@ export {
   SettingsIcon,
   LogOutIcon,
   SyncIcon,
-  VerticalDotsIcon
+  VerticalDotsIcon,
+  ModIcon,
+  GrowthArrowIcon,
+  WalletIcon,
+  ArrowUpCircleIcon,
+  ArrowDownCircleIcon
 };

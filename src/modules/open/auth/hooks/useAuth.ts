@@ -1,15 +1,44 @@
 import { useAppDispatch, useAppSelector } from '@shared/hooks/useRedux';
-import { setLoading, setUser, setToken, setError, logout as logoutAction, clearError } from '@/modules/open/auth/store/authSlice';
+import { setLoading, setUser, setDetails, setToken, setError, logout as logoutAction, clearError, UserDetails } from '@/modules/open/auth/store/authSlice';
 import authService from '@/modules/open/auth/api/authService';
+import userDetailsService from '@/modules/open/auth/api/userDetailsService';
 import type { SignInFormData, SignUpStep1Data, SignUpStep2Data, ChangePasswordFormData } from '@/modules/open/auth/schema/auth.schemas';
-import { IdentifierPayload, OtpPayload, SetNewPasswordFormData, SignInWithPasswordData } from '../types/auth';
+import { IdentifierPayload, OtpPayload, SetNewPasswordFormData, SignInWithPasswordData, UserDetailsResponse } from '../types/auth';
 import { useToast } from '@shared/hooks/useToast';
+import type { User } from '@shared/types/user';
 
 export const useAuth = () => {
   const dispatch = useAppDispatch();
   const { success: toastSuccess, error: toastError } = useToast();
-  const { user, token, loading, error } = useAppSelector((state) => state.auth);
+  const { user, details, token, loading, error } = useAppSelector((state) => state.auth);
   const isAuthenticated = !!token;
+
+  /**
+   * Fetch user details based on personId and appType
+   * Returns person details for admin users
+   * Returns investorObj with person for investor users
+   * Returns distributorObj with person for distributor users
+   */
+  const fetchUserDetails = async (userData: User): Promise<UserDetailsResponse | null> => {
+    try {
+      // The userData should have personId from the initial login response
+      const personId = userData.personId;
+      const appType = userData.appType;
+
+      if (!personId || !appType) {
+        console.warn('Missing personId or appType for fetching user details');
+        return null;
+      }
+
+      const details = await userDetailsService.getUserDetails(personId, appType);
+      dispatch(setDetails(details.data));
+      return details;
+    } catch (err: any) {
+      console.error('Failed to fetch user details:', err);
+      // Don't show error toast as this is not critical
+      return null;
+    }
+  };
 
   /**
    * Sign in user with email and password
@@ -243,6 +272,7 @@ export const useAuth = () => {
   return {
     // State
     user,
+    details,
     token,
     isAuthenticated,
     loading,
@@ -256,9 +286,10 @@ export const useAuth = () => {
     verifyOtp,
     resetPassword,
     registerStep1,
-  registerStep2,
+    registerStep2,
     signOut,
     changePassword,
     clearError: () => dispatch(clearError()),
+    fetchUserDetails,
   };
 };

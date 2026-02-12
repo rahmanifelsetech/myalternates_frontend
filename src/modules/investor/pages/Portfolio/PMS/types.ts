@@ -1,104 +1,74 @@
-// PMS Portfolio Types
+import type { ListResponse, SingleResponse } from '@shared/types/api';
 
-export interface PMSAccount {
+// PMS Account
+export interface PMSInvestedSchemes {
   id: string;
-  accountNumber: string;
-  accountName: string;
-  aum: number;
-  nav: number;
-  navDate: string;
-  value: number;
-  cost: number;
-  unrealizedGain: number;
-  unrealizedGainPercent: number;
-  realizedGain: number;
-  totalGain: number;
-  status: 'ACTIVE' | 'INACTIVE' | 'CLOSED';
-  inceptionDate: string;
-  schemeName: string;
-  amcName: string;
-  schemeType: string;
-  returnsSi: number;
+  amcClientCode: string;
+  status: string;
+  currentValue: string;
+  totalInflows: string;
+  totalOutflows: string;
+  createdAt: string;
+  product: {
+    id: string;
+    name: string;
+    code: string;
+  };
+  scheme: {
+    id: string;
+    schemeName: string;
+    schemeCode: string;
+    schemeType: string;
+    schemeInceptionDate: string;
+  };
+  amc: {
+    id: string;
+    name: string;
+    amcCode: string;
+  };
 }
 
-export interface PMSHolding {
-  id: string;
-  accountId: string;
-  instrumentName: string;
-  instrumentType: string;
-  quantity: number;
-  averageCost: number;
-  currentPrice: number;
-  marketValue: number;
-  unrealizedGain: number;
-  unrealizedGainPercent: number;
-  weight: number;
+export interface PMSTopHoldings {
+  companyName: string;
+  isinCode: string;
+  portfolioWeightage: string;
+}
+export interface PMSTopSectorHoldings {
+  sector: string;
+  portfolioWeightage: number;
 }
 
 export interface PMSTransaction {
   id: string;
-  accountId: string;
-  date: string;
-  type: 'BUY' | 'SELL' | 'DIVIDEND' | 'DEPOSIT' | 'WITHDRAWAL';
-  instrumentName: string;
-  quantity: number;
-  price: number;
-  amount: number;
-  nav: number;
-  units: number;
+  investmentId: string;
+  amcClientCode: string;
+  orderDate: string;
+  valuationDate: string;
+  transactionType: string;
+  amount: string;
+  remarks: string;
 }
 
-export interface PMSValuation {
-  id: string;
-  accountId: string;
-  date: string;
-  aum: number;
-  nav: number;
-  value: number;
-  cost: number;
-  unrealizedGain: number;
-  realizedGain: number;
-  totalGain: number;
+// Dashboard Summary
+export interface PMSDashboardSummary {
+  product: string;
+  summary: {
+    accountId: string;
+    currentValuation: string;
+    totalInflows: string;
+    totalOutflows: string;
+    dayChange: string;
+    xirr: number;
+  };
+  diversification: {
+    amcCount: number;
+    schemeCount: number;
+  };
 }
 
-export interface PMSPerformanceSummary {
-  totalAUM: number;
-  totalCost: number;
-  totalValue: number;
-  totalUnrealizedGain: number;
-  totalRealizedGain: number;
-  totalGain: number;
-  overallReturn: number;
-  accountCount: number;
-}
-
-// Investment Account API Response Structure
-export interface PMSInvestmentAccount {
-  pmsCurrentValuation: number;
-  pmsTotalInflows: number;
-  pmsTotalOutflows: number;
-  pmsNetInvestment: number;
-  pmsDayChange: number;
-  pmsDayChangePercent: number;
-  pmsXirr: number;
-  noOfPmsAmcs: number;
-  noOfPmsStrategies: number;
-}
-
-// Summary Card Types
-export interface SummaryCardProps {
-  label: string;
-  value: string | number;
-  prefix?: string;
-  suffix?: string;
-  valueColor?: 'primary' | 'success' | 'error' | 'warning';
-  icon?: React.ReactNode;
-}
-
-export interface StatCardProps {
-  label: string;
-  value: number;
-  prefix?: string;
-  suffix?: string;
-  valueColor?: 'primary' | 'success' | 'error' | 'warning';
-}
+// API Response Types
+export type PMSDashboardResponse = SingleResponse<PMSDashboardSummary>;
+export type PMSInvestedSchemesResponse = ListResponse<PMSInvestedSchemes>;
+export type PMSTopHoldingsResponse = ListResponse<PMSTopHoldings>;
+export type PMSTopSectorsResponse = ListResponse<PMSTopSectorHoldings>;
+export type PMSTransactionsResponse = ListResponse<PMSTransaction>;

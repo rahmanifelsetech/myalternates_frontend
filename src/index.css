@@ -340,6 +340,11 @@ layer(base);
 .apexcharts-gridline {
   @apply !stroke-gray-100 dark:!stroke-gray-800;
 }
+
+.apexcharts-tooltip * {
+  @apply !text-white px-[0.5px] py-0;
+}
+
 #chartTwo .apexcharts-datalabels-group {
   @apply !-translate-y-24;
 }

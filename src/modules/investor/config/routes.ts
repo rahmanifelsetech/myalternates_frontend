@@ -1,8 +1,10 @@
 import { lazy } from 'react';
 import { AppRouteConfig } from '@shared/types/route';
 
-const Dashboard = lazy(() => import('@shared/pages/Blank'));
+const Dashboard = lazy(() => import('@modules/investor/pages/Dashboard/Dashboard'));
 const PmsPortfolio = lazy(() => import('@modules/investor/pages/Portfolio/PMS/PmsPortfolio'));
+const MfPortfolio = lazy(() => import('@modules/investor/pages/Portfolio/MF/MfPortfolio'));
+const SifPortfolio = lazy(() => import('@modules/investor/pages/Portfolio/SIF/SifPortfolio'));
 
 export const investorRoutes: AppRouteConfig[] = [
   {
@@ -26,13 +28,13 @@ export const investorRoutes: AppRouteConfig[] = [
   {
     key: 'portfolio-mf',
     path: 'portfolio/mf',
-    component: Dashboard,
+    component: MfPortfolio,
     authority: ['INVESTOR'],
   },
   {
     key: 'portfolio-sif',
     path: 'portfolio/sif',
-    component: Dashboard,
+    component: SifPortfolio,
     authority: ['INVESTOR'],
   },
   {

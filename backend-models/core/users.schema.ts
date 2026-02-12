@@ -1,0 +1,47 @@
+import { relations } from 'drizzle-orm';
+import { pgTable, serial, text, timestamp, varchar, integer, boolean, uuid, pgEnum } from 'drizzle-orm/pg-core';
+import { roles } from './roles.schema';
+import { persons } from '../person';
+
+export const userAppTypeEnum = pgEnum('user_app_type', ['ADMIN', 'INVESTOR', 'DISTRIBUTOR']);
+
+export const users = pgTable('users', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  email: varchar('email', { length: 255 }).unique(),
+  password: text('password'),
+  phone: varchar('phone', { length: 255 }),
+  personId: uuid('person_id').references(() => persons.id),
+  countryCode: varchar('country_code', { length: 20 }),
+  username: varchar('username', { length: 255 }).unique(),
+  userCode: varchar('user_code', { length: 255 }).unique(),
+  firstName: varchar('first_name', { length: 100 }),
+  lastName: varchar('last_name', { length: 100 }),
+  isActive: boolean('is_active').default(true).notNull(),
+  profile: text('profile'),
+  terms: boolean('terms').default(true).notNull(),
+  roleId: uuid('role_id').references(() => roles.id),
+  appType: userAppTypeEnum('app_type'),
+  lastLoginAt: timestamp('last_login_at'),
+  lastActivityAt: timestamp('last_activity_at'),
+  isDeleted: boolean('is_deleted').default(false).notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+  createdById: uuid('created_by_id').references(() => users.id),
+  updatedById: uuid('updated_by_id').references(() => users.id),
+  requiresPasswordChange: boolean('requires_password_change').default(false).notNull(),
+});
+
+export const usersRelations = relations(users, ({ one }) => ({
+  role: one(roles, {
+    fields: [users.roleId],
+    references: [roles.id],
+  }),
+  createdBy: one(users, {
+    fields: [users.createdById],
+    references: [users.id],
+  }),
+  updatedBy: one(users, {
+    fields: [users.updatedById],
+    references: [users.id],
+  }),
+}));
