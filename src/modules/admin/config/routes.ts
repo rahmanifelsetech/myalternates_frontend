@@ -30,6 +30,7 @@ const EditHolder = lazy(() => import('@modules/admin/pages/Holders/EditHolder'))
 const Distributors = lazy(() => import('@modules/admin/pages/Distributors/Distributors'));
 const CreateDistributor = lazy(() => import('@modules/admin/pages/Distributors/CreateDistributor'));
 const EditDistributor = lazy(() => import('@modules/admin/pages/Distributors/EditDistributor'));
+const AdminProfile= lazy(() => import('@modules/admin/pages/AdminProfile/AdminProfile'));
 
 export const adminRoutes: AppRouteConfig[] = [
   {
@@ -86,6 +87,8 @@ export const adminRoutes: AppRouteConfig[] = [
     component: Investors,
     authority: ['ADMIN'],
   },
+  
+
   {
     key: 'investors-create',
     path: 'investors/create',
@@ -230,6 +233,13 @@ export const adminRoutes: AppRouteConfig[] = [
     component: Products,
     authority: ['ADMIN'],
   },
+
+ {  
+   key: 'Userprofile',
+   path: '/admin/userprofile',
+    component: AdminProfile,
+    authority: ['ADMIN'],
+ },
   // {
   //   key: 'transactions',
   //   path: 'transactions',

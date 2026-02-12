@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { useAuth } from '@/modules/open/auth/hooks/useAuth';
 import AppLayout from '@shared/layout/AppLayout';
 import { getFilteredNavigation } from '../config/navigation';

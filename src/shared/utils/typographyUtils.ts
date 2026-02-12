@@ -62,7 +62,9 @@ export const typographyClasses = {
     button: 'text-[14px] font-medium leading-normal',
     buttonLarge: 'text-[16px] font-medium leading-normal',
     input: 'text-[16px] leading-normal',
+    //placeholder: 'placeholder:text-[14px] placeholder:text-gray-400 dark:placeholder:text-gray-500 bg-gray',
     placeholder: 'placeholder:text-[14px] placeholder:text-gray-400 dark:placeholder:text-gray-500',
+
     badge: 'text-[12px] font-medium leading-tight',
     tag: 'text-[12px] font-medium leading-tight',
   },

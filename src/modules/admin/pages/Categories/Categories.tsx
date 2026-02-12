@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
 import { useGetCategoriesQuery } from './api/categoryApi';
 import { CategoriesTable } from './components/CategoriesTable';
 import { CategoriesFilter } from './components/CategoriesFilter';
 import { CategoryModal } from './components/CategoryModal';
+import { useState } from 'react';
 import Button from '@shared/components/ui/button/Button';
 import { PlusIcon } from '@shared/icons';
 import { Category, CreateCategoryPayload } from './types/category';

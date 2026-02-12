@@ -82,6 +82,7 @@ export const adminNavigation: NavigationItem[] = [
       { title: 'Fund Managers', path: '/admin/masters/fund-managers', icon: 'userCircle', permissions: [PERMISSIONS.MASTERS.FUND_MANAGER_READ] },
       { title: 'Asset Classes', path: '/admin/masters/asset-classes', icon: 'grid', permissions: [PERMISSIONS.MASTERS.ASSET_CLASS_READ] },
       { title: 'Benchmarks', path: '/admin/masters/benchmarks', icon: 'grid', permissions: [PERMISSIONS.MASTERS.BENCHMARK_READ] },
+      { title: 'Market List', path: '/admin/masters/market-list', icon: 'list', permissions: [PERMISSIONS.MASTERS.MARKET_LIST_READ] },
     ]
   },
   {

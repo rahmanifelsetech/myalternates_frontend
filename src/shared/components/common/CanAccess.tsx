@@ -16,7 +16,7 @@ export const CanAccess: React.FC<CanAccessProps> = ({ module, action, any, all, 
 
   let hasAccess = false;
 
-  // console.log('CanAccess check:', { module, action, any, all, user });
+
 
   if (module && action) {
     hasAccess = canPerformAction(user, module, action);
