@@ -29,6 +29,6 @@ dist-ssr
 *.sw?
 
 /react-tailwind-admin-dashboard
-# /backend-models
+/backend-models
 deploy.sh
 Screenshot*
